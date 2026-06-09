@@ -81,6 +81,7 @@ Current repository structure:
     ARCHITECTURE.md
     VISION.md
     PRODUCT_MODEL.md
+    DISCOVERY_AND_DELIVERY_OPERATING_MODEL.md
     DOMAIN_MODEL.md
     METRICS_CATALOG.md
     EVENT_CATALOG.md
@@ -102,6 +103,7 @@ Current repository structure:
 - `AGENTS.md`: permanent conceptual constitution for AI agents, architects, engineers and contributors.
 - `docs/VISION.md`: product vision, business problem, stakeholders and product principles.
 - `docs/PRODUCT_MODEL.md`: personas, journeys, dashboards, navigation, drill-down, alerts and forecasts.
+- `docs/DISCOVERY_AND_DELIVERY_OPERATING_MODEL.md`: operating model for the Need-to-Value flow, queues, blockers, alerts, escalation, operating health and cross-artifact impacts.
 - `docs/DOMAIN_MODEL.md`: bounded contexts, entities, aggregates, rules, relationships, cardinalities, events and glossary.
 - `docs/METRICS_CATALOG.md`: governed catalog of metrics, KPIs, health scores, forecasts, heat maps and alerts.
 - `docs/EVENT_CATALOG.md`: domain events, causality, alerts, decisions, narratives, auditability and explainability.
@@ -119,6 +121,7 @@ Completed at conceptual level:
 
 - Product vision.
 - Product model.
+- Discovery and delivery operating model.
 - Domain model.
 - Metrics catalog.
 - Event catalog.

@@ -19,7 +19,11 @@ Changes should be grouped by release whenever possible. The project follows a Ke
 
 ### Added
 
+- Added `docs/DISCOVERY_AND_DELIVERY_OPERATING_MODEL.md` to define the Need-to-Value operating model, operating domains, queues, blockers, alerts, escalation, operating health scores, heat maps, operating intelligence and cross-artifact impact assessment.
+
 ### Changed
+
+- Updated `README.md` to reference the Discovery and Delivery Operating Model.
 
 ### Removed
 
