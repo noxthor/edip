@@ -1,295 +1,316 @@
 # Discovery and Delivery Operating Model - EDIP
 
-## 1. Missão do Operating Model
+## 1. Propósito
 
 A EDIP não é apenas uma plataforma de monitoramento.
 
-A EDIP é uma plataforma de coordenação do fluxo corporativo de transformação de necessidades em valor realizado.
+A EDIP é uma plataforma de coordenação do fluxo corporativo de transformação de necessidades em valor realizado. Ela deve tornar visível, rastreável, mensurável e governável o caminho pelo qual uma necessidade de negócio, cliente, operação, risco ou tecnologia se transforma em descoberta, solução, entrega, validação, outcome e valor realizado.
 
-O modelo operacional existe para tornar explícito onde o trabalho nasce, como é qualificado, como vira solução, como entra em delivery, como é validado e como gera valor mensurável. Ele deve permitir que a organização responda, com evidência:
+O operating model define como a organização deve observar e governar o fluxo:
+
+Need -> Discovery -> Solution -> Delivery -> Validation -> Value Realization.
+
+Esse fluxo não substitui os modelos de Strategy, Portfolio, Product, Architecture Capability, Delivery, Metrics, Events, Intelligence, Value Realization ou Governance. Ele conecta esses modelos em uma visão operacional de ponta a ponta.
+
+O modelo deve permitir responder:
 
 - Onde estamos parados?
 - Por que estamos parados?
 - Quem deveria agir?
-- Há quanto tempo estamos parados?
-- Qual o custo do atraso?
-- Qual o impacto estratégico?
-- O que precisa acontecer para avançar?
-- Quem está bloqueando valor?
 - Qual fila está congestionada?
-- Qual etapa do fluxo é mais ineficiente?
-- Qual ação está pendente?
-- Qual alerta continua aberto?
+- Qual etapa está envelhecendo?
+- Qual decisão está atrasada?
 - Qual evidência falta?
+- Qual ação precisa acontecer para avançar?
+- Qual é o impacto estratégico, econômico, operacional e arquitetural do atraso?
 
-A cadeia operacional completa é:
+## 2. Operating Principles
 
-Need -> Pain -> Journey -> Process -> Discovery -> Hypothesis -> Opportunity -> Requirements -> Solution Design -> Reviews -> Refinement -> Delivery -> Validation -> Outcome -> Value Realization.
+Princípios obrigatórios:
+
+- Toda necessidade deve possuir owner.
+- Toda dor deve possuir evidência.
+- Toda hipótese deve ser validável.
+- Todo requisito deve possuir origem rastreável.
+- Toda solução deve possuir revisão.
+- Toda entrega deve possuir critérios de aceite.
+- Toda alerta deve possuir owner.
+- Toda alerta deve possuir plano de ação.
+- Toda ação deve possuir evidência.
+- Nenhuma alerta pode ser encerrada sem validação da causa original.
+- Toda fila deve possuir owner, SLA, aging e capacidade conceitual.
+- Todo blocker deve possuir owner, evidência, severidade e resolução esperada.
+- Todo handoff relevante deve ser rastreável.
+- Toda aprovação crítica deve preservar decisão, evidência, data, owner e justificativa.
+- Todo item que entra em delivery deve atender Definition of Ready.
+- Todo item concluído deve atender Definition of Done ou possuir exceção formal.
+- Toda validação deve declarar critério, evidência, resultado e responsável.
+- Toda realização de valor deve distinguir valor esperado, forecast, observado, validado e rejeitado.
+
+## 3. End-to-End Value Flow
+
+Fluxo completo:
+
+Business Need -> Pain Point -> Journey Analysis -> Process Analysis -> Discovery -> Hypothesis -> Opportunity -> Prioritization -> Functional Requirements -> Non Functional Requirements -> Solution Design -> Architecture Review -> Engineering Review -> Security Review -> Data Review -> Readiness -> Feature -> Story -> Delivery -> Validation -> Outcome -> Value Realization.
 
 ```mermaid
 flowchart LR
-  Need[Need] --> Pain[Pain]
-  Pain --> Journey[Journey]
-  Journey --> Process[Process]
+  BusinessNeed[Business Need] --> PainPoint[Pain Point]
+  PainPoint --> Journey[Journey Analysis]
+  Journey --> Process[Process Analysis]
   Process --> Discovery[Discovery]
   Discovery --> Hypothesis[Hypothesis]
   Hypothesis --> Opportunity[Opportunity]
-  Opportunity --> Requirements[Requirements]
-  Requirements --> SolutionDesign[Solution Design]
-  SolutionDesign --> Reviews[Reviews]
-  Reviews --> Refinement[Refinement]
-  Refinement --> Delivery[Delivery]
+  Opportunity --> Prioritization[Prioritization]
+  Prioritization --> FR[Functional Requirements]
+  Prioritization --> NFR[Non Functional Requirements]
+  FR --> SolutionDesign[Solution Design]
+  NFR --> SolutionDesign
+  SolutionDesign --> ArchitectureReview[Architecture Review]
+  SolutionDesign --> EngineeringReview[Engineering Review]
+  SolutionDesign --> SecurityReview[Security Review]
+  SolutionDesign --> DataReview[Data Review]
+  ArchitectureReview --> Readiness[Readiness]
+  EngineeringReview --> Readiness
+  SecurityReview --> Readiness
+  DataReview --> Readiness
+  Readiness --> Feature[Feature]
+  Feature --> Story[Story]
+  Story --> Delivery[Delivery]
   Delivery --> Validation[Validation]
   Validation --> Outcome[Outcome]
   Outcome --> ValueRealization[Value Realization]
 ```
 
-## 2. Operating Domains
+### Fluxo Com Governança
 
-### Business Discovery Domain
+```mermaid
+flowchart TD
+  Need[Business Need] --> Discovery[Discovery]
+  Discovery --> Opportunity[Opportunity]
+  Opportunity --> Requirements[Requirements]
+  Requirements --> Solution[Solution Design]
+  Solution --> Reviews[Reviews]
+  Reviews --> Readiness[Delivery Readiness]
+  Readiness --> Delivery[Delivery Execution]
+  Delivery --> Validation[Validation]
+  Validation --> Value[Value Realization]
 
-Responsável por necessidades, dores, jornadas, processos, problemas e oportunidades de negócio.
+  Reviews -. evidence .-> Evidence[Evidence]
+  Readiness -. blockers .-> Blocker[Blocker]
+  Delivery -. queues .-> Queue[Queue]
+  Validation -. alerts .-> Alert[Alert]
+  Alert --> Action[Action Plan]
+  Action --> Resolution[Validated Resolution]
+```
 
-Escopo:
+## 4. Business Discovery Domain
 
-- Capturar necessidades e dores.
-- Contextualizar jornadas de cliente, usuário, operação ou negócio.
-- Relacionar problemas a processos e objetivos.
-- Registrar evidências de negócio.
-- Qualificar problemas antes de gerar hipóteses de produto ou solução.
+Responsável por necessidades, dores, stakeholders, jornadas, processos, problemas, constraints, objetivos e evidências de negócio.
 
-Não é responsável por definir solução técnica, backlog de delivery ou arquitetura.
+| Entidade | Propósito | Ownership | Estados | Relações | Evidências |
+| --- | --- | --- | --- | --- | --- |
+| BusinessNeed | Representar necessidade inicial. | Business Owner. | Proposed, UnderAnalysis, Accepted, Rejected, ConvertedToProblem. | Origina PainPoint, StakeholderNeed, CustomerNeed. | Registro da necessidade, contexto, solicitante. |
+| PainPoint | Representar dor observável. | Business Owner / Journey Owner. | Identified, Evidenced, Prioritized, Rejected, ConvertedToProblem. | Relaciona Need, Journey e Process. | Dados operacionais, reclamações, incidentes, métricas. |
+| StakeholderNeed | Necessidade de stakeholder interno ou externo. | Stakeholder Owner. | Captured, Validated, Rejected, Linked. | Relaciona BusinessNeed e BusinessObjective. | Entrevistas, solicitações, decisões. |
+| CustomerNeed | Necessidade de cliente ou usuário final. | Product Manager / Journey Owner. | Captured, Validated, Quantified, Linked. | Relaciona CustomerJourney e Outcome. | Pesquisa, comportamento, feedback, KPI. |
+| BusinessProblem | Problema formalizado a partir de need, pain e evidência. | Business Owner / Product Manager. | Draft, Validated, Prioritized, Rejected, ConvertedToDiscovery. | Relaciona ProblemStatement e Discovery. | Problem evidence, impacto, frequência, severidade. |
+| BusinessConstraint | Restrição de negócio, prazo, orçamento, política ou canal. | Constraint Owner. | Identified, Active, Mitigated, Waived, Retired. | Condiciona Discovery, Requirements e SolutionDesign. | Política, decisão, limite de orçamento, prazo regulatório. |
+| BusinessEvidence | Evidência de negócio verificável. | Evidence Owner. | Attached, Validated, Rejected, Expired. | Sustenta Need, Pain, Problem, Decision. | Fonte, período, owner, validade. |
+| CustomerJourney | Jornada externa afetada. | Journey Owner / Product Manager. | Mapped, Analyzed, Impacted, Improved, Retired. | Relaciona CustomerNeed, PainPoint, Outcome. | Mapa de jornada, métricas, feedback. |
+| OperationalJourney | Jornada operacional interna. | Operations Owner. | Mapped, Analyzed, Impacted, Improved, Retired. | Relaciona Process, PainPoint, BusinessProblem. | SLAs, incidentes, tempos, controles. |
+| BusinessProcess | Processo afetado ou habilitador. | Process Owner. | Identified, Mapped, UnderChange, Controlled, Retired. | Relaciona Journey, Requirement, Control. | Modelo de processo, controles, indicadores. |
+| BusinessObjective | Objetivo de negócio conectado à necessidade. | Diretor / Superintendente. | Proposed, Active, Measured, Achieved, Retired. | Relaciona Strategy, OKR, Outcome, ValueCase. | OKRs, KPIs, baseline, target. |
 
-### Product Discovery Domain
+## 5. Product Discovery Domain
 
-Responsável por hipóteses, discovery, experimentação, validação e priorização.
+Responsável por discovery, hipóteses, experimentos, findings, outcomes de discovery, problem statements, avaliações de oportunidade, decisões de priorização e assumptions.
 
-Escopo:
+| Entidade | Propósito | Ownership | Ciclo de Vida | Critérios de Saída |
+| --- | --- | --- | --- | --- |
+| Discovery | Investigar problema, oportunidade, valor e incerteza. | Product Manager / Product Owner. | Planned, InProgress, EvidenceCollected, Concluded, Closed. | Evidence chain, finding, decisão de avançar/pivotar/descartar. |
+| DiscoveryHypothesis | Hipótese testável sobre problema, solução, valor ou adoção. | Product Manager. | Draft, Testable, Testing, Validated, Invalidated. | Resultado validado ou invalidado com evidência. |
+| DiscoveryExperiment | Experimento para reduzir incerteza. | Product Manager / UX / Data. | Designed, Running, Completed, Analyzed. | Resultado, evidência e impacto na hipótese. |
+| DiscoveryFinding | Achado derivado de experimento, pesquisa ou análise. | Product Manager. | Captured, Validated, Rejected, Linked. | Finding vinculado a hipótese ou decisão. |
+| DiscoveryOutcome | Resultado final do discovery. | Product Manager / Sponsor. | Proposed, Reviewed, Accepted, Rejected. | Recomendação de avançar, pivotar, pausar ou descartar. |
+| ProblemStatement | Formulação do problema, público, impacto e evidência. | Product Manager / Business Owner. | Draft, Reviewed, Approved, Rejected. | Problema claro, evidência suficiente e owner definido. |
+| OpportunityAssessment | Avaliação de oportunidade por valor, risco, custo, capacidade e estratégia. | PMO / Product Manager. | Draft, Assessed, Prioritized, Rejected. | Score ou decisão de priorização. |
+| PrioritizationDecision | Decisão de priorizar, pausar, descartar ou avançar. | Product Manager / PMO / Sponsor. | Proposed, Approved, Rejected, Superseded. | Decisão formal, rationale e evidência. |
+| Assumption | Premissa de discovery ou produto. | Assumption Owner. | Registered, Validated, Invalidated, Expired. | Validação, descarte ou conversão em risco. |
 
-- Formular hipóteses.
-- Planejar e executar experimentos.
-- Registrar findings e outcomes de discovery.
-- Avaliar oportunidade, valor, risco e evidência.
-- Priorizar oportunidades com base em impacto, estratégia, capacidade e evidência.
+## 6. Requirements Domain
 
-Não é responsável por aprovar arquitetura final ou executar delivery.
+Responsável por requisitos funcionais, não funcionais, regras de negócio, critérios de aceite, Definition of Ready, Definition of Done, constraints, dependências, riscos e assumptions.
 
-### Solution Design Domain
+| Entidade | Origem | Owner | Rastreabilidade | Revisão | Aprovação |
+| --- | --- | --- | --- | --- | --- |
+| FunctionalRequirement | Opportunity, Process, BusinessRule, ProductOutcome. | Product Owner / Business Analyst. | BusinessNeed, Opportunity, SolutionDesign, Feature. | Product, business, engineering. | Product Owner / Business Owner. |
+| NonFunctionalRequirement | Architecture, Engineering, Security, Data, Compliance. | Architect / Specialist. | SolutionDesign, Feature, AcceptanceCriterion. | Architecture, security, data, engineering. | Owner da especialidade. |
+| BusinessRule | Processo, política, controle ou decisão. | Business Owner. | Requirement, Feature, Validation. | Business e compliance quando aplicável. | Business Owner. |
+| AcceptanceCriterion | Requirement, Feature ou Story. | Product Owner / QA. | Requirement, Story, Validation. | Product, business, QA. | Product Owner / Business Owner. |
+| DefinitionOfReady | Política de entrada em delivery. | Product Owner / Scrum Master / Tech Lead. | Feature, Story, Dependency, Risk. | Product e engineering. | Squad / Product Owner. |
+| DefinitionOfDone | Política de conclusão. | Product Owner / Tech Lead / QA. | Story, Feature, Validation, Evidence. | Engineering, QA, product. | Product Owner / Tech Lead. |
+| Constraint | BusinessConstraint, technical constraint, compliance constraint. | Constraint Owner. | Requirement, SolutionDesign, Risk. | Especialista aplicável. | Owner da constraint. |
+| Dependency | Sistema, área, dado, decisão, fornecedor ou entrega. | Dependency Owner. | Requirement, SolutionDesign, Feature. | PMO, engineering, architecture. | Owner da dependência. |
+| Risk | Risco de negócio, produto, delivery, arquitetura, segurança, dados ou compliance. | Risk Owner. | Requirement, SolutionDesign, Feature, ValueCase. | Especialista aplicável. | Risk Owner / Governance. |
+| Assumption | Premissa usada em requisito ou solução. | Assumption Owner. | Requirement, SolutionDesign, Forecast. | Product, architecture ou engineering. | Owner da premissa. |
 
-Responsável por requisitos funcionais, requisitos não funcionais, arquitetura e desenho de solução.
+Regra central: requisito sem origem rastreável não deve avançar para Solution Design sem justificativa formal.
 
-Escopo:
+## 7. Solution Design Domain
 
-- Transformar oportunidade priorizada em requisitos.
-- Definir premissas, constraints, riscos e dependências.
-- Criar solution design rastreável.
-- Coordenar reviews de arquitetura, engenharia, segurança, dados e compliance.
-- Registrar decisões e evidências de solução.
+Responsável por solution design, registros de solução, decisões, revisões, aprovações e evidências.
 
-Não é responsável por substituir o Architecture Capability Context ou o Engineering Context.
+| Entidade | Participantes | Revisores | Responsáveis | Critérios de Aprovação |
+| --- | --- | --- | --- | --- |
+| SolutionDesign | Product, architecture, engineering, security, data, compliance. | Architecture, engineering, security, data, compliance. | Solution Owner / Architect. | Requisitos cobertos, riscos explícitos, reviews concluídos. |
+| SolutionRecord | Product Owner, Architect, Tech Lead. | Architecture / Engineering. | Solution Owner. | Registro completo, versionado e rastreável. |
+| SolutionDecision | Sponsor, Product, Architect, Tech Lead, Governance. | Comitê ou owner definido. | Decision Owner. | Rationale, alternativa, evidência e impacto. |
+| ArchitectureReview | Architect, Capability Owner, Solution Architect. | Arquitetura Corporativa. | Arquiteto Corporativo. | Aderência, impacto, debt, exception ou aprovação. |
+| EngineeringReview | Tech Lead, Engineering Manager. | Engineering. | Tech Lead. | Viabilidade, complexidade, qualidade, dependências. |
+| SecurityReview | Security Specialist. | Security. | Security Owner. | Controles, riscos e evidências. |
+| DataReview | Data Specialist, Data Owner. | Data governance. | Data Owner. | Fonte, lineage, privacidade, qualidade. |
+| ComplianceReview | Compliance Specialist, Risk Owner. | Compliance / Risk. | Compliance Owner. | Aderência regulatória ou política. |
+| SolutionApproval | Decision Owner, approvers. | Gate owner. | Approver. | Aprovação formal, evidência e condições. |
+| SolutionEvidence | Evidence Owner. | Reviewer aplicável. | Evidence Owner. | Evidência verificável, válida e vinculada. |
 
-### Delivery Readiness Domain
+## 8. Delivery Readiness Domain
 
-Responsável por refinamentos, readiness, dependências e critérios de aceite.
+Responsável por preparar trabalho para delivery com critérios claros, dependências resolvidas, riscos tratados e capacidade disponível.
 
-Escopo:
-
-- Garantir Definition of Ready.
-- Garantir critérios de aceite.
-- Tornar dependências, riscos e blockers visíveis antes da execução.
-- Preparar features e stories para entrada em delivery.
-
-Não é responsável por validar benefício realizado.
-
-### Delivery Execution Domain
-
-Responsável por épicos, features, stories, tasks e releases.
-
-Escopo:
-
-- Executar trabalho priorizado e pronto.
-- Medir fluxo, filas, bloqueios e entregas.
-- Publicar releases.
-- Preservar rastreabilidade operacional até requisitos, solução, oportunidade e valor.
-
-Não é responsável por redefinir problema ou valor sem decisão formal.
-
-### Validation Domain
-
-Responsável por validação, aceitação, resultados e value realization.
-
-Escopo:
-
-- Validar se critérios de aceite foram atendidos.
-- Validar se solução produziu outcome.
-- Medir benefício observado.
-- Validar ou rejeitar value realization.
-- Registrar evidência e aprendizado.
-
-Não é responsável por executar contabilidade oficial ou substituir fontes financeiras.
-
-## 3. Entidades de Negócio
-
-| Entidade | Descrição | Owner Conceitual | Propósito |
+| Entidade | Critérios de Entrada | Critérios de Saída | Bloqueadores |
 | --- | --- | --- | --- |
-| BusinessNeed | Necessidade de negócio, cliente, operação, risco ou eficiência. | Business Owner | Origem do fluxo operacional. |
-| PainPoint | Dor observável que justifica investigação. | Business Owner / Product Manager | Explicar impacto percebido e urgência. |
-| CustomerJourney | Jornada de cliente afetada por necessidade ou dor. | Product Manager / Journey Owner | Conectar problema a experiência externa. |
-| OperationalJourney | Jornada operacional interna afetada. | Operations Owner | Conectar problema a eficiência, controle ou operação. |
-| BusinessProcess | Processo de negócio relacionado ao problema. | Process Owner | Contextualizar impacto operacional e controles. |
-| BusinessProblem | Problema formalizado a partir de necessidade, dor e evidência. | Business Owner | Evitar solução prematura. |
-| BusinessConstraint | Restrição de negócio, prazo, política, canal, operação ou orçamento. | Business Owner / PMO | Condicionar solução e priorização. |
-| BusinessObjective | Objetivo de negócio associado a need, pain ou opportunity. | Diretor / Superintendente | Conectar problema a estratégia. |
-| StakeholderNeed | Necessidade de stakeholder específico. | Stakeholder Owner | Preservar demanda, expectativa e responsabilidade. |
-| BusinessEvidence | Evidência de negócio que sustenta need, pain, process ou problem. | Business Owner / Evidence Owner | Sustentar decisão e auditoria. |
+| ReadinessAssessment | Requirements aprovados, solution design disponível. | Ready ou Not Ready com motivos. | Requisito incompleto, review pendente, dependency aberta. |
+| ReadinessChecklist | Feature ou story candidata. | Checklist atendido ou exceção formal. | DoR incompleto, critérios ausentes, owner indefinido. |
+| DependencyAssessment | Dependências conhecidas. | Dependências resolvidas, aceitas ou escaladas. | Dependency owner ausente, prazo vencido, sistema externo. |
+| RiskAssessment | Riscos identificados. | Riscos mitigados, aceitos ou escalados. | Risco crítico sem plano. |
+| CapacityAssessment | Demanda estimada e squad/capacidade disponível. | Capacidade reservada ou decisão de sequenciamento. | Capacidade insuficiente, WIP alto, conflito de prioridade. |
 
-## 4. Entidades de Discovery
+## 9. Delivery Execution Domain
 
-| Entidade | Descrição | Owner Conceitual | Propósito |
+Responsável por executar iniciativas, épicos, features, stories, tasks e releases preservando rastreabilidade.
+
+| Entidade | Ownership | Rastreabilidade | Dependências |
 | --- | --- | --- | --- |
-| Discovery | Processo de investigação de problema, hipótese, solução ou oportunidade. | Product Manager / Product Owner | Reduzir incerteza antes do compromisso de delivery. |
-| DiscoveryHypothesis | Hipótese testável sobre problema, valor, solução ou adoção. | Product Manager | Tornar premissas explícitas. |
-| DiscoveryExperiment | Experimento para validar ou invalidar hipótese. | Product Manager / UX / Data | Produzir evidência. |
-| DiscoveryFinding | Achado resultante de pesquisa, experimento ou análise. | Product Manager | Informar decisão de continuidade, pivot ou descarte. |
-| DiscoveryOutcome | Resultado do discovery. | Product Manager / Sponsor | Definir se oportunidade avança. |
-| ProblemStatement | Formulação clara do problema, público, impacto e evidência. | Product Manager / Business Owner | Evitar ambiguidade entre problema e solução. |
-| OpportunityAssessment | Avaliação de valor, risco, custo, evidência, capacidade e alinhamento. | PMO / Product Manager | Apoiar priorização. |
-| PrioritizationDecision | Decisão de priorizar, pausar, descartar ou avançar oportunidade. | Product Manager / PMO / Sponsor | Governar entrada no fluxo seguinte. |
+| Initiative | Gerente / PMO / Sponsor. | Strategy, Portfolio, Opportunity, ValueCase. | Funding, capability, squads, decisões. |
+| Epic | Product Owner / Gerente. | Initiative, roadmap, requirements. | Features, dependencies, capability impact. |
+| Feature | Product Owner / Gerente / Tech Lead. | Requirement, SolutionDesign, Epic, Outcome. | DoR, architecture, data, security, dependencies. |
+| Story | Squad / Product Owner. | Feature, AcceptanceCriterion, DoD. | Tasks, blockers, validation. |
+| Task | Desenvolvedor / responsável operacional. | Story. | Technical dependencies. |
+| Release | Release Owner / Tech Lead. | Features, validation, readiness, value checkpoint. | Release readiness, approvals, defects. |
 
-## 5. Entidades de Requisitos
+## 10. Validation Domain
 
-| Entidade | Descrição | Owner Conceitual | Propósito |
+Responsável por validação, aceite, evidências, outcomes, benefícios e value realization.
+
+| Entidade | Evidências | Critérios | Aprovação |
 | --- | --- | --- | --- |
-| FunctionalRequirement | Comportamento funcional esperado. | Product Owner / Business Analyst | Definir o que a solução deve fazer. |
-| NonFunctionalRequirement | Qualidade, restrição ou atributo não funcional. | Architect / Engineering / Security / Data | Definir desempenho, segurança, resiliência, dados e compliance. |
-| BusinessRule | Regra de negócio que condiciona comportamento. | Business Owner / Product Owner | Preservar semântica e política de negócio. |
-| AcceptanceCriterion | Critério observável para aceite. | Product Owner / QA / Business Owner | Definir como saber se algo está aceito. |
-| DefinitionOfReady | Condições mínimas para iniciar execução. | Product Owner / Scrum Master / Tech Lead | Evitar entrada prematura no delivery. |
-| DefinitionOfDone | Condições mínimas para considerar item concluído. | Product Owner / Tech Lead / QA | Evitar falso progresso. |
-| SolutionAssumption | Premissa assumida no desenho ou delivery. | Architect / Product Owner | Tornar risco e incerteza explícitos. |
-| Constraint | Restrição de negócio, técnica, regulatória, de capacidade ou prazo. | Owner da restrição | Condicionar solução e forecast. |
-| Dependency | Dependência entre áreas, sistemas, decisões, dados ou entregas. | Dependency Owner | Tornar bloqueios e sequenciamento explícitos. |
-| Risk | Risco de negócio, produto, delivery, arquitetura, segurança, dados ou compliance. | Risk Owner | Medir e governar exposição. |
+| Validation | Evidence chain, acceptance results. | Critério de aceite e DoD. | Validation Owner. |
+| AcceptanceValidation | Critérios de aceite, teste, demonstração. | Critérios atendidos ou rejeitados. | Product Owner / Business Owner. |
+| BusinessValidation | Evidência de processo, jornada ou negócio. | Resultado de negócio esperado. | Business Owner. |
+| TechnicalValidation | Testes, readiness, quality evidence. | Qualidade técnica e operação. | Tech Lead / QA. |
+| OutcomeValidation | KPI, outcome measure, evidence. | Outcome alcançado, degradado ou não observado. | Outcome Owner. |
+| BenefitValidation | Método de cálculo, fonte, evidência. | Benefício validado ou rejeitado. | Value Sponsor / Finance / Validator. |
+| ValueValidation | ValueCase, outcome, KPI, benefit. | Valor realizado com confiança suficiente. | Sponsor / Comitê. |
 
-## 6. Entidades de Solução
+## 11. Traceability Model
 
-| Entidade | Descrição | Owner Conceitual | Propósito |
-| --- | --- | --- | --- |
-| SolutionDesign | Desenho da solução proposta. | Architect / Tech Lead / Product Owner | Conectar requisitos a arquitetura, delivery e validação. |
-| SolutionReview | Revisão formal do desenho de solução. | Review Owner | Consolidar revisões especializadas. |
-| ArchitectureReview | Revisão de arquitetura. | Arquiteto Corporativo / Solution Architect | Verificar aderência, impacto e debt. |
-| EngineeringReview | Revisão de engenharia. | Tech Lead / Engineering Manager | Verificar viabilidade técnica e qualidade. |
-| SecurityReview | Revisão de segurança. | Security Specialist | Verificar riscos e controles. |
-| DataReview | Revisão de dados. | Data Specialist / Data Owner | Verificar dados, lineage, qualidade e privacidade. |
-| ComplianceReview | Revisão regulatória ou de compliance. | Compliance Specialist | Verificar aderência a políticas e obrigações. |
-| SolutionDecision | Decisão sobre solução, alternativa, exceção ou abordagem. | Decision Owner / Committee | Formalizar caminho escolhido. |
-| SolutionEvidence | Evidência que sustenta desenho, revisão ou decisão. | Evidence Owner | Permitir auditoria. |
-| SolutionApproval | Aprovação formal da solução ou revisão. | Approver / Gate Owner | Permitir avanço para readiness ou delivery. |
+Modelo formal obrigatório:
 
-## 7. Cadeia de Rastreabilidade
-
-A cadeia de rastreabilidade operacional conecta:
-
-BusinessNeed -> PainPoint -> Journey -> Process -> ProblemStatement -> Discovery -> Hypothesis -> Opportunity -> FunctionalRequirement -> NonFunctionalRequirement -> SolutionDesign -> Feature -> Story -> AcceptanceCriteria -> Validation -> Outcome -> ValueCase.
+BusinessNeed -> PainPoint -> Journey -> Process -> Discovery -> Hypothesis -> Opportunity -> FunctionalRequirement -> NonFunctionalRequirement -> SolutionDesign -> Feature -> Story -> AcceptanceCriterion -> Validation -> Outcome -> ValueCase.
 
 ```mermaid
 flowchart LR
   BusinessNeed --> PainPoint
-  PainPoint --> Journey[Customer / Operational Journey]
-  Journey --> Process[Business Process]
-  Process --> ProblemStatement
-  ProblemStatement --> Discovery
-  Discovery --> Hypothesis[Discovery Hypothesis]
+  PainPoint --> Journey[Journey]
+  Journey --> Process[Process]
+  Process --> Discovery
+  Discovery --> Hypothesis
   Hypothesis --> Opportunity
-  Opportunity --> FR[Functional Requirement]
-  Opportunity --> NFR[NonFunctional Requirement]
+  Opportunity --> FR[FunctionalRequirement]
+  Opportunity --> NFR[NonFunctionalRequirement]
   FR --> SolutionDesign
   NFR --> SolutionDesign
   SolutionDesign --> Feature
   Feature --> Story
-  Story --> AC[Acceptance Criteria]
-  AC --> Validation
+  Story --> AcceptanceCriterion
+  AcceptanceCriterion --> Validation
   Validation --> Outcome
   Outcome --> ValueCase
 ```
 
-### Cardinalidades Conceituais
+### Cardinalidades
 
 | Relação | Cardinalidade |
 | --- | --- |
 | BusinessNeed -> PainPoint | 1:N |
 | PainPoint -> Journey | N:M |
-| Journey -> BusinessProcess | N:M |
-| BusinessProcess -> ProblemStatement | 1:N |
-| ProblemStatement -> Discovery | 1:N |
-| Discovery -> DiscoveryHypothesis | 1:N |
-| DiscoveryHypothesis -> DiscoveryExperiment | 0:N |
-| DiscoveryHypothesis -> Opportunity | 0:N |
-| Opportunity -> OpportunityAssessment | 1:N |
+| Journey -> Process | N:M |
+| Process -> Discovery | 0:N |
+| Discovery -> Hypothesis | 1:N |
+| Hypothesis -> Opportunity | 0:N |
 | Opportunity -> FunctionalRequirement | 1:N |
 | Opportunity -> NonFunctionalRequirement | 0:N |
-| Requirement -> AcceptanceCriterion | 1:N |
-| Requirement -> SolutionDesign | N:M |
-| SolutionDesign -> SolutionReview | 0:N |
+| FunctionalRequirement -> SolutionDesign | N:M |
+| NonFunctionalRequirement -> SolutionDesign | N:M |
 | SolutionDesign -> Feature | 1:N |
 | Feature -> Story | 1:N |
 | Story -> AcceptanceCriterion | 1:N |
+| AcceptanceCriterion -> Validation | 1:N |
 | Validation -> Outcome | N:1 |
 | Outcome -> ValueCase | N:M |
 
-## 8. Operating States
+## 12. Operating States
 
-Toda entidade operacional relevante deve possuir estado, owner, data de entrada, data de saída, aging e SLA.
-
-| Entidade | Estados Conceituais |
+| Entidade | Estados |
 | --- | --- |
-| Need | Captured, Triaged, Accepted, Rejected, ConvertedToProblem, Closed. |
-| Opportunity | Identified, Assessing, Qualified, Prioritized, Approved, Paused, Rejected, ConvertedToRequirements. |
-| Discovery | Planned, InProgress, EvidenceCollected, FindingRegistered, Validated, Invalidated, Closed. |
-| Requirement | Draft, UnderReview, Ready, Blocked, Approved, Deprecated. |
-| SolutionDesign | Draft, InReview, ChangesRequested, Approved, Rejected, Superseded. |
-| Feature | Proposed, Ready, InProgress, Blocked, Done, Released, Validated. |
-| Story | Draft, Ready, InProgress, Blocked, Done, Accepted. |
+| Need | Proposed, UnderAnalysis, Accepted, Rejected. |
+| Opportunity | Identified, Assessing, Approved, Rejected, Prioritized, Paused. |
+| Discovery | Planned, InProgress, EvidenceCollected, Validated, Invalidated, Closed. |
+| Requirement | Draft, Reviewed, Approved, Implemented, Deprecated. |
+| SolutionDesign | Draft, UnderReview, Approved, Rejected, Superseded. |
+| Feature | Proposed, Ready, InDevelopment, Validating, Completed, Released. |
+| Story | Draft, Ready, InDevelopment, Blocked, Done, Accepted. |
 | Validation | Planned, WaitingEvidence, InProgress, Accepted, Rejected, Reopened, Closed. |
-| Outcome | Defined, Measuring, Improving, Achieved, Degraded, NotAchieved, Retired. |
+| Outcome | Defined, Measuring, Achieved, Degraded, NotAchieved, Retired. |
 
-Regra operacional:
+Toda entidade principal deve possuir:
 
-- Estado sem owner não é governável.
-- Estado sem data de entrada não permite aging.
-- Estado sem data de saída não permite lead time.
-- Estado sem SLA não permite gestão de fluxo.
+- estado;
+- owner;
+- data de entrada no estado;
+- data de saída do estado;
+- aging;
+- SLA.
 
-## 9. Queue Model
+## 13. Queue Model
 
-Filas são entidades explícitas do modelo operacional. Uma fila representa trabalho aguardando capacidade, decisão, evidência, revisão, aprovação, validação ou próximo estágio.
-
-| Fila | Entrada | Saída | Owner | SLA | Aging | Capacidade |
+| Fila | Entrada | Saída | SLA | Aging | Owner | Capacidade |
 | --- | --- | --- | --- | --- | --- | --- |
-| Business Queue | Need, pain ou problem aguardando triagem. | ProblemStatement ou descarte. | Business Owner | Por criticidade e impacto. | Tempo desde captura. | Capacidade de triagem de negócio. |
-| Discovery Queue | Problema ou oportunidade aguardando discovery. | Discovery iniciado. | Product Manager | Por valor, risco e estratégia. | Tempo aguardando discovery. | Capacidade de product discovery. |
-| Architecture Queue | SolutionDesign ou NFR aguardando arquitetura. | ArchitectureReview concluído. | Arquiteto | Por criticidade e risco. | Tempo aguardando revisão. | Capacidade de arquitetos. |
-| Engineering Queue | Requisito ou solução aguardando viabilidade técnica. | EngineeringReview concluído. | Tech Lead | Por release e dependência. | Tempo aguardando engenharia. | Capacidade de engenharia. |
-| Review Queue | Item aguardando security, data, compliance ou solução. | Review concluído. | Review Owner | Por política e criticidade. | Tempo em revisão. | Capacidade de especialistas. |
-| Readiness Queue | Feature/story aguardando Definition of Ready. | Item Ready. | Product Owner / Scrum Master | Por sprint/release. | Tempo aguardando readiness. | Capacidade de refinamento. |
-| Delivery Queue | Item ready aguardando execução. | InProgress. | Coordenador / Squad | Por prioridade e capacidade. | Tempo aguardando execução. | Capacidade da squad. |
-| Validation Queue | Item entregue aguardando aceite ou evidência. | Accepted ou Rejected. | Product Owner / Business Owner | Por release e valor. | Tempo aguardando validação. | Capacidade de validação. |
-| Value Realization Queue | Outcome ou benefício aguardando medição/validação. | BenefitValidated ou BenefitRejected. | Sponsor de valor | Por ciclo de mensuração. | Tempo aguardando comprovação. | Capacidade de owner de valor e dados. |
+| Business Queue | BusinessNeed, PainPoint. | ProblemStatement ou rejeição. | Por criticidade. | Desde captura. | Business Owner. | Capacidade de análise de negócio. |
+| Discovery Queue | ProblemStatement, Opportunity. | Discovery iniciado. | Por valor e risco. | Tempo aguardando discovery. | Product Manager. | Capacidade de discovery. |
+| Requirements Queue | Opportunity aprovada. | Requirements aprovados. | Por release/valor. | Tempo aguardando requisito. | Product Owner. | Capacidade de análise. |
+| Architecture Queue | SolutionDesign ou NFR. | ArchitectureReview concluído. | Por criticidade. | Tempo aguardando arquitetura. | Arquiteto. | Capacidade arquitetural. |
+| Engineering Queue | Requirement ou SolutionDesign. | EngineeringReview concluído. | Por release. | Tempo aguardando engenharia. | Tech Lead. | Capacidade técnica. |
+| Security Queue | SolutionDesign com risco de segurança. | SecurityReview concluído. | Por severidade. | Tempo aguardando segurança. | Security Specialist. | Capacidade de segurança. |
+| Data Queue | SolutionDesign com dado, KPI, lineage ou privacy. | DataReview concluído. | Por criticidade. | Tempo aguardando dados. | Data Owner. | Capacidade de dados. |
+| Review Queue | Qualquer review pendente. | Review concluído. | Por política. | Tempo em review. | Review Owner. | Capacidade de revisores. |
+| Readiness Queue | Feature/story candidata. | Ready. | Por ciclo de delivery. | Tempo aguardando DoR. | Product Owner / Scrum Master. | Capacidade de refinamento. |
+| Delivery Queue | Item ready. | InDevelopment. | Por prioridade. | Tempo aguardando execução. | Coordenador / Squad. | Capacidade da squad. |
+| Validation Queue | Item entregue. | Accepted ou Rejected. | Por release/valor. | Tempo aguardando validação. | Validation Owner. | Capacidade de validação. |
+| Value Realization Queue | Outcome ou benefício aguardando medição. | BenefitValidated ou BenefitRejected. | Por ciclo de mensuração. | Tempo aguardando comprovação. | Sponsor de valor. | Capacidade de validação de valor. |
 
-## 10. Blockers
-
-Blocker é uma restrição explícita que impede avanço de uma entidade operacional.
+## 14. Blocker Model
 
 | Conceito | Definição |
 | --- | --- |
-| Blocker | Impedimento que bloqueia avanço de need, discovery, requirement, solution, delivery, validation ou value realization. |
-| BlockerType | Categoria do impedimento. |
-| BlockerOwner | Pessoa, papel ou área responsável por remover o bloqueio. |
-| BlockerSeverity | Severidade por impacto, prazo, valor, risco e recorrência. |
-| BlockerEvidence | Evidência que demonstra bloqueio. |
-| BlockerResolution | Ação, decisão ou evidência que remove o bloqueio. |
+| Blocker | Impedimento que bloqueia avanço. |
+| BlockerType | Categoria do bloqueio. |
+| BlockerOwner | Owner responsável por remover o bloqueio. |
+| BlockerEvidence | Evidência que demonstra o bloqueio. |
+| BlockerResolution | Ação, decisão ou evidência que removeu o bloqueio. |
 
-Tipos:
+Categorias:
 
 - Business.
 - Product.
@@ -298,201 +319,242 @@ Tipos:
 - Security.
 - Data.
 - Compliance.
-- Capacity.
 - Dependency.
+- Capacity.
+- Governance.
+
+### Ciclo de Vida
+
+```mermaid
+stateDiagram-v2
+  [*] --> Detected
+  Detected --> Assigned
+  Assigned --> InResolution
+  InResolution --> Resolved
+  InResolution --> Escalated
+  Escalated --> InResolution
+  Resolved --> Validated
+  Validated --> Closed
+  Closed --> [*]
+```
 
 Regras:
 
-- Todo blocker deve possuir owner.
-- Todo blocker deve possuir tipo, severidade, data de início, entidade afetada e evidência.
-- Blocker sem owner deve gerar alerta.
-- Blocker vencido deve escalar conforme impacto.
-- Blocker removido deve registrar resolução e evidência.
+- Blocker sem owner permanece aberto.
+- Blocker sem evidência deve ser tratado como hipótese de bloqueio.
+- Blocker vencido deve escalar.
+- Blocker encerrado deve possuir resolução validada.
 
-## 11. Alert Model
-
-Alert é um sinal acionável de exceção, risco, degradação ou condição operacional não resolvida.
+## 15. Alert Model
 
 | Conceito | Definição |
 | --- | --- |
-| Alert | Alerta aberto por condição observável. |
-| AlertCondition | Condição original que disparou o alerta. |
+| Alert | Sinal acionável de exceção, risco, atraso ou condição não resolvida. |
+| AlertCondition | Condição que disparou o alerta. |
 | AlertOwner | Owner responsável por tratamento. |
-| AlertSeverity | Severidade por impacto, risco, valor, SLA e recorrência. |
-| AlertAction | Ação esperada ou plano associado. |
-| AlertEvidence | Evidência usada para abrir, validar ou encerrar alerta. |
-| AlertValidation | Verificação de que a condição foi tratada. |
+| AlertAction | Ação necessária para tratamento. |
+| AlertEvidence | Evidência associada à abertura, tratamento ou resolução. |
+| AlertValidation | Validação de que a condição deixou de existir. |
 | AlertResolution | Encerramento formal do alerta. |
 
-Regra obrigatória de encerramento:
+Regra obrigatória:
 
-Um alerta somente pode ser encerrado quando:
+Uma alerta somente pode ser encerrada quando:
 
-1. Existe plano de ação registrado.
-2. Existe evidência da execução da ação.
-3. A condição original que disparou o alerta deixou de existir.
+1. Existe ação registrada.
+2. Existe evidência da execução.
+3. A condição que gerou a alerta desapareceu.
 
-Caso contrário, o alerta permanece aberto.
+Caso contrário:
 
-## 12. Escalation Model
+Alert permanece aberta.
 
-| Tipo de Escalation | Gatilhos | Destinatários | Resultado Esperado |
+### Máquina de Estados
+
+```mermaid
+stateDiagram-v2
+  [*] --> Detected
+  Detected --> Assigned
+  Assigned --> ActionPlanned
+  ActionPlanned --> InTreatment
+  InTreatment --> EvidenceAttached
+  EvidenceAttached --> ConditionValidated
+  ConditionValidated --> Resolved
+  Resolved --> Closed
+  InTreatment --> Escalated
+  Escalated --> InTreatment
+  ConditionValidated --> Reopened
+  Reopened --> InTreatment
+  Closed --> [*]
+```
+
+## 16. Escalation Model
+
+| Escalation | Gatilhos | Destinatários | Resultado Esperado |
 | --- | --- | --- | --- |
-| Operational Escalation | Blocker vencido, queue aging, item sem owner, DoR/DoD violado. | Coordenador, Scrum Master, Product Owner, Tech Lead. | Ação operacional e remoção de impedimento. |
-| Management Escalation | SLA excedido, dependência crítica, múltiplas squads afetadas. | Gerente, PMO, Engineering Manager. | Decisão tática, realocação ou replanejamento. |
-| Executive Escalation | Cost of Delay material, KR ameaçado, objetivo crítico impactado. | Superintendente, Diretor, comitê executivo. | Priorização, funding, aceite de risco ou intervenção. |
-| Architecture Escalation | Architecture debt crítico, exception expirada, capability crítica degradada. | Arquiteto Corporativo, Architecture Board. | Decisão arquitetural, modernização ou exceção formal. |
-| Governance Escalation | Evidência ausente, aprovação vencida, compliance review pendente. | PMO, Compliance, Auditoria, Risk Owner. | Regularização, decisão formal ou bloqueio de avanço. |
+| Operational Escalation | Blocker ativo, queue aging, DoR/DoD violado. | Squad, Scrum Master, Product Owner, Tech Lead. | Remoção operacional do impedimento. |
+| Manager Escalation | SLA excedido, múltiplos blockers, dependência crítica. | Gerente, Engineering Manager, PMO. | Replanejamento, decisão tática ou realocação. |
+| Coordinator Escalation | Fila congestionada, WIP alto, owner ausente. | Coordenador, Scrum Master, Team Lead. | Ajuste de fluxo, WIP e owners. |
+| Architecture Escalation | ArchitectureReview atrasado, debt crítico, exception expirada. | Arquiteto Corporativo, Architecture Board. | Decisão arquitetural ou plano de modernização. |
+| Executive Escalation | Cost of Delay material, KR em risco, valor bloqueado. | Diretor, Superintendente, comitê executivo. | Priorização, funding, aceite de risco ou intervenção. |
+| Governance Escalation | Evidência ausente, approval vencido, compliance pendente. | PMO, Compliance, Risk, Auditoria. | Regularização ou bloqueio formal de avanço. |
 
-## 13. Flow Intelligence
+## 17. Flow Intelligence
 
-| Métrica | Definição Conceitual |
+Métricas obrigatórias:
+
+| Métrica | Definição |
 | --- | --- |
-| Lead Time | Tempo total entre entrada no fluxo e conclusão. |
-| Cycle Time | Tempo ativo de execução em uma etapa ou item. |
+| Lead Time | Tempo total entre entrada e conclusão do fluxo. |
+| Cycle Time | Tempo ativo de execução em uma etapa. |
 | Queue Time | Tempo aguardando em fila. |
-| Blocked Time | Tempo impedido por blocker explícito. |
-| Waiting Time | Tempo aguardando capacidade, decisão, evidência ou próximo estágio. |
+| Blocked Time | Tempo bloqueado por blocker explícito. |
+| Waiting Time | Tempo aguardando capacidade, decisão, evidência ou handoff. |
 | Review Time | Tempo em revisão formal. |
 | Approval Time | Tempo aguardando aprovação. |
-| Discovery Time | Tempo entre início e encerramento do discovery. |
-| Solution Time | Tempo entre requisitos e solution design aprovado. |
+| Discovery Time | Tempo de início a conclusão do discovery. |
+| Solution Time | Tempo de requisitos até solution design aprovado. |
 | Readiness Time | Tempo até cumprir Definition of Ready. |
-| Validation Time | Tempo entre entrega e aceite/rejeição. |
+| Validation Time | Tempo entre entrega e validação. |
 | Value Realization Time | Tempo entre outcome/release e benefício validado. |
 
-Essas métricas devem permitir drill-down para fila, blocker, owner, etapa, entidade afetada, evidência e decisão pendente.
+Cada métrica deve permitir drill-down para entidade, fila, owner, blocker, evidência, estado e evento causador.
 
-## 14. Operating Health Scores
+## 18. Operating Health Scores
 
-| Health Score | Componentes Conceituais |
+| Health Score | Componentes |
 | --- | --- |
-| Discovery Health | qualidade da hipótese, evidência, findings, aging, rework e oportunidade. |
-| Requirements Health | completude, clareza, critérios de aceite, NFRs, owner e rastreabilidade. |
-| Solution Health | reviews concluídos, riscos, assumptions, approvals, architecture debt e evidências. |
-| Readiness Health | DoR, dependências resolvidas, critérios claros, capacidade e riscos. |
-| Delivery Health | progresso, blockers, lead time, release readiness e previsibilidade. |
-| Validation Health | aceite, evidência, rejeições, reabertura e tempo de validação. |
-| Value Realization Health | value case, benefício observado, validado, rejeitado, leakage e confiança. |
-| Alert Resolution Health | alertas abertos, aging, evidência, plano e condição original resolvida. |
-| Blocker Resolution Health | blockers ativos, aging, severidade, owner e resolução. |
+| Discovery Health | hipótese validável, evidência, findings, aging, rework, decisão. |
+| Requirements Health | completude, origem rastreável, critérios, NFRs, revisão, aprovação. |
+| Solution Health | reviews, riscos, assumptions, decisions, approvals, evidence. |
+| Architecture Review Health | aging, dívida, exception, impacto em capability, decisão pendente. |
+| Engineering Review Health | viabilidade, dependências, riscos técnicos, estimativa, readiness. |
+| Readiness Health | DoR, dependências, capacidade, riscos, critérios de aceite. |
+| Delivery Health | progresso, blockers, cycle time, previsibilidade, release readiness. |
+| Validation Health | critérios, evidências, rejeições, reaberturas, tempo de validação. |
+| Value Realization Health | value case, benefício observado, validado, rejeitado, leakage, confiança. |
+| Alert Resolution Health | alertas abertos, aging, ação, evidência, condição resolvida. |
+| Blocker Resolution Health | blockers ativos, severidade, owner, aging, resolução validada. |
 
-## 15. Heat Maps
+## 19. Heat Maps
 
 | Heat Map | Unidade de Análise | Uso |
 | --- | --- | --- |
-| Business Discovery Heat Map | needs, pains, journeys, processes, problems. | Identificar concentração de dores e problemas não qualificados. |
-| Opportunity Heat Map | opportunities, assessments, decisions. | Priorizar oportunidades por valor, risco, evidência e aging. |
-| Requirements Heat Map | requirements, rules, acceptance criteria, NFRs. | Expor requisitos incompletos, ambíguos ou bloqueados. |
-| Architecture Review Heat Map | solution designs, architecture reviews, debts, exceptions. | Identificar gargalos de arquitetura e risco de solução. |
-| Engineering Review Heat Map | engineering reviews, dependencies, risks. | Identificar gargalos técnicos e viabilidade pendente. |
-| Readiness Heat Map | features, stories, DoR, dependencies. | Identificar itens que não estão prontos para delivery. |
-| Delivery Heat Map | features, stories, tasks, releases. | Expor fluxo, blockers, aging e previsibilidade. |
-| Validation Heat Map | validations, acceptance, evidence, rejects. | Expor entregas aguardando aceite ou evidência. |
-| Value Realization Heat Map | outcomes, value cases, benefits. | Expor valor aguardando medição, validação ou recuperação. |
+| Business Discovery Heat Map | needs, pains, journeys, processes. | Identificar dores e necessidades sem qualificação. |
+| Requirements Heat Map | requirements, rules, criteria, NFRs. | Identificar requisitos incompletos ou sem aprovação. |
+| Architecture Heat Map | solution designs, architecture reviews, debt, exceptions. | Identificar gargalos arquiteturais. |
+| Engineering Heat Map | engineering reviews, dependencies, technical risks. | Identificar gargalos de engenharia e viabilidade. |
+| Review Heat Map | architecture, engineering, security, data, compliance reviews. | Identificar reviews pendentes ou lentos. |
+| Readiness Heat Map | features, stories, DoR, dependencies. | Identificar itens não prontos. |
+| Delivery Heat Map | features, stories, tasks, releases. | Identificar gargalos de execução. |
+| Validation Heat Map | validations, acceptance, evidence, rejects. | Identificar validações pendentes. |
+| Value Realization Heat Map | outcomes, value cases, benefits. | Identificar valor não comprovado. |
+| Blocker Heat Map | blockers por tipo, owner, severity, aging. | Priorizar remoção de impedimentos. |
+| Alert Heat Map | alerts por condição, owner, aging, severity. | Priorizar tratamento de alertas. |
 
-## 16. Personas e Responsabilidades
+## 20. Personas e Responsabilidades
 
-| Persona / Grupo | Ownership | Decisões | Aprovações | Evidências | Responsabilidades |
-| --- | --- | --- | --- | --- | --- |
-| Business Teams | needs, pains, journeys, processes. | Confirmar problema e prioridade. | Aceite de problema e evidência de negócio. | BusinessEvidence. | Explicar dor, impacto e objetivo. |
-| Product Teams | discovery, hypotheses, opportunities, roadmap. | Priorizar, pivotar, descartar ou avançar. | Discovery outcome e readiness de produto. | Findings, experiments, opportunity assessment. | Reduzir incerteza e proteger valor. |
-| Engineering Teams | viabilidade, execução, qualidade, releases. | Abordagem técnica e trade-offs. | Engineering review e DoD técnico. | Review evidence, test evidence, release evidence. | Entregar com qualidade e rastreabilidade. |
-| Architects | solution design, architecture review, capabilities. | Aderência, exception, modernization. | ArchitectureReview, SolutionApproval. | Assessment, decision, debt evidence. | Garantir coerência arquitetural. |
-| Security Specialists | security review e riscos. | Controles e mitigação. | SecurityReview. | Security evidence. | Reduzir risco de segurança. |
-| Data Specialists | data review, lineage, qualidade. | Fonte, lineage, qualidade e uso. | DataReview. | Data evidence. | Garantir confiança de dados. |
-| Compliance Specialists | compliance review e políticas. | Aderência ou bloqueio. | ComplianceReview. | Compliance evidence. | Garantir conformidade. |
-| Managers | iniciativas, dependências e escalonamento. | Replanejar, realocar, escalar. | Decisões táticas. | Status, blockers, forecasts. | Remover obstáculos táticos. |
-| Coordinators | fluxo operacional e blockers. | Ajustar WIP, owners, execução. | Aceite operacional. | Queue evidence, blocker resolution. | Proteger fluidez do trabalho. |
-| Directors | objetivos, valor, risco e funding. | Priorizar, financiar, pausar, aceitar risco. | Decisões executivas. | Business case, value case, forecast. | Maximizar valor e alinhar estratégia. |
-| Executives | estratégia, risco e governança corporativa. | Direção, trade-offs e intervenção. | Comitês executivos. | Executive narrative, evidence chain. | Garantir coerência corporativa. |
+| Persona / Grupo | Responsabilidades | Decisões | Aprovações | Ownership |
+| --- | --- | --- | --- | --- |
+| Business Teams | Explicar needs, pains, journeys e processes. | Aceitar problema e prioridade. | BusinessEvidence, BusinessValidation. | BusinessNeed, PainPoint, BusinessProcess. |
+| Product Teams | Conduzir discovery, hypotheses, opportunity e roadmap. | Priorizar, pivotar, descartar ou avançar. | DiscoveryOutcome, PrioritizationDecision. | Discovery, Opportunity, Requirements. |
+| Engineering Teams | Avaliar viabilidade, executar delivery e validar qualidade técnica. | Trade-offs técnicos e abordagem de implementação. | EngineeringReview, DoD técnico. | Story, Task, TechnicalValidation. |
+| Architects | Revisar solução, capabilities, standards e debt. | Architecture decision, exception, modernization. | ArchitectureReview, SolutionApproval quando aplicável. | SolutionDesign, ArchitectureReview. |
+| Security Specialists | Avaliar riscos e controles de segurança. | Mitigar, aceitar ou bloquear risco. | SecurityReview. | Security risks e evidence. |
+| Data Specialists | Avaliar dados, lineage, qualidade e privacidade. | Aprovar fonte, lineage e uso. | DataReview. | Data evidence e data risk. |
+| Compliance Specialists | Avaliar aderência regulatória e política. | Aprovar, exigir ajuste ou bloquear. | ComplianceReview. | Compliance evidence. |
+| Managers | Orquestrar iniciativas, dependências e escalonamentos. | Replanejar, realocar, escalar. | Decisões táticas. | Initiative, dependency, tactical risk. |
+| Coordinators | Gerenciar fluxo operacional, WIP, queues e blockers. | Ajustar fluxo e owners. | Resolução operacional. | Queue, Blocker, Delivery flow. |
+| Directors | Governar objetivos, valor, funding e riscos materiais. | Priorizar, financiar, pausar, aceitar risco. | Decisões executivas. | Strategic objective, portfolio, value. |
+| Executives | Definir direção, resolver trade-offs críticos e governar riscos. | Intervenção corporativa, aceite de risco crítico. | Comitês executivos. | Estratégia, funding, governança executiva. |
 
-## 17. Cross-Artifact Impact Assessment
-
-Esta seção revisa conceitualmente os artefatos existentes e registra ajustes recomendados para alinhamento futuro. Ela não substitui os documentos existentes.
+## 21. Cross-Artifact Impact Assessment
 
 ### DOMAIN_MODEL.md
 
-| Aspecto | Ajuste Necessário |
-| --- | --- |
-| Conceitos faltantes | BusinessNeed, PainPoint, Journey, BusinessProcess, Discovery, Requirement, SolutionDesign, Review, Validation, AlertResolution e BlockerResolution. |
-| Relações faltantes | Need-to-Value chain entre BusinessNeed, ProblemStatement, Discovery, Requirement, SolutionDesign, Feature, Validation, Outcome e ValueCase. |
-| Estados faltantes | Estados operacionais para Need, Discovery, Requirement, SolutionDesign, Validation e Outcome. |
-| Regras faltantes | Encerramento de alerta condicionado a plano, evidência e eliminação da condição original. |
+- Conceitos faltantes: BusinessNeed, PainPoint, StakeholderNeed, CustomerNeed, BusinessProblem, BusinessConstraint, BusinessEvidence, CustomerJourney, OperationalJourney, BusinessProcess, BusinessObjective.
+- Entidades faltantes: Discovery, DiscoveryHypothesis, DiscoveryExperiment, DiscoveryFinding, DiscoveryOutcome, ProblemStatement, OpportunityAssessment, PrioritizationDecision, FunctionalRequirement, NonFunctionalRequirement, BusinessRule, AcceptanceCriterion, DefinitionOfReady, DefinitionOfDone, SolutionDesign, SolutionReview, SolutionApproval, Validation variants.
+- Eventos faltantes: NeedProposed, PainPointRegistered, DiscoveryStarted, HypothesisValidated, RequirementApproved, SolutionDesignSubmitted, ReviewCompleted, ReadinessAchieved, ValidationCompleted, AlertConditionCleared.
+- Métricas faltantes: não se aplica como domínio primário, mas deve referenciar métricas operacionais.
+- Dashboards faltantes: não se aplica.
+- Capacidades de inteligência faltantes: rastreabilidade formal Need-to-Value e estados operacionais por entidade.
 
 ### PRODUCT_MODEL.md
 
-| Aspecto | Ajuste Necessário |
-| --- | --- |
-| Novos dashboards | Business Discovery Heat Map, Requirements Heat Map, Architecture Review Heat Map, Readiness Heat Map, Validation Heat Map. |
-| Navegação | Incluir navegação Need -> Pain -> Discovery -> Requirements -> Solution -> Delivery -> Validation -> Value. |
-| Experiência | Tornar filas e blockers visíveis por persona e etapa. |
-| Alertas | Expor alertas abertos com plano, evidência e condição original. |
+- Conceitos faltantes: operating domains, queue-centric navigation, alert closure policy, blocker lifecycle.
+- Entidades faltantes: views para requirements, reviews, readiness, validation e alert resolution.
+- Eventos faltantes: eventos operacionais devem aparecer em timelines e workspaces.
+- Métricas faltantes: review time, approval time, readiness time, validation time, alert aging.
+- Dashboards faltantes: Business Discovery Heat Map, Requirements Heat Map, Review Heat Map, Readiness Heat Map, Validation Heat Map, Blocker Heat Map, Alert Heat Map.
+- Capacidades de inteligência faltantes: perguntas operacionais por fila, blocker, owner, ação e evidência.
 
 ### METRICS_CATALOG.md
 
-| Aspecto | Ajuste Necessário |
-| --- | --- |
-| Métricas faltantes | Review Time, Approval Time, Solution Time, Readiness Time, Validation Time, Alert Aging, Alert Resolution Health, Blocker Resolution Health. |
-| Scores faltantes | Discovery Health, Requirements Health, Solution Health, Readiness Health, Validation Health. |
-| Heat maps faltantes | Heat maps operacionais por discovery, requirements, reviews, readiness, validation e value realization. |
+- Conceitos faltantes: operating health scores e métricas de revisão, aprovação, readiness, validação e resolução.
+- Entidades faltantes: measurement targets para Need, Requirement, SolutionDesign, Review, Validation, AlertResolution e BlockerResolution.
+- Eventos faltantes: eventos operacionais como fontes de métricas.
+- Métricas faltantes: Discovery Time, Solution Time, Readiness Time, Validation Time, Review Time, Approval Time, Alert Resolution Health, Blocker Resolution Health.
+- Dashboards faltantes: heat maps operacionais e dashboards de operating flow.
+- Capacidades de inteligência faltantes: composição de health scores operacionais.
 
 ### EVENT_CATALOG.md
 
-| Aspecto | Ajuste Necessário |
-| --- | --- |
-| Eventos faltantes | NeedCaptured, PainPointRegistered, DiscoveryStarted, RequirementCreated, SolutionDesignSubmitted, ReviewRequested, ReviewCompleted, ReadinessAchieved, ValidationStarted, ValidationCompleted, AlertActionPlanRegistered, AlertEvidenceAttached, AlertConditionCleared. |
-| Relações faltantes | Eventos de queue, blocker e alert resolution conectados a decisões e evidências. |
-| Explainability | Incluir cadeias causais de Need-to-Value e bloqueios por etapa operacional. |
+- Conceitos faltantes: eventos de need, pain, requirements, solution reviews, readiness, validation, alert closure e blocker resolution.
+- Entidades faltantes: payload conceitual para operating events.
+- Eventos faltantes: NeedProposed, NeedAccepted, PainPointEvidenced, DiscoveryCompleted, RequirementCreated, RequirementApproved, SolutionReviewRequested, ArchitectureReviewCompleted, SecurityReviewCompleted, DataReviewCompleted, ReadinessBlocked, ReadinessAchieved, ValidationRejected, AlertActionRegistered, AlertEvidenceAttached, AlertConditionCleared, AlertClosed.
+- Métricas faltantes: mapeamentos event-to-metric para operating flow.
+- Dashboards faltantes: event-to-heat-map para operating heat maps.
+- Capacidades de inteligência faltantes: causalidade operacional Need-to-Value.
 
 ### INTELLIGENCE_MODEL.md
 
-| Aspecto | Ajuste Necessário |
-| --- | --- |
-| Novas capacidades | Operating Intelligence, Need-to-Value Intelligence, Queue Intelligence, Blocker Intelligence e Alert Resolution Intelligence. |
-| Copilot | Incluir perguntas operacionais sobre filas, blockers, DoR, DoD, evidências e alertas abertos. |
-| Knowledge Graph | Adicionar nós e relações para needs, pains, journeys, requirements, reviews, validations e action plans. |
+- Conceitos faltantes: Operating Intelligence, Queue Intelligence, Blocker Intelligence, Alert Resolution Intelligence, Readiness Intelligence e Validation Intelligence.
+- Entidades faltantes: OperatingInsight, QueueInsight, BlockerInsight, AlertResolutionInsight.
+- Eventos faltantes: eventos operacionais como sinais para insights e recommendations.
+- Métricas faltantes: operating metrics como fontes de explanation.
+- Dashboards faltantes: não se aplica diretamente, mas deve referenciar operating heat maps.
+- Capacidades de inteligência faltantes: Copilot operacional com perguntas sobre fila, blocker, evidência, ação, revisão e requisito.
 
-## 18. Operating Intelligence
+## 22. Copilot Support
 
-A EDIP deve responder obrigatoriamente:
+| Pergunta | Entidades Necessárias | Eventos Necessários | Métricas Necessárias | Inteligência Necessária |
+| --- | --- | --- | --- | --- |
+| Onde estamos parados? | Queue, State, Owner, WorkItem. | QueueEntered, StateChanged. | Queue Time, Aging. | Queue Intelligence. |
+| Por que estamos parados? | Blocker, Dependency, Review, Alert. | BlockerDetected, ReviewRequested, AlertDetected. | Blocked Time, Review Time. | Root Cause Analysis. |
+| Quem deveria agir? | Owner, RoleAssignment, Escalation. | OwnerAssigned, EscalationTriggered. | Aging, SLA breach. | Decision Intelligence. |
+| Qual fila está congestionada? | Queue, Capacity, WorkItems. | QueueThresholdBreached. | Queue Time, WIP, Capacity Fit. | Heat Map Intelligence. |
+| Qual blocker está mais antigo? | Blocker, BlockerOwner. | BlockerDetected, BlockerEscalated. | Blocked Time, Blocker Aging. | Blocker Intelligence. |
+| Qual revisão está pendente? | Review, SolutionDesign, Reviewer. | ReviewRequested. | Review Time, Approval Time. | Review Intelligence. |
+| Qual requisito está incompleto? | Requirement, AcceptanceCriterion, DoR. | RequirementCreated, RequirementReviewed. | Requirements Health. | Requirements Intelligence. |
+| Qual alerta continua aberta? | Alert, AlertAction, AlertEvidence. | AlertDetected, AlertActionRegistered. | Alert Aging, Alert Resolution Health. | Alert Resolution Intelligence. |
+| Qual evidência falta? | EvidenceChain, Approval, Validation. | EvidenceRequested, EvidenceAttached. | Evidence Coverage. | Governance Intelligence. |
+| Qual ação está atrasada? | ActionPlan, AlertAction, Owner. | ActionCreated, ActionOverdue. | Action Aging, SLA breach. | Recommendation Follow-up Intelligence. |
 
-| Pergunta | Dados Necessários | Resposta Esperada |
+## 23. Operating Maturity Model
+
+| Nível | Nome | Característica |
 | --- | --- | --- |
-| Onde estamos parados? | Queue, estado, owner, aging. | Entidade, etapa, fila e tempo parado. |
-| Por que estamos parados? | Blocker, dependency, alert, review, evidence gap. | Causa direta, fatores contribuintes e condição bloqueante. |
-| Quem deveria agir? | Owner, role, escalation path. | Papel, pessoa/grupo responsável e horizonte. |
-| Há quanto tempo estamos parados? | entryDate, currentDate, SLA. | Aging, SLA e severidade. |
-| Qual fila está congestionada? | Queue size, queue time, capacity. | Ranking por aging, volume, valor e criticidade. |
-| Qual capability está bloqueando valor? | Capability, offer, product, initiative, value case. | Capability, produtos afetados, valor em risco e ação. |
-| Qual requisito ainda não está pronto? | Requirement, DoR, criteria, review status. | Lacunas de requisito e owner. |
-| Qual revisão está pendente? | Review queue, reviewer, SLA. | Tipo de review, owner, aging e impacto. |
-| Qual solução está aguardando aprovação? | SolutionDesign, SolutionApproval, evidence. | Solução, aprovador, evidência ausente e consequência. |
-| Qual feature não atende DOR? | Feature, DefinitionOfReady. | Critérios faltantes e owner. |
-| Qual story não atende DOD? | Story, DefinitionOfDone. | Critérios faltantes, evidências e owner. |
-| Qual alerta continua aberta? | Alert, action plan, evidence, condition. | Motivo da permanência aberta. |
-| Qual evidência falta? | EvidenceChain, gate, validation. | Evidência obrigatória, owner e prazo. |
+| Nível 1 | Fluxo não rastreado | Trabalho existe em ferramentas e conversas, mas não há rastreabilidade ponta a ponta. |
+| Nível 2 | Fluxo monitorado | Estados e filas básicas são visíveis. |
+| Nível 3 | Fluxo mensurado | Lead time, queue time, blocked time e SLAs são medidos. |
+| Nível 4 | Fluxo explicado | Gargalos, blockers, decisões e evidências explicam atrasos. |
+| Nível 5 | Fluxo otimizado | Priorização, capacidade, reviews e validação são ajustados por inteligência operacional. |
+| Nível 6 | Fluxo autogovernado | Alertas, escalonamentos, recomendações, evidências e aprendizado organizacional governam o fluxo continuamente. |
 
-## 19. Copilot Support
+Posicionamento da EDIP:
 
-O futuro Copilot da EDIP deve usar needs, pains, journeys, requirements, solution designs, reviews, blockers, alerts, metrics, events e intelligence artifacts para responder perguntas operacionais com evidência.
+- O modelo conceitual atual habilita os níveis 2 e 3.
+- Flow Intelligence, Event Catalog e Metrics Catalog habilitam o nível 4.
+- Intelligence Model, Copilot Support e heat maps operacionais habilitam o nível 5.
+- A visão-alvo da EDIP é o nível 6, sem remover responsabilidade humana em decisões críticas.
 
-| Pergunta | Fontes Conceituais | Explicação Esperada |
-| --- | --- | --- |
-| Onde estamos parados? | Queue, state, event timeline, heat map. | Apontar etapa, fila, owner, aging e SLA. |
-| Por que estamos parados? | Blocker, dependency, review, alert, evidence gap. | Diferenciar blocker, decisão pendente, revisão pendente e falta de evidência. |
-| Quem deveria agir? | Ownership, role assignment, escalation model. | Indicar owner primário, escalonamento e consequência da inação. |
-| Qual ação está pendente? | AlertAction, ActionPlan, Decision, Review. | Mostrar próxima ação, prazo e evidência esperada. |
-| Qual evidência falta? | EvidenceChain, acceptance criteria, validation, approval. | Listar evidências obrigatórias e responsáveis. |
-| Qual etapa é mais ineficiente? | Flow metrics, queues, heat maps. | Ranking por queue time, review time, blocked time e cost of delay. |
-| Como destravar valor? | ValueCase, blocker, queue, capability, decision. | Recomendar decisão, owner, ação e impacto esperado. |
-
-## 20. Change Log
+## 24. Change Log
 
 ### Novos Domínios
 
 - Business Discovery Domain.
 - Product Discovery Domain.
+- Requirements Domain.
 - Solution Design Domain.
 - Delivery Readiness Domain.
 - Delivery Execution Domain.
@@ -500,42 +562,47 @@ O futuro Copilot da EDIP deve usar needs, pains, journeys, requirements, solutio
 
 ### Novas Entidades
 
-- BusinessNeed, PainPoint, CustomerJourney, OperationalJourney, BusinessProcess, BusinessProblem, BusinessConstraint, BusinessObjective, StakeholderNeed, BusinessEvidence.
-- Discovery, DiscoveryHypothesis, DiscoveryExperiment, DiscoveryFinding, DiscoveryOutcome, ProblemStatement, OpportunityAssessment, PrioritizationDecision.
-- FunctionalRequirement, NonFunctionalRequirement, BusinessRule, AcceptanceCriterion, DefinitionOfReady, DefinitionOfDone, SolutionAssumption, Constraint, Dependency, Risk.
-- SolutionDesign, SolutionReview, ArchitectureReview, EngineeringReview, SecurityReview, DataReview, ComplianceReview, SolutionDecision, SolutionEvidence, SolutionApproval.
-- Blocker, BlockerType, BlockerOwner, BlockerSeverity, BlockerEvidence, BlockerResolution.
-- Alert, AlertCondition, AlertOwner, AlertSeverity, AlertAction, AlertEvidence, AlertValidation, AlertResolution.
-
-### Novos Estados
-
-- Estados para Need, Opportunity, Discovery, Requirement, SolutionDesign, Feature, Story, Validation e Outcome.
+- BusinessNeed, PainPoint, StakeholderNeed, CustomerNeed, BusinessProblem, BusinessConstraint, BusinessEvidence, CustomerJourney, OperationalJourney, BusinessProcess, BusinessObjective.
+- Discovery, DiscoveryHypothesis, DiscoveryExperiment, DiscoveryFinding, DiscoveryOutcome, ProblemStatement, OpportunityAssessment, PrioritizationDecision, Assumption.
+- FunctionalRequirement, NonFunctionalRequirement, BusinessRule, AcceptanceCriterion, DefinitionOfReady, DefinitionOfDone, Constraint, Dependency, Risk.
+- SolutionDesign, SolutionRecord, SolutionDecision, ArchitectureReview, EngineeringReview, SecurityReview, DataReview, ComplianceReview, SolutionApproval, SolutionEvidence.
+- ReadinessAssessment, ReadinessChecklist, DependencyAssessment, RiskAssessment, CapacityAssessment.
+- Validation, AcceptanceValidation, BusinessValidation, TechnicalValidation, OutcomeValidation, BenefitValidation, ValueValidation.
 
 ### Novas Filas
 
 - Business Queue.
 - Discovery Queue.
+- Requirements Queue.
 - Architecture Queue.
 - Engineering Queue.
+- Security Queue.
+- Data Queue.
 - Review Queue.
 - Readiness Queue.
 - Delivery Queue.
 - Validation Queue.
 - Value Realization Queue.
 
+### Novos Estados
+
+- Estados para Need, Opportunity, Discovery, Requirement, SolutionDesign, Feature, Story, Validation e Outcome.
+
 ### Novos Blockers
 
-- Business, Product, Architecture, Engineering, Security, Data, Compliance, Capacity e Dependency.
+- Business, Product, Architecture, Engineering, Security, Data, Compliance, Dependency, Capacity e Governance.
 
-### Novos Alertas
+### Novas Alertas
 
-- Alertas de queue aging, blocker aging, review pending, approval pending, evidence missing, DoR violated, DoD violated e value realization pending.
+- Alertas de queue aging, blocker aging, review pending, approval pending, evidence missing, DoR violation, DoD violation, validation pending e value realization pending.
 
 ### Novos Health Scores
 
 - Discovery Health.
 - Requirements Health.
 - Solution Health.
+- Architecture Review Health.
+- Engineering Review Health.
 - Readiness Health.
 - Delivery Health.
 - Validation Health.
@@ -546,19 +613,21 @@ O futuro Copilot da EDIP deve usar needs, pains, journeys, requirements, solutio
 ### Novos Heat Maps
 
 - Business Discovery Heat Map.
-- Opportunity Heat Map.
 - Requirements Heat Map.
-- Architecture Review Heat Map.
-- Engineering Review Heat Map.
+- Architecture Heat Map.
+- Engineering Heat Map.
+- Review Heat Map.
 - Readiness Heat Map.
 - Delivery Heat Map.
 - Validation Heat Map.
 - Value Realization Heat Map.
+- Blocker Heat Map.
+- Alert Heat Map.
 
 ### Impactos Nos Demais Artefatos
 
-- DOMAIN_MODEL.md deve incorporar entidades, relações, estados e regras operacionais em revisão futura.
-- PRODUCT_MODEL.md deve incorporar dashboards e navegação operacional Need-to-Value.
-- METRICS_CATALOG.md deve incorporar métricas e health scores operacionais.
-- EVENT_CATALOG.md deve incorporar eventos de need, discovery, requirement, solution, review, readiness, validation e alert resolution.
-- INTELLIGENCE_MODEL.md deve incorporar Operating Intelligence e Copilot Support operacional.
+- DOMAIN_MODEL.md deve incorporar os novos domínios, entidades, estados, relações e cardinalidades operacionais em revisão futura.
+- PRODUCT_MODEL.md deve incorporar dashboards, navegação e experiências orientadas a filas, blockers, reviews, readiness e validation.
+- METRICS_CATALOG.md deve incorporar métricas operacionais, operating health scores e heat maps.
+- EVENT_CATALOG.md deve incorporar eventos do fluxo Need-to-Value e mapeamentos event-to-metric, event-to-alert e event-to-decision.
+- INTELLIGENCE_MODEL.md deve incorporar Operating Intelligence, Queue Intelligence, Blocker Intelligence, Alert Resolution Intelligence e Copilot operacional.
