@@ -76,30 +76,35 @@ A EDIP é organizada em camadas lógicas. As camadas não representam infraestru
 | --- | --- |
 | Experience Layer | Dashboards, workspaces, navigation, drill-down, drill-up, cockpit, heat maps e Copilot experience. |
 | API Layer | Contratos lógicos de comando, consulta e composição entre experiências, domínios e integrações. |
+| Integration Layer | Integração conceitual com sistemas produtores, consumidores e plataformas corporativas. |
+| Canonicalization Layer | Tradução, validação e normalização entre modelos externos e contratos canônicos da EDIP. |
 | Domain Layer | Bounded contexts, entidades, agregados, regras de negócio, ownership e state machines. |
 | Event Layer | Catálogo, publicação, consumo, roteamento, versionamento, retenção e governança de eventos. |
 | Analytics Layer | Métricas, health scores, forecasts, heat maps, flow intelligence, economics e root cause analytics. |
 | Knowledge Layer | Knowledge Graph, Decision Graph, Evidence Graph, Capability Graph, Value Graph e Learning Graph. |
 | Intelligence Layer | Signals, insights, explanations, root causes, recommendations, narratives, action plans e learnings. |
 | Governance Layer | Gates, approvals, reviews, controls, exceptions, auditability, policies e segregation of duties. |
-| Integration Layer | Integração conceitual com sistemas de origem e consumidores corporativos. |
 | Data Layer | Dados operacionais, analíticos, de conhecimento, evidência, métricas e forecasts. |
 
 ```mermaid
 flowchart TB
   Experience[Experience Layer]
   API[API Layer]
+  Integration[Integration Layer]
+  Canonicalization[Canonicalization Layer]
   Domain[Domain Layer]
   Event[Event Layer]
   Analytics[Analytics Layer]
   Knowledge[Knowledge Layer]
   Intelligence[Intelligence Layer]
   Governance[Governance Layer]
-  Integration[Integration Layer]
   Data[Data Layer]
 
   Experience --> API
-  API --> Domain
+  API --> Integration
+  Integration --> Canonicalization
+  Canonicalization --> Domain
+  Canonicalization --> Event
   Domain --> Event
   Event --> Analytics
   Analytics --> Intelligence
@@ -110,11 +115,160 @@ flowchart TB
   Governance --> Domain
   Governance --> Event
   Governance --> Analytics
-  Integration --> Domain
-  Integration --> Event
+  Governance --> Canonicalization
   Data --> Domain
   Data --> Analytics
   Data --> Knowledge
+```
+
+Sequência lógica obrigatória:
+
+Experience Layer -> API Layer -> Integration Layer -> Canonicalization Layer -> Domain Layer -> Event Layer -> Analytics Layer -> Knowledge Layer -> Intelligence Layer -> Governance Layer -> Data Layer.
+
+## 4.1 Integration Architecture
+
+A Integration Architecture define como a EDIP se conecta a sistemas externos sem permitir que modelos externos contaminem diretamente os bounded contexts internos.
+
+### Sistemas Produtores
+
+| Sistema | Exemplos de Informação Produzida | Integração Preferencial |
+| --- | --- | --- |
+| Jira | Issues, epics, stories, status, blockers, timestamps, workflow changes. | Assíncrona para eventos de delivery; síncrona apenas para consulta contextual. |
+| Azure DevOps | Work items, boards, pipelines, pull requests, releases. | Assíncrona para source events; ingestão analítica para histórico. |
+| GitHub | Pull requests, commits, releases, checks, code ownership. | Assíncrona para engineering events; ingestão analítica para tendências. |
+| GitLab | Merge requests, commits, pipelines, releases. | Assíncrona para engineering and release events. |
+| ServiceNow | Incidents, changes, approvals, service requests, risk and operational records. | Assíncrona para governance, risk e operational source events. |
+| Confluence | Evidence, decisions, discovery notes, architecture records. | Ingestão operacional controlada para evidências; ingestão analítica para knowledge assets. |
+| ERP | Funding, cost, investment, actuals, planned value. | Ingestão governada para portfolio, economics e value realization. |
+| OKR Platforms | Objectives, key results, progress, target changes. | Integração governada para Strategy Context. |
+| Architecture Repositories | Capabilities, services, applications, standards, assessments. | Integração governada para Architecture Capability Context. |
+
+### Sistemas Consumidores
+
+| Consumidor | Uso |
+| --- | --- |
+| Executive Dashboards | Consomem health, heat maps, value at risk, decisions e narratives. |
+| Portfolio Dashboards | Consomem portfolio health, funding, capacity, flow, value e governance. |
+| Architecture Cockpit | Consome capability, service, offer, modernization, debt e exceptions. |
+| Governance and Audit Views | Consomem decisions, gates, approvals, evidence, exceptions, controls e audit trails. |
+| Copilot | Consome knowledge graph, events, metrics, forecasts, evidence chains e explanations. |
+| Data and Analytics Platforms | Consomem métricas governadas, eventos analíticos e séries históricas autorizadas. |
+
+### Integração Síncrona
+
+Integração síncrona deve ser usada para comandos, consultas contextuais e validações de escopo quando a experiência exige resposta imediata. Ela não deve ser usada para copiar modelos externos diretamente para entidades internas sem canonicalization.
+
+### Integração Assíncrona
+
+Integração assíncrona deve ser usada para source events, alterações de estado, atualização de projeções, cálculo analítico, alertas, heat maps, forecasts e knowledge graph.
+
+### Ingestão Operacional
+
+Ingestão operacional captura fatos necessários para estado, ownership, workflow, decision, evidence, queue, blocker, validation e alert resolution.
+
+### Ingestão Analítica
+
+Ingestão analítica captura séries históricas, tendências, throughput, lead time, cycle time, data quality, forecast accuracy e padrões de execução.
+
+## 4.2 Integration and Canonicalization Architecture
+
+A Canonicalization Layer é uma camada lógica obrigatória entre Integration Layer e Domain Layer.
+
+Ela impede acoplamento direto entre modelos externos e domínios internos da EDIP.
+
+| Componente | Responsabilidade |
+| --- | --- |
+| Connector | Conecta-se conceitualmente ao sistema externo e entende seu modelo de origem. |
+| Adapter | Isola particularidades do sistema externo, autenticação, paginação, limitações e semântica local. |
+| Mapper | Mapeia campos, estados, identidades e relações externas para contratos canônicos. |
+| Validator | Valida completude, formato, ownership, permissões, duplicidade, lineage e qualidade mínima. |
+| Command Translator | Traduz intenção externa ou experiência em comandos canônicos da EDIP. |
+| Event Translator | Traduz source events externos em canonical events antes de qualquer efeito interno. |
+
+```mermaid
+flowchart LR
+  External[External Systems]
+  Connector[Connector]
+  Adapter[Adapter]
+  Mapper[Mapper]
+  Validator[Validator]
+  CommandTranslator[Command Translator]
+  EventTranslator[Event Translator]
+  CanonicalContracts[Canonical Domain Contracts]
+  Domain[Domain Services]
+  Events[Event Layer]
+
+  External --> Connector
+  Connector --> Adapter
+  Adapter --> Mapper
+  Mapper --> Validator
+  Validator --> CommandTranslator
+  Validator --> EventTranslator
+  CommandTranslator --> CanonicalContracts
+  EventTranslator --> CanonicalContracts
+  CanonicalContracts --> Domain
+  CanonicalContracts --> Events
+```
+
+## 4.3 Canonical Domain Contracts
+
+A EDIP possui linguagem canônica própria. Sistemas externos nunca interagem diretamente com domínios internos.
+
+Toda integração deve ser traduzida para Canonical Domain Contracts antes de criar comandos, eventos, métricas ou relações internas.
+
+| Contrato Canônico | Propósito |
+| --- | --- |
+| Canonical Need | Representar necessidade de negócio independente do sistema que a originou. |
+| Canonical Opportunity | Representar oportunidade qualificada, evidência e decisão de priorização. |
+| Canonical Requirement | Representar requisito rastreável com origem, owner, status e critérios. |
+| Canonical Solution Design | Representar desenho de solução, reviews, approvals e evidências. |
+| Canonical Feature | Representar unidade de entrega rastreável a iniciativa, requirement e outcome. |
+| Canonical Story | Representar item operacional rastreável a feature e critérios de aceite. |
+| Canonical Validation | Representar validação de aceite, outcome, benefício ou valor. |
+| Canonical Alert | Representar alerta com condição, owner, severidade, ação esperada e evidência. |
+| Canonical Decision | Representar decisão com owner, autoridade, justificativa, evidência e impacto. |
+| Canonical Capability | Representar capability do Architecture Elevator sem confundir com produto. |
+| Canonical Offer | Representar offer derivada de services e consumida por products. |
+| Canonical Product | Representar composição flexível de offers, jornadas, experiência ou proposição de valor. |
+
+## 4.4 Command Architecture
+
+Comandos representam intenção de alterar estado de domínio. Eventos representam fatos consumados após execução válida do comando.
+
+Adapters e experiências produzem comandos canônicos. Domínios executam comandos conforme regras, ownership, autorização e governança. Eventos são publicados apenas após o comando ser aceito e aplicado.
+
+| Comando Conceitual | Domínio Executor | Evento Esperado |
+| --- | --- | --- |
+| CreateNeedCommand | Business Discovery | BusinessNeedCaptured. |
+| RegisterPainPointCommand | Business Discovery | PainPointRegistered. |
+| CreateOpportunityCommand | Product Discovery / Portfolio | OpportunityCreated. |
+| ApproveOpportunityCommand | Portfolio / Governance | OpportunityApproved. |
+| CreateRequirementCommand | Requirements | RequirementCreated. |
+| ApproveRequirementCommand | Requirements / Governance | RequirementApproved. |
+| CreateSolutionDesignCommand | Solution Design | SolutionDesignCreated. |
+| ApproveSolutionCommand | Solution Design / Governance | SolutionApproved. |
+| CreateFeatureCommand | Delivery | FeatureCreated. |
+| BlockFeatureCommand | Delivery / Blocker | FeatureBlocked. |
+| ValidateOutcomeCommand | Validation | ValidationCompleted ou ValidationRejected. |
+| CreateValueCaseCommand | Value Realization | ValueCaseCreated. |
+| ResolveAlertCommand | Alert | AlertResolved, somente após ação, evidência e validação. |
+| AssociateProductOfferCommand | Architecture Capability | ProductOfferAssociated. |
+| RegisterArchitectureDebtCommand | Architecture Capability | ArchitectureDebtRegistered. |
+
+```mermaid
+sequenceDiagram
+  participant External as External System / Experience
+  participant Adapter as Adapter
+  participant Canonical as Canonicalization Layer
+  participant Service as Domain Service
+  participant Events as Event Layer
+
+  External->>Adapter: External change or user intent
+  Adapter->>Canonical: Map and validate
+  Canonical->>Service: Canonical Command
+  Service->>Service: Execute domain rules
+  Service->>Events: Publish Domain Event
+  Events-->>Canonical: Projection / analytical consumption
 ```
 
 ## 5. Bounded Context Architecture
@@ -404,6 +558,21 @@ flowchart LR
 
 Serviços são componentes lógicos de responsabilidade. Esta seção não define endpoints, tecnologias ou deployables físicos.
 
+### Service vs Engine Clarification
+
+Service e Engine são conceitos diferentes na arquitetura da EDIP.
+
+| Conceito | Responsabilidade | Ownership | Contratos | Natureza |
+| --- | --- | --- | --- | --- |
+| Service | Governa um domínio ou capacidade lógica, executa comandos, responde consultas, aplica regras e publica eventos. | Domain owner, product owner, platform owner ou governance owner. | Comandos, consultas, eventos publicados, eventos consumidos e regras de autorização. | Transacional, governado e orientado a domínio. |
+| Engine | Processa dados, calcula métricas, projeta tendências, detecta padrões, infere sinais ou gera recomendações. | Analytics owner, intelligence owner, data steward ou platform analytics owner. | Entradas, saídas, regras de cálculo, premissas, confidence, lineage e explicabilidade. | Analítico, derivativo e orientado a processamento. |
+
+Services são responsáveis por estado, intenção e governança de domínio.
+
+Engines são responsáveis por cálculo, inferência, projeção e análise.
+
+Um Service pode invocar ou consumir resultado de uma Engine, mas a Engine não deve alterar estado de domínio diretamente. Quando uma Engine detecta algo relevante, ela deve produzir analytical event, derived event, insight, alert candidate ou recommendation. A alteração de estado deve ocorrer por comando aceito por um Service responsável.
+
 | Serviço Lógico | Responsabilidade | Comandos Conceituais | Consultas Conceituais | Eventos Publicados | Eventos Consumidos |
 | --- | --- | --- | --- | --- | --- |
 | Strategy Service | Gerir estratégia, objetivos, OKRs, KRs, outcomes e KPIs estratégicos. | Criar objetivo, atualizar KR, definir outcome. | Consultar estratégia, OKRs, outcomes e alinhamento. | StrategyCreated, ObjectiveCreated, KRTargetChanged, OutcomeDefined. | KPIUpdated, BenefitValidated, ForecastUpdated. |
@@ -517,6 +686,41 @@ Retenção conceitual segue criticidade:
 | Governance Events | Eventos relacionados a decisão, gate, approval, evidence, exception e control. | GateApproved, EvidenceAttached, ExceptionGranted. |
 | Derived Events | Eventos derivados por regra, threshold, correlação ou inferência governada. | BottleneckDetected, ValueLeakageDetected, ForecastAccuracyDegraded. |
 | Analytical Events | Eventos gerados por engines analíticas. | HealthScoreCalculated, FlowHealthCalculated, HeatMapGenerated. |
+
+### Event Translation Architecture
+
+Eventos externos nunca devem ser tratados automaticamente como eventos de domínio internos.
+
+Fluxo conceitual:
+
+External Event -> Canonical Event -> Domain Event -> Analytical Event / Governance Event.
+
+| Tipo | Definição | Responsabilidade |
+| --- | --- | --- |
+| External Events | Eventos brutos ou mudanças observadas em sistemas externos. | Preservar origem, timestamp de origem, identificador externo e contexto de fonte. |
+| Canonical Events | Eventos normalizados pela Canonicalization Layer. | Aplicar linguagem canônica, validação, deduplicação, identidade e correlação. |
+| Domain Events | Fatos consumados aceitos por um bounded context da EDIP. | Atualizar estado de domínio, rastreabilidade e audit trail. |
+| Analytical Events | Eventos derivados por cálculo, regra ou inferência analítica. | Alimentar métricas, scores, forecasts, heat maps, insights e recommendations. |
+| Governance Events | Eventos que representam decisão, approval, gate, evidence, exception ou control. | Preservar autoridade, evidência, segregação e auditoria. |
+
+```mermaid
+flowchart LR
+  ExternalEvent[External Event]
+  CanonicalEvent[Canonical Event]
+  DomainEvent[Domain Event]
+  AnalyticalEvent[Analytical Event]
+  GovernanceEvent[Governance Event]
+  Metrics[Metrics / Scores]
+  Knowledge[Knowledge Graph]
+
+  ExternalEvent --> CanonicalEvent
+  CanonicalEvent --> DomainEvent
+  DomainEvent --> AnalyticalEvent
+  DomainEvent --> GovernanceEvent
+  AnalyticalEvent --> Metrics
+  GovernanceEvent --> Knowledge
+  DomainEvent --> Knowledge
+```
 
 ## 10. Analytics Architecture
 
@@ -718,6 +922,36 @@ O futuro Copilot da EDIP deve responder perguntas corporativas usando entidades,
 | Qual capability está degradada? | Capability, Service, Offer, Product, Initiative. | CapabilityHealthDegraded, ArchitectureDebtRegistered, ArchitectureExceptionExpired. | Capability Health Score, Architecture Debt Score. | CapabilityInsight, ArchitectureInsight. | Capability Graph. |
 | Qual valor está em risco? | ValueCase, Benefit, Investment, Initiative, KPI. | ValueAtRiskIncreased, BenefitRejected, ValueLeakageDetected. | Investment At Risk, Value Leakage, Benefit Variance. | ValueInsight, EconomicInsight. | Value Graph e Decision Graph. |
 
+### Copilot Governance
+
+O Copilot é uma capacidade de explicação, investigação, síntese e recomendação. Ele não é autoridade decisória.
+
+O Copilot não pode:
+
+- aprovar decisões;
+- fechar alertas;
+- aceitar risco;
+- alterar métricas;
+- alterar evidências;
+- modificar targets, fórmulas ou owners;
+- conceder exceções;
+- aprovar funding;
+- alterar status de entidade crítica sem comando governado.
+
+O Copilot pode:
+
+- explicar;
+- recomendar;
+- investigar;
+- sintetizar;
+- comparar cenários;
+- indicar lacunas de evidência;
+- sugerir próximos passos;
+- preparar narrativas executivas;
+- apontar owner, impacto, urgência e risco de inação.
+
+Toda resposta do Copilot deve declarar fontes, confiança, limitações, lacunas de dados e caminho de evidência quando a pergunta suportar decisão crítica.
+
 ## 17. Security and Authorization Model
 
 Esta seção define princípios conceituais de segurança e autorização, sem implementação.
@@ -734,6 +968,26 @@ Esta seção define princípios conceituais de segurança e autorização, sem i
 | Executive Access | Executivos acessam visões agregadas, valor, risco, decisões críticas e evidências de suporte. |
 | Architecture Access | Arquitetos acessam capability, service, offer, application service, debt, exception, modernization e assessments. |
 
+### Authorization Scopes
+
+| Escopo | Uso |
+| --- | --- |
+| Portfolio Scope | Limita acesso e decisão a portfólios, investimentos, funding, capacity e value cases específicos. |
+| Capability Scope | Limita acesso e decisão a domains, subdomains, capabilities, services, offers e modernization plans. |
+| Product Scope | Limita acesso e decisão a products, offers associados, roadmap, outcomes, discovery e value realization. |
+| Business Unit Scope | Limita acesso por unidade organizacional, cadeia de gestão, accountability e sensibilidade. |
+| Evidence Classification | Classifica evidências por sensibilidade, confidencialidade, privacidade, auditoria, risco e uso permitido. |
+| Decision Classification | Classifica decisões por impacto financeiro, risco, governança, arquitetura, compliance, estratégia e autoridade requerida. |
+
+### Security Rules
+
+- RBAC define o ponto de partida de permissões.
+- ABAC restringe ou amplia permissões conforme escopo, ownership, classificação e contexto.
+- Evidence Classification pode impedir que uma persona veja a evidência completa, mesmo que veja o status derivado.
+- Decision Classification define autoridade mínima, segregação, evidência obrigatória e retenção.
+- Portfolio Scope, Product Scope e Capability Scope devem ser combináveis para análise matricial sem vazar informação fora do escopo autorizado.
+- Auditoria deve registrar acesso a evidências sensíveis, decisões críticas e exceções.
+
 ## 18. Data Architecture Principles
 
 Esta arquitetura não define tabelas, bancos físicos ou infraestrutura. Ela define categorias conceituais de dados e ownership.
@@ -742,6 +996,8 @@ Esta arquitetura não define tabelas, bancos físicos ou infraestrutura. Ela def
 | --- | --- | --- |
 | Systems of Record | Fontes responsáveis por registrar fatos originais de um domínio operacional ou corporativo. | Owner do sistema de origem. |
 | Systems of Truth | Visões governadas e reconciliadas que a EDIP usa para decisão corporativa. | Data steward / domain owner. |
+| Systems of Insight | Camadas analíticas que produzem métricas, scores, forecasts, heat maps, insights e recomendações explicáveis. | Analytics owner / intelligence owner. |
+| Systems of Knowledge | Camadas de conhecimento que preservam relações, evidências, decisões, causalidade e aprendizado organizacional. | Knowledge steward / governance owner. |
 | Operational Data | Estados, owners, filas, work items, decisões e entidades transacionais. | Domain owner. |
 | Analytical Data | Métricas, séries, scores, forecasts, heat maps e agregações. | Metrics owner / analytics owner. |
 | Knowledge Data | Relações, grafos, insights, explanations, recommendations e learnings. | Knowledge steward / intelligence owner. |
@@ -752,6 +1008,10 @@ Esta arquitetura não define tabelas, bancos físicos ou infraestrutura. Ela def
 Princípios:
 
 - dado apresentado deve declarar origem ou permitir navegação até origem;
+- system of record preserva fato original e responsabilidade da fonte;
+- system of truth reconcilia, governa e estabiliza dado para decisão corporativa;
+- system of insight produz interpretação, score, forecast, heat map, insight ou recomendação;
+- system of knowledge preserva relações, evidências, causalidade, decisões e aprendizado;
 - métrica usada em decisão deve possuir owner, fórmula, fonte, periodicidade, baseline, target e confidence;
 - forecast usado em decisão deve preservar versão, premissas e drivers;
 - evidência deve preservar entidade, decisão ou controle que sustenta;
@@ -819,6 +1079,47 @@ Decisão: engines e Copilot podem recomendar, mas decisões críticas permanecem
 
 Racional: funding, risco, exceção, auditoria, compliance e priorização crítica exigem autoridade formal.
 
+### ADR-011: Canonicalization Before Domain
+
+Decisão: sistemas externos devem passar por Integration Layer e Canonicalization Layer antes de impactar domínios internos.
+
+Racional: ferramentas externas usam linguagens, estados e identidades diferentes. A EDIP precisa preservar linguagem canônica, rastreabilidade e governança sem importar ambiguidade operacional.
+
+### ADR-012: Engines Do Not Mutate Domain State
+
+Decisão: engines analíticas não alteram estado de domínio diretamente.
+
+Racional: engines calculam, inferem, projetam e recomendam; services governam comandos, autorização, regras e publicação de eventos de domínio.
+
+### ADR-013: Copilot Is Not a Decision Authority
+
+Decisão: Copilot não aprova decisões, fecha alertas, aceita risco, altera métricas ou altera evidências.
+
+Racional: Copilot deve explicar, investigar, sintetizar e recomendar, preservando autoridade humana e governança auditável.
+
+## 19.1 Incremental Delivery Architecture
+
+A implementação futura da EDIP deve ocorrer por vertical slices para reduzir risco, validar valor e preservar coerência arquitetural.
+
+Um vertical slice deve conter experiência, contratos, domínio, eventos, métricas, governança mínima, dados necessários e validação de valor para um fluxo completo.
+
+| Fase | Escopo | Racional |
+| --- | --- | --- |
+| Fase 1: Discovery + Delivery + Metrics | Business Need, Discovery, Requirements básicos, Feature/Story, métricas de fluxo e rastreabilidade mínima. | Cria a primeira cadeia Need-to-Delivery observável e permite validar ingestão, canonicalização e métricas essenciais. |
+| Fase 2: Alerts + Heat Maps | Alertas governados, AlertCondition, ação, evidência, validação, Flow Heat Map, Delivery Heat Map e Alert Heat Map. | Torna gargalos e problemas acionáveis, evitando dashboards passivos. |
+| Fase 3: Value Realization | Value Case, Benefit Observed, Benefit Validated, Value Leakage, Time to Value e Value Realization Score. | Fecha o ciclo de valor e conecta entrega a resultado mensurável. |
+| Fase 4: Knowledge Graph | Knowledge Graph, Evidence Graph, Decision Graph, Capability Graph e Value Graph. | Habilita explainability estruturada, análise de impacto e investigação corporativa. |
+| Fase 5: Copilot | Perguntas executivas e operacionais com evidence chain, recommendations e narratives. | Introduz inteligência assistida somente após dados, eventos, métricas e conhecimento estarem governados. |
+
+### Vertical Slice Rules
+
+- Cada fase deve preservar a cadeia Need-to-Value.
+- Cada fase deve entregar pelo menos uma decisão suportada por evidência.
+- Cada fase deve incluir owners, métricas, eventos e alertas quando aplicável.
+- Cada fase deve evitar acoplamento direto com modelos externos.
+- Cada fase deve validar data confidence e explicabilidade mínima.
+- Copilot só deve avançar quando knowledge graph, evidence graph e governance estiverem suficientemente maduros.
+
 ## 20. Architecture Readiness Assessment
 
 | Critério | Avaliação | Observação |
@@ -828,6 +1129,11 @@ Racional: funding, risco, exceção, auditoria, compliance e priorização crít
 | Aderência ao Metrics Catalog | Alta | Analytics architecture contempla metrics, health scores, forecasts, flow, economics e heat maps. |
 | Aderência ao Intelligence Model | Alta | Intelligence architecture cobre signals, insights, explanations, root causes, recommendations, narratives e learnings. |
 | Aderência ao Operating Model | Alta | Operational architecture cobre Need, Discovery, Requirements, Solution, Readiness, Delivery, Validation e Value Realization. |
+| Architecture Completeness | Alta | A baseline cobre domínios, serviços, engines, eventos, analytics, knowledge, governança, segurança, integração, canonicalização e roadmap incremental. |
+| Integration Readiness | Média-Alta | A arquitetura agora define produtores, consumidores, synchronous/asynchronous integration, ingestion operacional/analítica e canonicalization; contratos detalhados ainda serão definidos em API_CONTRACTS.md. |
+| Data Readiness | Média | Categorias de dados, systems of record/truth/insight/knowledge e ownership estão definidos; modelo lógico de dados ainda será detalhado em DATA_MODEL.md. |
+| Copilot Readiness | Média | Restrições, fontes, knowledge dependencies e perguntas foram definidas; implementação deve aguardar knowledge graph, evidence graph e confidence model. |
+| Implementation Readiness | Média | Há baseline suficiente para iniciar desenho de vertical slices, mas implementação deve aguardar contratos, dados, analytics e UX information architecture. |
 
 ### Riscos Arquiteturais Remanescentes
 
@@ -836,9 +1142,20 @@ Racional: funding, risco, exceção, auditoria, compliance e priorização crít
 | Escopo conceitual amplo | Risco de implementação tentar cobrir tudo de uma vez. | Definir arquitetura incremental por vertical slice. |
 | Volume de eventos e métricas | Risco de complexidade analítica. | Priorizar eventos e métricas por decisões críticas. |
 | Qualidade de sistemas de origem | Risco de baixa confiança em dashboards e forecasts. | Modelar data confidence, source divergence e freshness desde o início. |
+| Ambiguidade entre modelos externos e canônicos | Risco de importar estados e conceitos de ferramentas como verdade de domínio. | Usar Canonicalization Layer, canonical contracts e validation antes do domínio. |
+| Engines alterando domínio indevidamente | Risco de decisões ou estados serem alterados por cálculo analítico sem governança. | Aplicar regra de que engines publicam sinais, eventos analíticos ou recomendações; services executam comandos. |
 | Governança excessiva | Risco de burocracia e baixa adoção. | Aplicar governança proporcional ao risco e criticidade. |
 | Copilot sem evidência suficiente | Risco de respostas não confiáveis. | Exigir evidence chain, confidence e limites declarados. |
+| Copilot extrapolando autoridade | Risco de aprovação, fechamento de alerta ou aceite de risco sem autoridade humana. | Aplicar Copilot Governance: explicar, recomendar, investigar e sintetizar apenas. |
 | Autorização granular | Risco de complexidade de acesso. | Definir RBAC/ABAC conceitual antes de contratos e implementação. |
+
+### Recomendações de Readiness
+
+- Priorizar API_CONTRACTS.md para formalizar canonical commands, canonical queries e canonical events.
+- Priorizar DATA_MODEL.md para definir identidades canônicas, lineage, confidence, evidence e histórico.
+- Priorizar ANALYTICS_ARCHITECTURE.md para detalhar fronteira entre services e engines.
+- Priorizar KNOWLEDGE_ARCHITECTURE.md antes de qualquer Copilot com escopo executivo.
+- Implementar em vertical slices, começando por Discovery + Delivery + Metrics.
 
 ## 21. Architecture Roadmap
 
@@ -915,6 +1232,7 @@ Racional: funding, risco, exceção, auditoria, compliance e priorização crít
 - Intelligence Layer.
 - Governance Layer.
 - Integration Layer.
+- Canonicalization Layer.
 - Data Layer.
 
 ### Modelos de Governança
@@ -929,6 +1247,9 @@ Racional: funding, risco, exceção, auditoria, compliance e priorização crít
 - Policies.
 - Segregation of Duties.
 - Evidence-based alert closure.
+- Copilot governance restrictions.
+- Canonicalization before domain impact.
+- Service vs Engine responsibility separation.
 
 ### Modelos de Inteligência
 
@@ -964,3 +1285,94 @@ Racional: funding, risco, exceção, auditoria, compliance e priorização crít
 - Alerts Require Evidence-Based Closure.
 - Knowledge Graph as Explainability Backbone.
 - Human Decision Authority.
+- Canonicalization Before Domain.
+- Engines Do Not Mutate Domain State.
+- Copilot Is Not a Decision Authority.
+
+### Arquitetura de Integração Adicionada
+
+- Sistemas produtores.
+- Sistemas consumidores.
+- Integração síncrona.
+- Integração assíncrona.
+- Ingestão operacional.
+- Ingestão analítica.
+- Connector.
+- Adapter.
+- Mapper.
+- Validator.
+- Command Translator.
+- Event Translator.
+
+### Contratos Canônicos Adicionados
+
+- Canonical Need.
+- Canonical Opportunity.
+- Canonical Requirement.
+- Canonical Solution Design.
+- Canonical Feature.
+- Canonical Story.
+- Canonical Validation.
+- Canonical Alert.
+- Canonical Decision.
+- Canonical Capability.
+- Canonical Offer.
+- Canonical Product.
+
+### Arquitetura de Comandos Adicionada
+
+- CreateNeedCommand.
+- RegisterPainPointCommand.
+- CreateOpportunityCommand.
+- ApproveOpportunityCommand.
+- CreateRequirementCommand.
+- ApproveRequirementCommand.
+- CreateSolutionDesignCommand.
+- ApproveSolutionCommand.
+- CreateFeatureCommand.
+- BlockFeatureCommand.
+- ValidateOutcomeCommand.
+- CreateValueCaseCommand.
+- ResolveAlertCommand.
+- AssociateProductOfferCommand.
+- RegisterArchitectureDebtCommand.
+
+### Arquitetura de Tradução de Eventos Adicionada
+
+- External Events.
+- Canonical Events.
+- Domain Events.
+- Analytical Events.
+- Governance Events.
+
+### Segurança e Autorização Expandidas
+
+- Portfolio Scope.
+- Capability Scope.
+- Product Scope.
+- Business Unit Scope.
+- Evidence Classification.
+- Decision Classification.
+
+### Data Architecture Expandida
+
+- System of Record.
+- System of Truth.
+- System of Insight.
+- System of Knowledge.
+
+### Estratégia Incremental Adicionada
+
+- Fase 1: Discovery + Delivery + Metrics.
+- Fase 2: Alerts + Heat Maps.
+- Fase 3: Value Realization.
+- Fase 4: Knowledge Graph.
+- Fase 5: Copilot.
+
+### Readiness Reassessment Adicionado
+
+- Architecture completeness.
+- Integration readiness.
+- Data readiness.
+- Copilot readiness.
+- Implementation readiness.
