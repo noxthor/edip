@@ -11,6 +11,7 @@ Future architecture documents should preserve the conceptual models defined in:
 - `../VISION.md`
 - `../PRODUCT_MODEL.md`
 - `../DOMAIN_MODEL.md`
+- `../DATA_MODEL.md`
 - `../METRICS_CATALOG.md`
 - `../EVENT_CATALOG.md`
 - `../INTELLIGENCE_MODEL.md`

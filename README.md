@@ -88,6 +88,7 @@ Current repository structure:
     PRODUCT_MODEL.md
     DISCOVERY_AND_DELIVERY_OPERATING_MODEL.md
     DOMAIN_MODEL.md
+    DATA_MODEL.md
     METRICS_CATALOG.md
     EVENT_CATALOG.md
     INTELLIGENCE_MODEL.md
@@ -110,6 +111,7 @@ Current repository structure:
 - `docs/PRODUCT_MODEL.md`: personas, journeys, dashboards, navigation, drill-down, alerts and forecasts.
 - `docs/DISCOVERY_AND_DELIVERY_OPERATING_MODEL.md`: operating model for the Need-to-Value flow, queues, blockers, alerts, escalation, operating health and cross-artifact impacts.
 - `docs/DOMAIN_MODEL.md`: bounded contexts, entities, aggregates, rules, relationships, cardinalities, events and glossary.
+- `docs/DATA_MODEL.md`: conceptual and logical data model covering data ownership, canonical entities, logical stores, lineage, evidence, events, analytics, knowledge graph, governance, security and data quality.
 - `docs/METRICS_CATALOG.md`: governed catalog of metrics, KPIs, health scores, forecasts, heat maps and alerts.
 - `docs/EVENT_CATALOG.md`: domain events, causality, alerts, decisions, narratives, auditability and explainability.
 - `docs/INTELLIGENCE_MODEL.md`: signals, insights, explanations, recommendations, narratives, knowledge graph, Copilot reasoning and organizational learning.
@@ -128,6 +130,7 @@ Completed at conceptual level:
 - Product model.
 - Discovery and delivery operating model.
 - Domain model.
+- Data model.
 - Metrics catalog.
 - Event catalog.
 - Intelligence model.
@@ -155,7 +158,7 @@ Recommended sequence:
 
 1. Review and approve the conceptual domain model.
 2. Review and approve the architecture baseline in `docs/ARCHITECTURE.md`.
-3. Create `docs/future/DATA_MODEL.md` for conceptual, analytical and governance data models.
+3. Review and approve the data model in `docs/DATA_MODEL.md`.
 4. Create `docs/future/ANALYTICS_ARCHITECTURE.md` for metrics, forecasts, health scores and heat maps.
 5. Create `docs/future/KNOWLEDGE_ARCHITECTURE.md` for knowledge graph, explainability and organizational learning.
 6. Create `docs/future/API_CONTRACTS.md` for future integration and service contracts.
