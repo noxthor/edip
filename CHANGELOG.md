@@ -20,10 +20,12 @@ Changes should be grouped by release whenever possible. The project follows a Ke
 ### Added
 
 - Added `docs/DISCOVERY_AND_DELIVERY_OPERATING_MODEL.md` to define the Need-to-Value operating model, operating domains, queues, blockers, alerts, escalation, operating health scores, heat maps, operating intelligence and cross-artifact impact assessment.
+- Added `docs/ARCHITECTURE.md` as the conceptual and logical architecture baseline for EDIP.
 
 ### Changed
 
 - Updated `README.md` to reference the Discovery and Delivery Operating Model.
+- Updated `README.md` to reference the architecture baseline.
 - Harmonized `AGENTS.md`, `README.md`, `docs/PRODUCT_MODEL.md`, `docs/DOMAIN_MODEL.md`, `docs/METRICS_CATALOG.md`, `docs/EVENT_CATALOG.md` and `docs/INTELLIGENCE_MODEL.md` after cross-artifact assessment.
 - Incorporated operating model concepts across domain, product, metrics, events and intelligence artifacts.
 - Strengthened alert closure governance with required action, evidence and validation of the original alert condition.

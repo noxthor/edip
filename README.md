@@ -113,8 +113,8 @@ Current repository structure:
 - `docs/METRICS_CATALOG.md`: governed catalog of metrics, KPIs, health scores, forecasts, heat maps and alerts.
 - `docs/EVENT_CATALOG.md`: domain events, causality, alerts, decisions, narratives, auditability and explainability.
 - `docs/INTELLIGENCE_MODEL.md`: signals, insights, explanations, recommendations, narratives, knowledge graph, Copilot reasoning and organizational learning.
+- `docs/ARCHITECTURE.md`: conceptual and logical architecture baseline covering domains, services, events, analytics, knowledge, governance, security and architectural decisions.
 - `docs/UI_UX.md`: placeholder for user experience and interface notes.
-- `docs/ARCHITECTURE.md`: compatibility placeholder pointing to future architecture documentation.
 - `docs/architecture/README.md`: index for future architecture documentation.
 - `docs/future/*`: short stubs for documents that will be created in later phases.
 
@@ -131,6 +131,7 @@ Completed at conceptual level:
 - Metrics catalog.
 - Event catalog.
 - Intelligence model.
+- Architecture baseline.
 - Architecture Elevator incorporation.
 - Flow Intelligence modeling.
 - Value Realization modeling.
@@ -153,7 +154,7 @@ Not started:
 Recommended sequence:
 
 1. Review and approve the conceptual domain model.
-2. Create the detailed architecture definition in `docs/future/ARCHITECTURE.md`.
+2. Review and approve the architecture baseline in `docs/ARCHITECTURE.md`.
 3. Create `docs/future/DATA_MODEL.md` for conceptual, analytical and governance data models.
 4. Create `docs/future/ANALYTICS_ARCHITECTURE.md` for metrics, forecasts, health scores and heat maps.
 5. Create `docs/future/KNOWLEDGE_ARCHITECTURE.md` for knowledge graph, explainability and organizational learning.
