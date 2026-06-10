@@ -305,7 +305,7 @@ A EDIP deve reduzir o esforço de descoberta de problemas, não apenas reportar 
 | Architecture Compliance Rate | Aderência a padrões. |
 | Critical Architecture Risk Count | Riscos arquiteturais críticos. |
 | Technical Debt Exposure | Exposição de dívida técnica. |
-| Capability Impact Coverage | Cobertura de mapeamento por capacidade. |
+| Capability Traceability Health | Saúde da rastreabilidade entre capability, objetivos, produtos, iniciativas, KPIs e value cases. |
 | Integration Risk Score | Risco de integração. |
 | Standard Exception Aging | Envelhecimento de exceções. |
 
@@ -338,9 +338,9 @@ A EDIP deve reduzir o esforço de descoberta de problemas, não apenas reportar 
 
 | KPI | Uso |
 | --- | --- |
-| Portfolio Governance Health | Saúde de governança da carteira. |
+| Governance Health Score | Saúde de decisões, evidências, controles, exceções e alertas. |
 | Status Freshness | Atualidade de status. |
-| Traceability Compliance | Aderência à rastreabilidade. |
+| Traceability Health Score | Saúde da rastreabilidade corporativa. |
 | Decision SLA | Prazo de decisões. |
 | Funding Variance | Variação entre aprovado, consumido e forecast. |
 | Committee Readiness | Prontidão para comitês. |
@@ -379,6 +379,163 @@ A EDIP deve reduzir o esforço de descoberta de problemas, não apenas reportar 
 | Compliance Issue Count | Pendências de compliance. |
 | Control Adherence Rate | Aderência a controles. |
 | Lineage Completeness | Completude de lineage. |
+
+### Business Team
+
+**Objetivos**
+
+- Explicitar necessidades, dores, jornadas, processos e problemas de negócio.
+- Fornecer evidências para priorização, discovery e validação.
+- Validar se a solução entregue resolve o problema original.
+
+**Perguntas Frequentes**
+
+- Qual dor de negócio está sendo tratada?
+- Que evidência sustenta esta necessidade?
+- Qual processo ou jornada é afetado?
+- A solução resolveu o problema original?
+- Que evidência ainda falta para avançar?
+
+**Decisões Suportadas**
+
+- Aceitar, rejeitar ou reformular um problema.
+- Priorizar necessidade com base em evidência.
+- Validar entrega sob perspectiva de negócio.
+- Solicitar novo discovery ou análise de processo.
+
+**KPIs Relevantes**
+
+| KPI | Uso |
+| --- | --- |
+| Business Discovery Health | Qualidade de needs, pains e problems. |
+| Business Discovery Lead Time | Tempo de qualificação da necessidade. |
+| Evidence Coverage | Cobertura de evidências de negócio. |
+| Validation Health | Saúde da validação de negócio. |
+
+### Security Specialist
+
+**Objetivos**
+
+- Avaliar riscos, controles e evidências de segurança em solution design, readiness e delivery.
+- Bloquear ou condicionar avanço quando risco de segurança for material.
+- Garantir que exceções de segurança sejam explícitas, temporárias e auditáveis.
+
+**Perguntas Frequentes**
+
+- A solução possui risco de segurança não mitigado?
+- Quais controles são obrigatórios?
+- Existe exceção vencida ou sem owner?
+- A evidência de mitigação é suficiente?
+
+**Decisões Suportadas**
+
+- Aprovar, rejeitar ou condicionar SecurityReview.
+- Exigir controle compensatório.
+- Recomendar bloqueio de readiness ou release.
+- Aceitar risco formalmente quando autorizado.
+
+**KPIs Relevantes**
+
+| KPI | Uso |
+| --- | --- |
+| Solution Health | Saúde da solução considerando reviews. |
+| Review Time | Aging de reviews de segurança. |
+| Control Adherence Rate | Aderência a controles. |
+| Governance Health Score | Saúde de governança e exceções. |
+
+### Data Specialist
+
+**Objetivos**
+
+- Avaliar dados, lineage, qualidade, privacidade e fontes usadas pela EDIP.
+- Garantir que métricas, forecasts e evidências de dados sejam confiáveis.
+- Identificar divergências, atrasos e lacunas de dados que afetam decisões.
+
+**Perguntas Frequentes**
+
+- A fonte do dado é confiável?
+- O lineage está completo?
+- Existe divergência entre fonte e projeção?
+- O dado pode ser usado em decisão crítica?
+
+**Decisões Suportadas**
+
+- Aprovar ou rejeitar DataReview.
+- Restringir uso decisório de métrica com baixa confiança.
+- Solicitar correção de fonte, fórmula ou lineage.
+- Exigir evidência complementar.
+
+**KPIs Relevantes**
+
+| KPI | Uso |
+| --- | --- |
+| Data Confidence Score | Confiança de dado, métrica ou cálculo. |
+| Lineage Completeness | Completude de lineage. |
+| Source Divergence | Divergência entre fonte e projeção. |
+| Data Freshness | Atualidade da fonte. |
+
+### Compliance Specialist
+
+**Objetivos**
+
+- Garantir aderência regulatória, políticas internas, controles e evidências.
+- Avaliar impactos de compliance em solution design, delivery e value realization.
+- Preservar trilha auditável de aprovações, exceções e decisões.
+
+**Perguntas Frequentes**
+
+- Qual controle regulatório se aplica?
+- A evidência atende ao controle?
+- Há exceção vencida ou risco aceito sem autoridade?
+- A decisão respeitou segregação de funções?
+
+**Decisões Suportadas**
+
+- Aprovar, rejeitar ou condicionar ComplianceReview.
+- Exigir evidência ou controle compensatório.
+- Bloquear avanço por não conformidade.
+- Solicitar regularização ou escalonamento.
+
+**KPIs Relevantes**
+
+| KPI | Uso |
+| --- | --- |
+| Governance Health Score | Saúde de governança. |
+| Compliance Issue Count | Pendências de compliance. |
+| Control Adherence Rate | Aderência a controles. |
+| Evidence Coverage | Evidências para auditoria e compliance. |
+
+### Auditoria
+
+**Objetivos**
+
+- Reconstruir decisões, aprovações, evidências, owners, exceções e benefícios.
+- Verificar se alertas, riscos e exceções foram encerrados com evidência suficiente.
+- Avaliar rastreabilidade entre estratégia, execução, arquitetura, valor e governança.
+
+**Perguntas Frequentes**
+
+- Quem aprovou e com qual autoridade?
+- Qual evidência sustentou a decisão?
+- O alerta foi encerrado com ação, evidência e validação da condição original?
+- Qual decisão originou esta execução?
+- O benefício validado possui método e evidência?
+
+**Decisões Suportadas**
+
+- Aceitar ou contestar evidência.
+- Solicitar complemento de trilha auditável.
+- Apontar lacuna de segregação, owner ou rastreabilidade.
+- Recomendar correção de controle ou processo.
+
+**KPIs Relevantes**
+
+| KPI | Uso |
+| --- | --- |
+| Evidence Coverage | Evidências disponíveis. |
+| Governance Health Score | Saúde de governança e auditoria. |
+| Alert Resolution Health | Qualidade de encerramento de alertas. |
+| Traceability Health Score | Integridade da rastreabilidade. |
 
 ### Líder Técnico
 
@@ -592,7 +749,7 @@ A EDIP deve permitir zoom contínuo entre níveis de decisão. Cada nível deve 
 
 **Usuários:** Diretores, Superintendentes, PMO, Arquitetos Corporativos.
 
-**KPIs:** Strategic Alignment Coverage, Traceability Compliance, Unlinked Work Count, Objective Funding Coverage, KPI Ownership Coverage.
+**KPIs:** Strategic Alignment Coverage, Traceability Health Score, Traceability Gap Count, Objective Funding Coverage, Metric Ownership Coverage.
 
 **Visualizações:** matriz estratégia-portfólio, grafo de rastreabilidade, lista de lacunas, distribuição de capacidade por tema.
 
@@ -746,6 +903,102 @@ A EDIP deve permitir zoom contínuo entre níveis de decisão. Cada nível deve 
 
 **Drill-up:** Falha de dado -> KPI afetado -> decisão ou dashboard impactado.
 
+### Business Discovery Dashboard
+
+**Objetivo:** tornar necessidades, dores, jornadas, processos, problemas e evidências visíveis antes de discovery de produto ou solução.
+
+**Usuários:** Business Teams, Product Owners, PMO, Gerentes, Arquitetos.
+
+**KPIs:** Business Discovery Health, Business Discovery Lead Time, Evidence Coverage, Traceability Health Score.
+
+**Visualizações:** funil de necessidades, dores por jornada, problemas por processo, evidências ausentes, aging por owner.
+
+**Filtros:** owner, jornada, processo, unidade, criticidade, status, aging, evidência.
+
+**Drill-down:** Business Need -> Pain Point -> Journey -> Process -> Problem Statement -> Evidence.
+
+**Drill-up:** Problem Statement -> Business Need -> produto, portfólio ou objetivo afetado.
+
+### Requirements Dashboard
+
+**Objetivo:** gerenciar requisitos funcionais e não funcionais com origem, critérios, revisão, aprovação e rastreabilidade.
+
+**Usuários:** Product Owners, Business Analysts, Gerentes, Arquitetos, Especialistas.
+
+**KPIs:** Requirements Health, Requirements Queue Time, Review Time, Approval Time, Traceability Health Score.
+
+**Visualizações:** requisitos por estado, lacunas de origem, critérios ausentes, fila de revisão, rejeições por causa.
+
+**Filtros:** produto, iniciativa, requisito, tipo, reviewer, owner, status, aging, criticidade.
+
+**Drill-down:** Requirement -> origem -> critérios -> revisão -> aprovação -> solution design.
+
+**Drill-up:** Requirement -> opportunity -> business need -> objetivo ou produto.
+
+### Solution Review Dashboard
+
+**Objetivo:** controlar solution design, revisões especializadas, pendências, aprovações e evidências antes de readiness.
+
+**Usuários:** Arquitetos, Líderes Técnicos, Security Specialists, Data Specialists, Compliance Specialists, PMO.
+
+**KPIs:** Solution Health, Solution Time, Review Time, Approval Time, Architecture Review Health, Engineering Review Health.
+
+**Visualizações:** reviews por especialidade, pendências por reviewer, solution designs rejeitados, approvals vencidos, evidências faltantes.
+
+**Filtros:** solution design, review type, reviewer, owner, capability, service, produto, status, SLA.
+
+**Drill-down:** Solution Design -> Requirement -> Review -> Evidence -> Approval ou rejection.
+
+**Drill-up:** Review -> Solution Design -> Initiative -> Product -> Capability.
+
+### Readiness Dashboard
+
+**Objetivo:** impedir entrada em delivery sem DOR, capacidade, dependências, riscos e evidências suficientes.
+
+**Usuários:** Scrum Masters, Coordenadores, Gerentes, Product Owners, PMO.
+
+**KPIs:** Readiness Health, Readiness Time, Queue Time, Blocker Resolution Health, Capacity Forecast Risk.
+
+**Visualizações:** readiness por feature/story, DOR checklist, dependências abertas, capacity fit, blockers de entrada.
+
+**Filtros:** iniciativa, feature, story, squad, DOR, blocker, dependência, capacidade, owner.
+
+**Drill-down:** Readiness Assessment -> checklist -> blocker/dependency -> owner -> evidence.
+
+**Drill-up:** Assessment -> feature -> initiative -> portfolio.
+
+### Validation Dashboard
+
+**Objetivo:** acompanhar validação de aceite, negócio, técnica, outcome e valor após entrega.
+
+**Usuários:** Product Owners, Business Teams, Líderes Técnicos, QA, Sponsors de valor.
+
+**KPIs:** Validation Health, Validation Time, Time to Value, Evidence Coverage, Value Realization Score.
+
+**Visualizações:** validações pendentes, critérios rejeitados, outcomes sem evidência, benefícios aguardando validação.
+
+**Filtros:** validação, critério, feature, release, outcome, value case, validador, status.
+
+**Drill-down:** Validation -> criterion -> evidence -> outcome -> value case.
+
+**Drill-up:** Validation -> release -> product -> strategic objective.
+
+### Blocker and Alert Resolution Dashboard
+
+**Objetivo:** garantir que blockers e alertas tenham owner, ação, evidência, validação e resolução efetiva.
+
+**Usuários:** Coordenadores, Gerentes, PMO, Auditoria, Owners de alerta.
+
+**KPIs:** Blocker Resolution Health, Blocked Time, Alert Aging, Alert Resolution Time, Alert Resolution Health.
+
+**Visualizações:** blockers por severidade, alertas abertos, ações pendentes, evidências faltantes, alertas reabertos.
+
+**Filtros:** tipo de blocker, alerta, owner, severidade, status, aging, entidade afetada, evidência.
+
+**Drill-down:** Alert -> action -> evidence -> condition validation -> resolution.
+
+**Drill-up:** Blocker ou alert -> feature/iniciativa -> portfólio -> objetivo.
+
 ## 5. Navigation Model
 
 ### Menus
@@ -758,6 +1011,12 @@ Estratégia
 Portfólios
 Produtos
 Iniciativas
+Operating Model
+Discovery
+Requisitos
+Soluções
+Readiness
+Validação
 Delivery
 Value Realization
 Métricas e KPIs
@@ -776,6 +1035,8 @@ Busca
 
 **Fluxo de produto:** Produtos -> Product Value Dashboard -> Outcome -> Feature -> Story -> Release.
 
+**Fluxo Need-to-Value:** Operating Model -> Business Need -> Pain Point -> Journey -> Process -> Discovery -> Hypothesis -> Opportunity -> Requirement -> Solution Design -> Readiness -> Feature -> Story -> Validation -> Outcome -> Value Case -> Value Realization.
+
 **Fluxo operacional:** Delivery -> Delivery Flow Dashboard -> Bloqueio -> Task -> Owner -> Escalonamento.
 
 **Fluxo de flow intelligence:** Flow Intelligence -> Enterprise Heat Map -> Portfolio Heat Map -> Delivery Heat Map -> Squad Heat Map -> Queue -> Work Items.
@@ -793,6 +1054,7 @@ Toda página de entidade deve exibir:
 - Status.
 - Health score.
 - Alertas ativos.
+- Ações, evidências e validações necessárias para encerramento efetivo de alertas.
 - Próximas decisões.
 - Evidências associadas.
 - Última atualização e origem dos dados.
@@ -800,7 +1062,7 @@ Toda página de entidade deve exibir:
 
 ### Busca Global
 
-A busca global deve localizar objetivos, OKRs, KPIs, portfólios, iniciativas, oportunidades, épicos, features, stories, tasks, owners, decisões, evidências, benefícios, riscos e controles.
+A busca global deve localizar objetivos, OKRs, KPIs, portfólios, iniciativas, oportunidades, business needs, pain points, discoveries, requisitos, solution designs, reviews, readiness assessments, validações, épicos, features, stories, tasks, owners, decisões, evidências, benefícios, riscos, alertas, blockers e controles.
 
 Resultados devem ser agrupados por domínio, relevância, criticidade e permissão.
 
@@ -820,9 +1082,16 @@ Health scores são sinais explicáveis de saúde. Eles priorizam atenção, mas 
 | Product Health Score | Produto, outcome e roadmap. |
 | Delivery Health Score | Épico, feature, time e fluxo. |
 | Flow Health Score | Flow stage, queue, squad, iniciativa, portfólio ou enterprise flow. |
-| Technical Health Score | Serviço, release, integração e débito. |
+| Technical Delivery Health | Serviço, release, integração e débito. |
 | Data Confidence Score | Métrica, KPI, fonte e dashboard. |
 | Value Realization Score | Value case, benefício e KPI de valor. |
+| Business Discovery Health | Business need, pain point, jornada, processo e problema. |
+| Requirements Health | FunctionalRequirement, NonFunctionalRequirement e acceptance criteria. |
+| Solution Health | SolutionDesign, reviews, approvals e evidências. |
+| Readiness Health | ReadinessAssessment, DOR, dependências, riscos e capacidade. |
+| Validation Health | Validação de aceite, técnica, negócio, outcome e valor. |
+| Alert Resolution Health | Alert, action, evidence, validation e resolution. |
+| Blocker Resolution Health | Blocker, owner, causa, evidência e resolução. |
 
 ### Componentes
 
@@ -839,6 +1108,7 @@ Health scores são sinais explicáveis de saúde. Eles priorizam atenção, mas 
 | Observabilidade | Frescor, completude, falhas e confiabilidade. |
 | Fluxo | Tempo em fila, WIP, espera, throughput, aging e gargalos. |
 | Qualidade Técnica | Defeitos, retrabalho, dívida e readiness. |
+| Operating Model | Necessidade, discovery, requisito, solução, readiness, validação, alerta, ação e evidência. |
 
 ### Fórmulas Conceituais
 
@@ -1050,6 +1320,11 @@ A EDIP deve permitir perguntas como:
 - Quais features críticas estão bloqueadas?
 - Que portfólio tem maior vazamento de valor?
 - Quais decisões estão vencidas para minha área?
+- Onde estamos parados no fluxo Need-to-Value?
+- Qual requisito está aguardando revisão?
+- Qual solution design está pendente de aprovação?
+- Qual alerta continua aberto e qual evidência falta?
+- Qual blocker está mais antigo e quem deveria agir?
 
 Respostas devem incluir dados, filtros aplicados, período, confiança e links para investigação.
 

@@ -24,10 +24,17 @@ Changes should be grouped by release whenever possible. The project follows a Ke
 ### Changed
 
 - Updated `README.md` to reference the Discovery and Delivery Operating Model.
+- Harmonized `AGENTS.md`, `README.md`, `docs/PRODUCT_MODEL.md`, `docs/DOMAIN_MODEL.md`, `docs/METRICS_CATALOG.md`, `docs/EVENT_CATALOG.md` and `docs/INTELLIGENCE_MODEL.md` after cross-artifact assessment.
+- Incorporated operating model concepts across domain, product, metrics, events and intelligence artifacts.
+- Strengthened alert closure governance with required action, evidence and validation of the original alert condition.
 
 ### Removed
 
 ### Fixed
+
+- Fixed cross-artifact gaps for operating domains, entities, events, metrics, health scores, ownership, traceability and alert resolution.
+- Fixed semantic ambiguity around hypothesis, assumption, constraint, risk, issue and evidence in the domain model.
+- Fixed architecture metrics consolidation for capabilities, services, offers, modernization, debt and traceability.
 
 ### Security
 

@@ -260,6 +260,7 @@ Classificação não substitui contexto. Por exemplo, `FeatureCompleted` pertenc
 | CapabilityCreated | Capability foi criada. | Business | Capability | SubDomainCreated | BusinessServiceCreated, TechnologyServiceCreated | Capability Owner / Arquiteto Corporativo | Registro ou aprovação de capability. | Capability possui business layer, owner, propósito e escopo. | Habilita rastreabilidade de objetivos, produtos, serviços e iniciativas. | capabilityId, subDomainId, businessLayerId, capabilityName, ownerId, purpose. |
 | CapabilityUpdated | Capability foi atualizada. | Business | Capability | CapabilityCreated | ArchitectureAssessmentRequested | Capability Owner | Revisão de escopo, owner, criticidade ou relacionamento. | Mudança possui justificativa e impacto. | Atualiza heat maps, métricas de cobertura e rastreabilidade. | capabilityId, changedAttributes, previousVersion, newVersion, reasonCode, updatedAt. |
 | CapabilityRetired | Capability foi aposentada. | Control | Capability | CapabilityUpdated | ProductOfferRemoved, OfferRetired | Arquiteto Corporativo / Capability Owner | Decisão de aposentadoria. | Capability não é mais válida ou foi substituída. | Exige revisão de services, offers, products e iniciativas associadas. | capabilityId, retirementReason, replacementCapabilityId, decisionId, effectiveDate. |
+| CapabilityHealthDegraded | Saúde de capability degradou materialmente. | Risk | Capability | HealthScoreCalculated, ArchitectureDebtRegistered, ArchitectureExceptionExpired | AlertDetected, NarrativeGenerated | Capability Owner / Arquiteto Corporativo | Cálculo de health score ou evento crítico. | Capability Health Score cruza threshold ou tendência definida. | Aciona investigação, heat map e decisão de modernização, remediação ou aceite de risco. | capabilityId, previousScore, newScore, dominantDrivers, degradedAt, threshold. |
 | BusinessServiceCreated | Business service foi criado. | Business | BusinessService | CapabilityCreated | OfferCreated | Capability Owner / Business Owner | Registro de serviço de negócio. | Serviço possui capability, owner, contrato conceitual e propósito. | Conecta capability a offers e produtos. | businessServiceId, capabilityId, ownerId, serviceName, purpose, criticality. |
 | TechnologyServiceCreated | Technology service foi criado. | Business | TechnologyService | CapabilityCreated | OfferCreated | Arquiteto / Service Owner | Registro de serviço tecnológico. | Serviço possui capability, owner, tecnologia e criticidade. | Conecta capability à implementação e modernização. | technologyServiceId, capabilityId, ownerId, serviceName, technologyStack, criticality. |
 | OfferCreated | Offer foi criada. | Business | Offer | BusinessServiceCreated, TechnologyServiceCreated | ProductOfferAssociated | Offer Owner | Criação de oferta que compõe produtos. | Offer possui business service ou technology service, owner e escopo. | Permite compor produtos por ofertas sem confundir produto com capability ou serviço. | offerId, serviceId, serviceType, ownerId, offerName, effectiveDate. |
@@ -270,6 +271,7 @@ Classificação não substitui contexto. Por exemplo, `FeatureCompleted` pertenc
 | CapabilityModernizationCompleted | Modernização de capability foi concluída. | Control | Capability | CapabilityModernizationStarted | HealthScoreCalculated | Capability Owner / Arquiteto Corporativo | Encerramento de modernização. | Evidência de conclusão e critérios atendidos. | Atualiza capability health e modernization score. | modernizationId, capabilityId, completedAt, evidenceIds, outcomeSummary. |
 | ServiceModernizationStarted | Modernização de service foi iniciada. | Business | BusinessService, TechnologyService | ArchitectureAssessmentCompleted | ServiceModernizationCompleted | Service Owner / Arquiteto | Decisão de modernização de serviço. | Serviço possui assessment, risco ou dívida a tratar. | Inicia acompanhamento de service modernization e architecture debt. | modernizationId, serviceId, serviceType, ownerId, startDate, driverSummary. |
 | ServiceModernizationCompleted | Modernização de service foi concluída. | Control | BusinessService, TechnologyService | ServiceModernizationStarted | HealthScoreCalculated | Service Owner / Arquiteto | Encerramento de modernização de serviço. | Evidência e critérios de modernização atendidos. | Melhora service health, rationalization e debt score. | modernizationId, serviceId, serviceType, completedAt, evidenceIds, outcomeSummary. |
+| ServiceModernizationDelayed | Modernização de service atrasou. | Risk | BusinessService, TechnologyService, ModernizationPlan | ServiceModernizationStarted | AlertDetected, DecisionCreated | Service Owner / PMO | Prazo ou milestone vencido. | Modernization plan ultrapassa prazo, capacidade ou dependência crítica. | Afeta modernization cockpit, architecture debt e forecast de modernização. | modernizationId, serviceId, serviceType, dueDate, delayedBy, reasonCode, ownerId. |
 | ArchitectureAssessmentRequested | Assessment arquitetural foi solicitado. | Control | Capability, Service, Offer, Product | CapabilityUpdated, OfferCreated, ProductOfferAssociated | ArchitectureAssessmentCompleted | Arquiteto Corporativo / PMO | Solicitação de avaliação arquitetural. | Entidade possui escopo, owner e motivo de avaliação. | Inicia avaliação de aderência, dívida, exceção ou modernização. | assessmentId, entityId, entityType, requestedBy, reasonCode, requestedAt. |
 | ArchitectureAssessmentCompleted | Assessment arquitetural foi concluído. | Control | Capability, Service, Offer, Product | ArchitectureAssessmentRequested | CapabilityModernizationStarted, ServiceModernizationStarted, ArchitectureDebtRegistered, ArchitectureExceptionGranted | Arquiteto Corporativo | Conclusão de avaliação. | Assessment possui resultado, riscos, recomendações e evidências. | Alimenta metrics, decisions e modernization views. | assessmentId, entityId, result, riskLevel, recommendationSummary, evidenceIds, completedAt. |
 | ArchitectureDebtRegistered | Dívida arquitetural foi registrada. | Risk | Capability, Service, Offer, Product | ArchitectureAssessmentCompleted | ArchitectureDebtResolved, ArchitectureExceptionGranted | Arquiteto Corporativo / Service Owner | Identificação de dívida arquitetural. | Dívida possui causa, severidade, entidade afetada, owner e plano. | Afeta architecture debt score, modernization e risk heat map. | architectureDebtId, entityId, entityType, severity, cause, ownerId, remediationPlan. |
@@ -288,9 +290,9 @@ Classificação não substitui contexto. Por exemplo, `FeatureCompleted` pertenc
 | HealthScoreCalculated | Health score foi calculado. | Informational | HealthScore | FeatureCompleted, KPIUpdated, BenefitValidated | HealthScoreDegraded, HealthScoreRecovered | Owner do score | Cálculo periódico ou evento relevante. | Drivers e fontes disponíveis. | Atualiza dashboards e heat maps. | scoreId, scoreType, entityId, scoreValue, drivers, calculatedAt. |
 | HealthScoreDegraded | Health score degradou de forma relevante. | Risk | HealthScore | HealthScoreCalculated | AlertDetected | Owner do score | Queda de score. | Variação ou threshold relevante. | Gera investigação e alerta. | scoreId, scoreType, entityId, previousScore, newScore, dominantDrivers. |
 | HealthScoreRecovered | Health score recuperou. | Business | HealthScore | HealthScoreCalculated | Nenhum | Owner do score | Recuperação de score. | Score retorna a faixa aceitável. | Reduz risco e pode encerrar alerta. | scoreId, scoreType, entityId, previousScore, newScore, recoveredAt. |
+| ProductHealthCalculated | Product Health Score foi calculado. | Informational | ProductHealthScore | ProductOfferAssociated, ProductOfferRemoved, OutcomeAssigned, BenefitObserved | HealthScoreDegraded, NarrativeGenerated | Product Owner | Cálculo periódico ou mudança relevante em produto. | Componentes de produto, offer, outcome, delivery e valor disponíveis. | Atualiza Product Value Dashboard e Product Composition Intelligence. | productId, scoreId, scoreValue, offerDrivers, outcomeDrivers, calculatedAt. |
 | MetricDefinitionApproved | Definição de métrica foi aprovada. | Control | MetricDefinition | KPICreated | KPIUpdated | Owner de métricas / Governança | Aprovação de métrica. | Fórmula, fonte, owner e periodicidade revisados. | Permite uso em decisão crítica. | metricDefinitionId, kpiId, approverId, approvedAt, evidenceId. |
-| AlertDetected | Alerta conceitual foi detectado. | Risk | Alert | HealthScoreDegraded, BottleneckDetected, ForecastAccuracyDegraded, DataConfidenceDegraded | DecisionCreated, AlertResolved | Owner do alerta | Regra de alerta ou evento crítico. | Condição acionável possui owner, entidade afetada, severidade e ação esperada. | Cria sinal acionável para investigação e decisão. | alertId, alertType, affectedEntityId, severity, ownerId, detectedAt, triggeringEventId. |
-| AlertResolved | Alerta conceitual foi resolvido. | Business | Alert | AlertDetected | Nenhum | Owner do alerta | Correção, mitigação ou decisão formal. | Alerta possui evidência de resolução ou decisão de aceite. | Encerra ou reduz risco associado. | alertId, resolutionDate, resolutionReason, evidenceId, ownerId. |
+| AlertDetected | Alerta conceitual foi detectado. | Risk | Alert | HealthScoreDegraded, BottleneckDetected, ForecastAccuracyDegraded, DataConfidenceDegraded | AlertActionRegistered, DecisionCreated | Owner do alerta | Regra de alerta ou evento crítico. | Condição acionável possui owner, entidade afetada, severidade, AlertCondition e ação esperada. | Cria sinal acionável para investigação e decisão. | alertId, alertConditionId, alertType, affectedEntityId, severity, ownerId, detectedAt, triggeringEventId. |
 
 ### 5.9 Forecast Events
 
@@ -370,6 +372,55 @@ Classificação não substitui contexto. Por exemplo, `FeatureCompleted` pertenc
 | DataConfidenceDegraded | Confiança do dado degradou. | Risk | DataConfidenceScore | DataFreshnessBreached, SourceDivergenceDetected, CalculationErrorDetected | AlertDetected | Dados / Analytics | Reavaliação de confiança. | Frescor, lineage, divergência ou erro degradou. | Limita uso de dashboards e forecasts. | confidenceScoreId, entityId, previousLevel, newLevel, drivers. |
 | DataConfidenceRecovered | Confiança do dado recuperou. | Business | DataConfidenceScore | DataConfidenceDegraded | HealthScoreCalculated | Dados / Analytics | Correção de fonte ou cálculo. | Dados retornam a nível aceitável. | Reabilita uso decisório. | confidenceScoreId, entityId, previousLevel, newLevel, recoveredAt. |
 | LineageUpdated | Lineage de métrica ou fonte foi atualizado. | Control | Lineage | MetricDefinitionApproved | DataConfidenceRecovered | Dados / Analytics | Governança de dados. | Fonte, transformação ou relação de cálculo mudou. | Melhora auditabilidade e confiança. | lineageId, metricId, sourceSystem, changedAttributes, updatedAt. |
+
+### 5.15 Operating Model Events
+
+Eventos do sistema operacional corporativo da EDIP, cobrindo necessidade, discovery, requisitos, solução, readiness, execução, validação, blockers e encerramento efetivo de alertas.
+
+| Nome | Descrição | Severidade | Entidade Principal | Evento Pai | Evento Filho | Owner Conceitual | Disparador | Condições de Geração | Impacto Esperado | Payload Conceitual |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| BusinessNeedCaptured | Necessidade de negócio foi capturada. | Business | BusinessNeed | Nenhum | PainPointRegistered, BusinessProblemDefined | Business Owner | Registro de necessidade. | Necessidade possui owner, origem e descrição mínima. | Inicia rastreabilidade Need-to-Value. | businessNeedId, ownerId, originatorId, capturedAt, sourceChannel, initialEvidenceId. |
+| PainPointRegistered | Dor foi registrada. | Business | PainPoint | BusinessNeedCaptured | BusinessProblemDefined | Business Owner / Journey Owner | Análise de jornada, processo ou stakeholder. | Dor possui impacto, owner e evidência ou hipótese de evidência. | Alimenta discovery e priorização. | painPointId, businessNeedId, journeyId, processId, ownerId, evidenceIds, registeredAt. |
+| BusinessEvidenceAttached | Evidência de negócio foi anexada. | Control | BusinessEvidence | BusinessNeedCaptured, PainPointRegistered | BusinessProblemDefined | Owner da evidência | Inclusão de evidência. | Evidência possui fonte, validade e entidade relacionada. | Aumenta auditabilidade e confiança. | evidenceId, entityId, evidenceType, source, ownerId, attachedAt, validityPeriod. |
+| BusinessProblemDefined | Problema de negócio foi definido. | Business | BusinessProblem | PainPointRegistered | ProblemStatementCreated | Business Owner | Síntese de necessidade, dor e evidência. | Problema possui escopo, impacto e evidência. | Reduz ambiguidade antes de discovery e solução. | businessProblemId, painPointIds, impactSummary, ownerId, definedAt, evidenceIds. |
+| ProblemStatementCreated | Problem statement foi criado. | Business | ProblemStatement | BusinessProblemDefined | DiscoveryStarted | Product Owner / Business Owner | Formulação do problema. | Público, impacto, evidência e restrições estão claros. | Habilita discovery. | problemStatementId, businessProblemId, ownerId, createdAt, evidenceIds. |
+| DiscoveryStarted | Discovery foi iniciado. | Business | Discovery | ProblemStatementCreated | DiscoveryHypothesisDefined | Product Owner | Decisão de investigar problema ou oportunidade. | Problema, owner e escopo definidos. | Inicia lead time de discovery. | discoveryId, problemStatementId, ownerId, startedAt, scope, expectedOutcome. |
+| DiscoveryHypothesisDefined | Hipótese de discovery foi definida. | Business | DiscoveryHypothesis | DiscoveryStarted | DiscoveryExperimentCompleted | Product Owner | Formulação de hipótese. | Hipótese é validável e possui critério de decisão. | Habilita experimento e Discovery Quality Score. | hypothesisId, discoveryId, hypothesisStatement, validationCriteria, ownerId, definedAt. |
+| DiscoveryExperimentCompleted | Experimento de discovery foi concluído. | Business | DiscoveryExperiment | DiscoveryHypothesisDefined | DiscoveryFindingRegistered | Product Owner / Research Owner | Conclusão de teste, pesquisa ou análise. | Resultado e evidências registrados. | Atualiza qualidade de discovery. | experimentId, hypothesisId, completedAt, outcome, evidenceIds, confidenceLevel. |
+| DiscoveryFindingRegistered | Finding de discovery foi registrado. | Business | DiscoveryFinding | DiscoveryExperimentCompleted | DiscoveryOutcomeDecided | Product Owner | Interpretação de evidência. | Finding possui evidência e implicação. | Suporta decisão de avanço, pivot ou descarte. | findingId, experimentId, evidenceIds, implication, ownerId, registeredAt. |
+| DiscoveryOutcomeDecided | Resultado de discovery foi decidido. | Control | DiscoveryOutcome | DiscoveryFindingRegistered | OpportunityAssessmentCompleted | Product Owner / PMO | Decisão de outcome. | Evidência suficiente ou incerteza aceita formalmente. | Pode gerar opportunity assessment, requisito, pivot ou descarte. | discoveryOutcomeId, discoveryId, decision, rationale, ownerId, decidedAt, evidenceIds. |
+| OpportunityAssessmentCompleted | Assessment de oportunidade foi concluído. | Control | OpportunityAssessment | DiscoveryOutcomeDecided | PrioritizationDecisionRecorded | Product Owner / PMO | Avaliação de valor, risco e capacidade. | Valor, risco, evidência e alinhamento avaliados. | Alimenta decisão de priorização e portfólio. | assessmentId, opportunityId, valueEstimate, riskRating, evidenceIds, completedAt. |
+| PrioritizationDecisionRecorded | Decisão de priorização foi registrada. | Control | PrioritizationDecision | OpportunityAssessmentCompleted | FunctionalRequirementCreated, OpportunityApproved | Product Owner / PMO | Priorização por valor, risco e capacidade. | Decisão possui racional, owner e impacto. | Habilita requisitos, roadmap ou portfólio. | prioritizationDecisionId, entityId, decision, rationale, ownerId, decidedAt. |
+| FunctionalRequirementCreated | Requisito funcional foi criado. | Business | FunctionalRequirement | PrioritizationDecisionRecorded | RequirementReviewed | Product Owner / Business Analyst | Derivação de oportunidade ou problema. | Requisito possui origem rastreável e owner. | Inicia rastreabilidade para solution design e delivery. | functionalRequirementId, originEntityId, ownerId, createdAt, acceptanceCriteriaIds. |
+| NonFunctionalRequirementCreated | Requisito não funcional foi criado. | Business | NonFunctionalRequirement | PrioritizationDecisionRecorded | RequirementReviewed | Especialista responsável | Derivação de constraint, risco ou padrão. | NFR possui categoria, owner e criticidade. | Alimenta revisão de solução e readiness. | nonFunctionalRequirementId, category, ownerId, criticality, createdAt, evidenceIds. |
+| RequirementReviewed | Requisito foi revisado. | Control | FunctionalRequirement, NonFunctionalRequirement | FunctionalRequirementCreated, NonFunctionalRequirementCreated | RequirementApproved, RequirementRejected | Reviewer definido | Revisão funcional ou especializada. | Reviewer avaliou clareza, origem, critérios e riscos. | Atualiza Requirements Health. | requirementId, reviewerId, reviewOutcome, reviewedAt, issuesFound, evidenceIds. |
+| RequirementApproved | Requisito foi aprovado. | Control | FunctionalRequirement, NonFunctionalRequirement | RequirementReviewed | SolutionDesignCreated | Product Owner / Especialista | Aprovação de requisito. | Critérios de revisão atendidos. | Habilita solution design. | requirementId, approverId, approvedAt, approvalRationale, evidenceIds. |
+| RequirementRejected | Requisito foi rejeitado. | Control | FunctionalRequirement, NonFunctionalRequirement | RequirementReviewed | DiscoveryStarted, PrioritizationDecisionRecorded | Reviewer definido | Rejeição de requisito. | Origem, evidência, clareza ou critério insuficiente. | Gera retrabalho, discovery adicional ou descarte. | requirementId, rejectedAt, rejectionReason, ownerId, requiredActions. |
+| SolutionDesignCreated | Desenho de solução foi criado. | Business | SolutionDesign | RequirementApproved | SolutionReviewRequested | Solution Owner / Arquiteto | Proposta de solução. | Escopo, requisitos, alternativas e riscos registrados. | Inicia solution time e revisões. | solutionDesignId, requirementIds, ownerId, createdAt, scope, assumptions. |
+| SolutionReviewRequested | Revisão de solução foi solicitada. | Control | SolutionDesign | SolutionDesignCreated | ArchitectureReviewCompleted, EngineeringReviewCompleted, SecurityReviewCompleted, DataReviewCompleted, ComplianceReviewCompleted | Solution Owner | Solicitação de revisão. | Revisores obrigatórios e SLA definidos. | Inicia review time e filas de revisão. | solutionDesignId, reviewType, reviewerIds, requestedAt, dueDate, priority. |
+| ArchitectureReviewCompleted | Revisão arquitetural foi concluída. | Control | ArchitectureReview | SolutionReviewRequested | SolutionApproved, SolutionRejected | Arquiteto Corporativo | Conclusão de review. | Resultado, pendências e evidências registrados. | Alimenta Architecture Review Health. | architectureReviewId, solutionDesignId, reviewerId, outcome, completedAt, evidenceIds. |
+| EngineeringReviewCompleted | Revisão de engenharia foi concluída. | Control | EngineeringReview | SolutionReviewRequested | SolutionApproved, SolutionRejected | Líder Técnico | Conclusão de review. | Viabilidade, riscos e esforço avaliados. | Alimenta Engineering Review Health. | engineeringReviewId, solutionDesignId, reviewerId, outcome, completedAt, risks. |
+| SecurityReviewCompleted | Revisão de segurança foi concluída. | Control | SecurityReview | SolutionReviewRequested | SolutionApproved, SolutionRejected | Security Specialist | Conclusão de review. | Controles e riscos avaliados. | Pode bloquear readiness ou gerar exceção. | securityReviewId, solutionDesignId, reviewerId, outcome, completedAt, controls. |
+| DataReviewCompleted | Revisão de dados foi concluída. | Control | DataReview | SolutionReviewRequested | SolutionApproved, SolutionRejected | Data Specialist | Conclusão de review. | Dados, lineage, privacidade e qualidade avaliados. | Pode afetar Data Confidence. | dataReviewId, solutionDesignId, reviewerId, outcome, completedAt, dataRisks. |
+| ComplianceReviewCompleted | Revisão de compliance foi concluída. | Control | ComplianceReview | SolutionReviewRequested | SolutionApproved, SolutionRejected | Compliance Specialist | Conclusão de review. | Políticas e obrigações avaliadas. | Pode bloquear solução ou exigir controles. | complianceReviewId, solutionDesignId, reviewerId, outcome, completedAt, complianceIssues. |
+| SolutionApproved | Solução foi aprovada. | Control | SolutionApproval | ArchitectureReviewCompleted, EngineeringReviewCompleted | ReadinessAssessmentStarted | Autoridade definida | Aprovação de solução. | Revisões obrigatórias aprovadas ou exceções formalizadas. | Habilita readiness. | solutionApprovalId, solutionDesignId, approverId, approvedAt, evidenceIds, exceptions. |
+| SolutionRejected | Solução foi rejeitada. | Control | SolutionApproval | SolutionReviewRequested | SolutionDesignCreated | Autoridade definida | Rejeição de solução. | Revisões apontam pendências impeditivas. | Gera retrabalho e impacta flow. | solutionDesignId, rejectedAt, rejectionReason, requiredActions, ownerId. |
+| ReadinessAssessmentStarted | Assessment de readiness foi iniciado. | Business | ReadinessAssessment | SolutionApproved | ReadinessApproved, ReadinessRejected | Delivery Owner / Scrum Master | Preparação para delivery. | Entidade possui solution design, requisitos e critérios. | Mede readiness time e filas de entrada. | readinessAssessmentId, entityId, ownerId, startedAt, checklistId. |
+| ReadinessApproved | Readiness foi aprovado. | Control | ReadinessAssessment | ReadinessAssessmentStarted | FeatureStarted, StoryStarted | Delivery Owner | Avaliação concluída. | DOR, capacidade, dependências e riscos aceitáveis. | Habilita execução. | readinessAssessmentId, entityId, approvedAt, approverId, evidenceIds. |
+| ReadinessRejected | Readiness foi rejeitado. | Risk | ReadinessAssessment | ReadinessAssessmentStarted | BlockerCreated, RequirementReviewed | Delivery Owner | Critério de entrada não atendido. | Falta critério, capacidade, dependência, aprovação ou evidência. | Gera blocker, retrabalho ou alerta. | readinessAssessmentId, entityId, rejectedAt, reasons, requiredActions. |
+| BlockerCreated | Bloqueador foi criado. | Risk | Blocker | ReadinessRejected, FeatureBlocked, DependencyRaised | AlertDetected, BlockerResolved | Blocker Owner | Impedimento identificado. | Bloqueio possui causa, owner, severidade e impacto. | Alimenta Blocked Time e escalations. | blockerId, entityId, blockerType, ownerId, severity, createdAt, impactSummary. |
+| BlockerResolved | Bloqueador foi resolvido com evidência. | Business | Blocker | BlockerCreated | FlowHealthRecovered, AlertConditionValidated | Blocker Owner | Remoção do bloqueio. | Evidência de resolução e validação registradas. | Reduz blocked time e pode encerrar alerta relacionado. | blockerId, resolvedAt, resolutionSummary, evidenceId, validatorId. |
+| ValidationStarted | Validação foi iniciada. | Business | Validation | ReleasePublished, FeatureCompleted, StoryCompleted | AcceptanceValidationCompleted, BusinessValidationCompleted, TechnicalValidationCompleted | Validation Owner | Entrega ou outcome disponível. | Critérios, owner e evidência esperada definidos. | Inicia validation time e fila de validação. | validationId, entityId, validationType, ownerId, startedAt, criteriaIds. |
+| AcceptanceValidationCompleted | Validação de aceite foi concluída. | Control | AcceptanceValidation | ValidationStarted | OutcomeValidationCompleted | Product Owner / QA Owner | Avaliação de critérios de aceite. | Resultado e evidência registrados. | Atualiza Requirements Health e Delivery Health. | acceptanceValidationId, entityId, outcome, completedAt, validatorId, evidenceIds. |
+| BusinessValidationCompleted | Validação de negócio foi concluída. | Control | BusinessValidation | ValidationStarted | OutcomeValidationCompleted | Business Owner | Avaliação de aderência ao problema ou processo. | Resultado e evidência registrados. | Conecta entrega ao problema de negócio. | businessValidationId, entityId, outcome, completedAt, validatorId, evidenceIds. |
+| TechnicalValidationCompleted | Validação técnica foi concluída. | Control | TechnicalValidation | ValidationStarted | ReleasePublished, OutcomeValidationCompleted | Líder Técnico / Quality Owner | Avaliação técnica. | Resultado técnico e evidências registrados. | Afeta Technical Delivery Health. | technicalValidationId, entityId, outcome, completedAt, validatorId, evidenceIds. |
+| OutcomeValidationCompleted | Validação de outcome foi concluída. | Control | OutcomeValidation | AcceptanceValidationCompleted, BusinessValidationCompleted | BenefitObserved, ValueValidationCompleted | Product Owner / Metrics Owner | Resultado observável avaliado. | Outcome possui evidência e leitura de métrica. | Alimenta value realization e KPI. | outcomeValidationId, outcomeId, observedResult, completedAt, evidenceIds, metricIds. |
+| ValueValidationCompleted | Validação de valor foi concluída. | Control | ValueValidation | OutcomeValidationCompleted, BenefitObserved | BenefitValidated, BenefitRejected | Sponsor de valor | Avaliação de valor e benefício. | Evidência de benefício suficiente ou rejeitada. | Atualiza Value Realization Score. | valueValidationId, valueCaseId, outcome, validatedValue, completedAt, validatorId, evidenceIds. |
+| AlertActionRegistered | Ação de tratamento de alerta foi registrada. | Control | AlertAction | AlertDetected | AlertEvidenceAttached | Alert Owner | Definição de ação. | Ação possui owner, prazo e resultado esperado. | Inicia governança de resolução. | alertActionId, alertId, ownerId, dueDate, expectedOutcome, registeredAt. |
+| AlertEvidenceAttached | Evidência de tratamento de alerta foi anexada. | Control | AlertEvidence | AlertActionRegistered | AlertConditionValidated | Alert Owner / Action Owner | Ação executada ou decisão registrada. | Evidência comprova execução, decisão ou mitigação. | Permite validar condição original. | alertEvidenceId, alertId, actionId, evidenceType, attachedAt, source, ownerId. |
+| AlertConditionValidated | Condição original do alerta foi validada. | Control | AlertCondition, AlertValidation | AlertEvidenceAttached | AlertResolved, AlertReopened | Reviewer / autoridade definida | Validação de condição. | Condição original desapareceu, persiste ou foi aceita formalmente. | Controla encerramento real do alerta. | alertValidationId, alertId, alertConditionId, validatorId, validationOutcome, validatedAt, conditionStatus. |
+| AlertResolved | Alerta foi resolvido com ação, evidência e validação. | Business | AlertResolution | AlertConditionValidated | Nenhum | Alert Owner / Accountable | Encerramento de alerta. | Existem ação, evidência e validação favorável ou aceite formal. | Encerra alerta e preserva auditoria. | alertResolutionId, alertId, resolvedAt, resolutionReason, evidenceIds, validatorId. |
+| AlertReopened | Alerta foi reaberto. | Risk | Alert | AlertResolved | AlertActionRegistered | Alert Owner | Condição retornou ou evidência foi invalidada. | Condição original voltou, evidência insuficiente ou mitigação falhou. | Reabre tratamento e preserva histórico. | alertId, reopenedAt, reason, previousResolutionId, ownerId. |
 
 ## 6. Event Lifecycle
 
@@ -491,6 +542,18 @@ stateDiagram-v2
 | DecisionSLAExceeded | AlertDetected | Decisão vencida pode gerar alerta de governança. |
 | ForecastAccuracyMeasured | ForecastAccuracyDegraded | Baixa precisão histórica pode gerar degradação de forecast. |
 | DataFreshnessBreached | DataConfidenceDegraded | Dado atrasado degrada confiança. |
+| BusinessNeedCaptured | DiscoveryStarted | Necessidade aceita pode iniciar discovery. |
+| DiscoveryOutcomeDecided | OpportunityAssessmentCompleted | Resultado de discovery alimenta assessment de oportunidade. |
+| RequirementApproved | SolutionDesignCreated | Requisito aprovado habilita desenho de solução. |
+| SolutionApproved | ReadinessAssessmentStarted | Solução aprovada habilita readiness. |
+| ReadinessApproved | FeatureStarted | Readiness aprovado habilita execução. |
+| FeatureCompleted | ValidationStarted | Entrega concluída inicia validação. |
+| OutcomeValidationCompleted | BenefitObserved | Outcome validado alimenta observação de benefício. |
+| BlockerCreated | AlertDetected | Bloqueador crítico pode gerar alerta. |
+| BlockerResolved | AlertConditionValidated | Resolução de bloqueador pode validar condição de alerta. |
+| AlertActionRegistered | AlertEvidenceAttached | Ação registrada exige evidência de execução. |
+| AlertEvidenceAttached | AlertConditionValidated | Evidência anexada permite validar a condição original. |
+| AlertConditionValidated | AlertResolved | Validação favorável habilita encerramento de alerta. |
 
 ## 8. Event to Metric Mapping
 
@@ -518,13 +581,15 @@ stateDiagram-v2
 | TechnicalRiskCreated, TechnicalDebtRegistered, IntegrationRiskDetected | Technical Delivery Health, Technical Debt Exposure, Integration Risk Score. |
 | ReleaseReadinessAssessed, ReleaseReadinessApproved, ReleaseReadinessRejected | Release Readiness, Technical Delivery Health, Release Lead Time. |
 | DomainCreated, SubDomainCreated, CapabilityCreated, CapabilityUpdated, CapabilityRetired | Capability Coverage, Capability Health Score, Objective to Capability Coverage, Capability Traceability Health. |
+| CapabilityHealthDegraded | Capability Health Score, Architecture Debt Score, Capability Traceability Health, Governance Health Score. |
 | BusinessServiceCreated, TechnologyServiceCreated | Service Health Score, Service Modernization Score, Technology Rationalization Score, Capability to Initiative Coverage. |
 | OfferCreated, OfferRetired, ProductOfferAssociated, ProductOfferRemoved | Offer Health Score, Offer Adoption Score, Offer Traceability Health, Product Health Score. |
 | CapabilityModernizationStarted, CapabilityModernizationCompleted | Capability Modernization Score, Capability Health Score, Architecture Debt Score. |
-| ServiceModernizationStarted, ServiceModernizationCompleted | Service Modernization Score, Service Health Score, Technology Rationalization Score, Architecture Debt Score. |
+| ServiceModernizationStarted, ServiceModernizationCompleted, ServiceModernizationDelayed | Service Modernization Score, Service Health Score, Technology Rationalization Score, Architecture Debt Score. |
 | ArchitectureAssessmentRequested, ArchitectureAssessmentCompleted | Architecture Debt Score, Capability Health Score, Service Health Score, Offer Health Score. |
 | ArchitectureDebtRegistered, ArchitectureDebtResolved | Architecture Debt Score, Capability Modernization Score, Service Modernization Score, Technology Rationalization Score. |
-| ArchitectureExceptionGranted, ArchitectureExceptionExpired | Architecture Exception Rate, Architecture Debt Score, Governance Health, Capability Health Score. |
+| ArchitectureExceptionGranted, ArchitectureExceptionExpired | Architecture Exception Rate, Architecture Debt Score, Governance Health Score, Capability Health Score. |
+| ProductHealthCalculated | Product Health Score, Offer Health Score, Value Realization Score, Backlog Strategic Alignment. |
 | ForecastGenerated, ForecastUpdated, ForecastConfidenceChanged | Schedule Forecast Confidence, Value Forecast Confidence, KR Forecast Probability, Capacity Forecast Risk. |
 | ForecastAccuracyMeasured, ForecastAccuracyDegraded | Schedule Forecast Accuracy, Value Forecast Accuracy, KPI Forecast Accuracy, Capacity Forecast Accuracy. |
 | ValueCaseCreated, BenefitHypothesisDefined | Planned Value, Forecast Value, Value Forecast Confidence. |
@@ -539,6 +604,14 @@ stateDiagram-v2
 | DecisionCreated, DecisionApproved, DecisionRejected, DecisionSLAExceeded | Decision Latency, Decision Throughput, Decision SLA, Approval Aging. |
 | DecisionReworkRequested | Decision Rework Rate, Discovery Rework Rate when product decision is affected. |
 | EvidenceAttached, ControlAssessmentCompleted | Evidence Coverage, Control Adherence Rate, Committee Readiness. |
+| BusinessNeedCaptured, PainPointRegistered, BusinessEvidenceAttached, BusinessProblemDefined | Business Discovery Lead Time, Business Discovery Health, Traceability Health Score. |
+| DiscoveryStarted, DiscoveryOutcomeDecided, OpportunityAssessmentCompleted | Discovery Time, Discovery Quality Score, Discovery Lead Time, Discovery Rework Rate. |
+| FunctionalRequirementCreated, NonFunctionalRequirementCreated, RequirementReviewed, RequirementApproved, RequirementRejected | Requirements Health, Requirements Queue Time, Review Time, Approval Time. |
+| SolutionDesignCreated, SolutionReviewRequested, ArchitectureReviewCompleted, EngineeringReviewCompleted, SecurityReviewCompleted, DataReviewCompleted, ComplianceReviewCompleted, SolutionApproved, SolutionRejected | Solution Health, Solution Time, Review Time, Approval Time, Architecture Review Health, Engineering Review Health. |
+| ReadinessAssessmentStarted, ReadinessApproved, ReadinessRejected | Readiness Health, Readiness Time, Queue Time, Blocker Count. |
+| ValidationStarted, AcceptanceValidationCompleted, BusinessValidationCompleted, TechnicalValidationCompleted, OutcomeValidationCompleted, ValueValidationCompleted | Validation Health, Validation Time, Time to Value, Value Realization Score. |
+| BlockerCreated, BlockerResolved | Blocked Time, Blocker Resolution Time, Blocker Resolution Health, Flow Health Score. |
+| AlertActionRegistered, AlertEvidenceAttached, AlertConditionValidated, AlertResolved, AlertReopened | Alert Aging, Alert Resolution Time, Alert Resolution Health, Evidence Coverage. |
 | ExceptionGranted, ExceptionExpired | Standard Exception Aging, Control Adherence Rate, Technical Delivery Health. |
 | DataFreshnessBreached, SourceDivergenceDetected, CalculationErrorDetected | Data Freshness, Source Divergence, Calculation Error Rate, Data Confidence Score. |
 | DataConfidenceDegraded, DataConfidenceRecovered, LineageUpdated | Data Confidence Score, Lineage Completeness, Natural Language Answer Confidence. |
@@ -570,6 +643,14 @@ stateDiagram-v2
 | HypothesisInvalidated, DiscoveryReworkStarted | Discovery Quality Degraded. |
 | HealthScoreDegraded | Health Score Degraded. |
 | TargetChanged | KPI Governance Alert when target changes without adequate evidence. |
+| CapabilityHealthDegraded | Capability Health Degraded, Architecture Impact Alert. |
+| ServiceModernizationDelayed | Service Modernization Delayed, Architecture Debt Alert. |
+| RequirementRejected | Requirements Quality Alert, Rework Alert. |
+| SolutionRejected | Solution Review Alert, Review Aging Alert. |
+| ReadinessRejected | Readiness Alert, Blocker Alert. |
+| BlockerCreated | Blocker Alert, Flow Health Degraded. |
+| AlertReopened | Alert Resolution Failed, Governance Alert. |
+| AlertConditionValidated | Alert Closure Validation Failed when condition persists. |
 
 ## 10. Event to Health Score Mapping
 
@@ -584,6 +665,15 @@ stateDiagram-v2
 | Technical Delivery Health | TechnicalRiskCreated, TechnicalDebtRegistered, TechnicalDebtResolved, ReleaseReadinessAssessed, IntegrationRiskDetected, ArchitectureExceptionGranted. | Atualiza risco técnico, prontidão, débito, integração e exceções. |
 | Value Realization Score | ValueCaseCreated, BenefitObserved, BenefitValidated, BenefitRejected, ValueLeakageDetected, ValueRealizationClosed, InvestmentUnderperformingDetected, PortfolioValueLeakageDetected. | Atualiza benefício planejado, forecast, realizado, validado, vazamento, performance de investimento e evidência. |
 | Data Confidence Score | DataFreshnessBreached, SourceDivergenceDetected, CalculationErrorDetected, DataConfidenceDegraded, DataConfidenceRecovered, LineageUpdated. | Atualiza confiança de dado, frescor, lineage, divergência e erro de cálculo. |
+| Business Discovery Health | BusinessNeedCaptured, PainPointRegistered, BusinessEvidenceAttached, BusinessProblemDefined. | Atualiza qualidade da necessidade, evidência, owner e clareza do problema. |
+| Requirements Health | FunctionalRequirementCreated, NonFunctionalRequirementCreated, RequirementReviewed, RequirementApproved, RequirementRejected. | Atualiza origem, completude, revisão, aprovação, critérios e retrabalho. |
+| Solution Health | SolutionDesignCreated, SolutionReviewRequested, SolutionApproved, SolutionRejected. | Atualiza qualidade, evidência, decisões, pendências e aprovação da solução. |
+| Architecture Review Health | ArchitectureReviewCompleted, ArchitectureDebtRegistered, ArchitectureExceptionGranted. | Atualiza qualidade e riscos da revisão arquitetural. |
+| Engineering Review Health | EngineeringReviewCompleted, TechnicalRiskCreated, TechnicalDebtRegistered. | Atualiza viabilidade técnica, riscos e pendências de engenharia. |
+| Readiness Health | ReadinessAssessmentStarted, ReadinessApproved, ReadinessRejected, BlockerCreated. | Atualiza DOR, capacidade, dependências, riscos e blockers. |
+| Validation Health | ValidationStarted, AcceptanceValidationCompleted, BusinessValidationCompleted, TechnicalValidationCompleted, OutcomeValidationCompleted. | Atualiza evidências, critérios e aceite. |
+| Alert Resolution Health | AlertActionRegistered, AlertEvidenceAttached, AlertConditionValidated, AlertResolved, AlertReopened. | Atualiza aging, evidência, validação e efetividade de resolução. |
+| Blocker Resolution Health | BlockerCreated, BlockerResolved. | Atualiza tempo, severidade e efetividade de resolução de bloqueadores. |
 
 ## 11. Event to Forecast Mapping
 
@@ -594,6 +684,7 @@ stateDiagram-v2
 | Forecast de valor | ValueCaseCreated, BenefitHypothesisDefined, ReleasePublished, BenefitObserved, BenefitValidated, BenefitRejected, ValueLeakageDetected, ValueAtRiskIncreased, InvestmentUnderperformingDetected. | Atualiza valor esperado, valor observado, confiança de realização, perda, valor em risco e timing de benefício. |
 | Forecast de KPI | KPIUpdated, TargetChanged, KPIAssignedToOutcome, ReleasePublished, BenefitObserved, DataConfidenceDegraded. | Atualiza tendência de KPI, target, drivers de outcome, qualidade da fonte e impacto de entregas. |
 | Forecast de KR | OKRCreated, KRTargetChanged, KeyResultProgressUpdated, KPIUpdated, InitiativeCompleted, BenefitValidated, ValueLeakageDetected. | Atualiza probabilidade de cumprimento de KR com base em progresso, KPI, iniciativas e valor. |
+| Forecast operacional de fluxo | BusinessNeedCaptured, RequirementApproved, SolutionApproved, ReadinessApproved, ValidationStarted, BlockerCreated, BlockerResolved. | Atualiza previsão de passagem entre etapas operacionais, filas, reviews, readiness e validação. |
 
 Forecasts usados em decisão executiva devem preservar versão, premissas, drivers, data de geração, confiança, acurácia histórica e eventos causadores de mudança.
 
@@ -610,6 +701,10 @@ Eventos devem ser correlacionáveis por entidades e por cadeias de causalidade.
 | Todos os eventos de uma Decision | decisionId, gateId, approvalId, evidenceId, entityId. | Reconstruir quem decidiu, quando, por quê e com qual evidência. |
 | Todos os eventos de um Bottleneck | bottleneckId, queueId, flowStage, initiativeId, teamId. | Explicar gargalo, severidade, impacto econômico e plano de ação. |
 | Todos os eventos de um Forecast | forecastId, targetEntityId, forecastType, driverEventIds. | Explicar mudança de previsão, confiança e acurácia histórica. |
+| Todos os eventos de uma BusinessNeed | businessNeedId, painPointId, journeyId, processId, problemStatementId. | Explicar origem, dor, evidência, decisão de avanço e conexão com discovery. |
+| Todos os eventos de um Requirement | requirementId, originEntityId, solutionDesignId, acceptanceCriterionId. | Explicar origem, revisão, aprovação, rejeição e impacto no solution design. |
+| Todos os eventos de um SolutionDesign | solutionDesignId, requirementIds, reviewIds, approvalId, evidenceIds. | Explicar revisão, decisão, pendência, exceção e readiness. |
+| Todos os eventos de um Alert | alertId, triggeringEventId, actionId, evidenceId, validationId, resolutionId. | Explicar por que o alerta abriu, quem agiu, qual evidência existe e por que foi ou não encerrado. |
 
 Correlação suporta investigação e explainability porque permite sair de um sintoma para seus eventos causadores. Um health score degradado deve apontar para eventos como `BottleneckDetected`, `ForecastAccuracyDegraded`, `BenefitRejected`, `DecisionSLAExceeded` ou `DataConfidenceDegraded`, não apenas para um número final.
 
@@ -737,6 +832,7 @@ Eventos classificados como Risk ou Critical devem carregar, conceitualmente, `re
 | Flow Intelligence Events | Histórico analítico para tendência e forecast. | Obrigatória para gargalos críticos e flow health degradado. | Média. | Deve explicar filas, esperas, gargalos e impactos. |
 | Engineering Events | Conforme criticidade técnica, risco e controle aplicável. | Obrigatória para readiness, exceções, riscos e débitos críticos. | Alta quando envolve segurança, resiliência, arquitetura ou produção. | Deve reconstruir risco aceito, readiness e exceções. |
 | Architecture Events | Enquanto capabilities, services, offers, products ou decisões arquiteturais permanecerem relevantes, com retenção longa para exceções e dívida. | Obrigatória para assessment, dívida, exceção, aposentadoria, modernização e associação product-offer crítica. | Alta quando afeta produto crítico, resiliência, compliance, risco tecnológico ou modernização. | Deve reconstruir domínio, capability, service, offer, product, assessment, dívida, exceção e decisão associada. |
+| Operating Model Events | Enquanto necessidade, solução, entrega, validação, alerta ou valor associado permanecerem relevantes, com retenção longa quando usados em decisão crítica. | Obrigatória para necessidade crítica, requisito aprovado, revisão, solução, readiness, validação, blocker e resolução de alerta. | Alta quando afeta cliente, produto crítico, compliance, auditoria, valor ou decisão executiva. | Deve reconstruir Need-to-Value, owner, estado, fila, ação, evidência, validação e causa de avanço ou bloqueio. |
 | Metrics Events | Permanente para métricas usadas em decisão crítica. | Obrigatória para KPI, fórmula, target e health score crítico. | Alta. | Deve preservar owner, fonte, fórmula, versão e lineage. |
 | Forecast Events | Permanente quando usado em decisão executiva. | Obrigatória para forecast executivo, premissas, drivers e mudança relevante. | Alta. | Deve preservar versão, acurácia, confiança e eventos causadores. |
 | Value Realization Events | Longo prazo financeiro e corporativo. | Obrigatória para benefit validated, rejected e value leakage. | Alta. | Deve preservar método, evidência, validador e atribuição. |
@@ -856,6 +952,11 @@ Eventos críticos devem ser traduzidos em decisões possíveis, papel responsáv
 | ArchitectureDebtRegistered | Priorizar remediação, associar iniciativa, aceitar risco ou ajustar roadmap de modernização. | Arquiteto Corporativo, Service Owner, PMO. | 1 a 10 dias úteis conforme severidade. | Aumento de Architecture Debt Score, risco de obsolescência e impacto em offers/produtos. |
 | ArchitectureExceptionExpired | Renovar, encerrar, mitigar risco ou bloquear evolução dependente. | Arquiteto Corporativo, Risco, Compliance, Owner da exceção. | Imediato após expiração. | Risco aceito sem validade, não conformidade e exposição de auditoria. |
 | ProductOfferRemoved | Reavaliar composição do produto, substituir offer ou revisar roadmap e iniciativas afetadas. | Product Owner, Offer Owner, Arquiteto Corporativo. | Próximo ciclo de produto ou imediato se offer crítica. | Produto perde suporte de capability, queda de Offer Adoption Score ou lacuna de valor. |
+| RequirementRejected | Corrigir requisito, retornar ao discovery, solicitar evidência ou descartar necessidade. | Product Owner, Business Analyst, Reviewer. | 1 a 5 dias úteis. | Retrabalho, solution design frágil, atraso de readiness e queda de Requirements Health. |
+| SolutionRejected | Corrigir desenho, revisar arquitetura, registrar exceção ou reduzir escopo. | Solution Owner, Arquiteto, Líder Técnico. | 1 a 10 dias úteis conforme criticidade. | Review aging, atraso de solution time, blocker de delivery e risco arquitetural. |
+| ReadinessRejected | Resolver dependência, ajustar capacidade, completar DOR ou bloquear entrada em delivery. | Scrum Master, Gerente, Product Owner. | 1 a 5 dias úteis. | Entrada em execução sem prontidão, WIP improdutivo e degradação de Flow Health. |
+| BlockerCreated | Atribuir owner, definir plano de resolução, escalar se SLA vencer. | Blocker Owner, Coordenador, Gerente. | Mesmo dia para blocker crítico. | Aumento de blocked time, cost of delay e alerta recorrente. |
+| AlertReopened | Revisar ação, evidência e validação da condição original. | Alert Owner, Reviewer, PMO. | Mesmo dia para alerta crítico. | Falsa resolução, perda de confiança e exposição de governança. |
 
 ## 23. Executive Narrative Framework
 
@@ -903,6 +1004,8 @@ Heat maps são projeções analíticas alimentadas por eventos classificados por
 | Architecture Service Dimension | BusinessServiceCreated, TechnologyServiceCreated, ArchitectureAssessmentCompleted, ServiceModernizationStarted, ServiceModernizationCompleted. | Service Health Score, Service Modernization Score, Technology Rationalization Score. | Mostrar serviços críticos, modernização, racionalização tecnológica e dívida associada. |
 | Architecture Offer Dimension | OfferCreated, OfferRetired, ProductOfferAssociated, ProductOfferRemoved. | Offer Health Score, Offer Adoption Score, Offer Traceability Health, Product Health Score. | Mostrar offers que sustentam produtos, adoção, aposentadoria e impacto na composição de produtos. |
 | Architecture Modernization Dimension | CapabilityModernizationStarted, CapabilityModernizationCompleted, ServiceModernizationStarted, ServiceModernizationCompleted, ArchitectureDebtRegistered, ArchitectureDebtResolved. | Capability Modernization Score, Service Modernization Score, Architecture Debt Score, Architecture Exception Rate. | Mostrar modernização, dívida, exceções e progresso por capability, service, offer e product. |
+| Operating Flow Dimension | BusinessNeedCaptured, RequirementApproved, SolutionApproved, ReadinessApproved, ValidationStarted, BlockerCreated, AlertReopened. | Business Discovery Health, Requirements Health, Solution Health, Readiness Health, Validation Health, Alert Resolution Health. | Mostrar onde o fluxo Need-to-Value está parado, quem deveria agir e qual evidência falta. |
+| Review Dimension | SolutionReviewRequested, ArchitectureReviewCompleted, EngineeringReviewCompleted, SecurityReviewCompleted, DataReviewCompleted, ComplianceReviewCompleted. | Review Time, Approval Time, Architecture Review Health, Engineering Review Health, Solution Health. | Mostrar filas e gargalos de revisão por especialidade, owner, SLA e impacto em delivery. |
 
 ## 25. Event Retention and Auditability Policy
 
@@ -913,6 +1016,7 @@ Esta política define retenção conceitual. A retenção física, mídia, parti
 | Regulatory Critical | DecisionApproved, FundingAllocated, InvestmentApproved, BenefitValidated, RiskAccepted. | 10 anos ou conforme política regulatória aplicável. | Evidência obrigatória, autoridade, segregação de funções, justificativa e trilha completa. |
 | Governance Critical | GateApproved, GateRejected, ExceptionGranted, ExceptionExpired, EvidenceAttached. | 5 a 10 anos. | Evidência, owner, escopo, data, autoridade e controles associados. |
 | Architecture Critical | ArchitectureAssessmentCompleted, ArchitectureDebtRegistered, ArchitectureExceptionGranted, ArchitectureExceptionExpired, CapabilityRetired, OfferRetired. | 5 a 10 anos, ou mais quando vinculado a produto crítico, risco regulatório ou decisão executiva. | Preservar assessment, owner, decisão, evidência, entidade afetada, plano de mitigação e impacto em produto/oferta. |
+| Operating Critical | BusinessNeedCaptured, RequirementApproved, SolutionApproved, ReadinessApproved, ValidationStarted, AlertResolved, AlertReopened. | 5 a 10 anos quando usados em decisão crítica, auditoria, valor ou governança. | Preservar Need-to-Value, owner, revisão, ação, evidência, validação da condição original e decisão associada. |
 | Operational | FeatureStarted, StoryCompleted, QueueEntered, QueueExited, FeatureBlocked. | 2 a 5 anos. | Retenção suficiente para métricas, forecast, auditoria operacional e investigação. |
 | Analytical | HeatMapGenerated, FlowHealthCalculated, HealthScoreCalculated, ForecastGenerated. | Conforme política analítica, criticidade e uso em decisão. | Preservar período, drivers, versão de cálculo, fontes e confidenceLevel. |
 | Executive Narrative | NarrativeGenerated, RootCauseIdentified, RemediationPlanCreated, RemediationPlanCompleted. | 5 a 10 anos quando usado em comitê ou decisão executiva. | Preservar eventos causadores, evidências, owner e decisão associada. |
@@ -925,7 +1029,7 @@ A camada de Decision Intelligence transforma eventos em alternativas de decisão
 | --- | --- | --- | --- | --- |
 | QueueThresholdBreached | Queue Time | Flow Health Score | Bottleneck Alert | Rebalancear capacidade, reduzir WIP ou escalar owner. |
 | ValueAtRiskIncreased | Investment At Risk | Portfolio Health Score | Executive Alert | Revisar funding, acelerar entrega ou aceitar risco formalmente. |
-| DecisionSLAExceeded | Decision Latency | Governance Health | Governance Alert | Escalonar autoridade, convocar comitê ou aprovar exceção. |
+| DecisionSLAExceeded | Decision Latency | Governance Health Score | Governance Alert | Escalonar autoridade, convocar comitê ou aprovar exceção. |
 | BottleneckDetected | Bottleneck Severity | Flow Health Score | Bottleneck Detected | Criar plano de ação, eliminar dependência ou dividir iniciativa. |
 | ForecastAccuracyDegraded | Forecast Accuracy | Portfolio Health Score | Forecast Accuracy Degraded | Revisar premissas, modelo e qualidade dos dados. |
 | ValueLeakageDetected | Value Leakage | Value Realization Score | Value Leakage Detected | Reavaliar hipótese, adoção, priorização ou continuidade. |
@@ -934,7 +1038,12 @@ A camada de Decision Intelligence transforma eventos em alternativas de decisão
 | CapabilityRetired | Capability Coverage | Capability Health Score | Architecture Impact Alert | Remapear produtos, offers, iniciativas e objetivos afetados. |
 | OfferRetired | Offer Health Score | Product Health Score | Offer Retirement Alert | Substituir offer, revisar composição de produto e plano de transição. |
 | ArchitectureDebtRegistered | Architecture Debt Score | Capability Health Score | Architecture Debt Alert | Priorizar remediação, associar iniciativa ou aceitar risco formalmente. |
-| ArchitectureExceptionExpired | Architecture Exception Rate | Governance Health | Architecture Exception Expired | Renovar, encerrar ou mitigar exceção antes de nova evolução. |
+| ArchitectureExceptionExpired | Architecture Exception Rate | Governance Health Score | Architecture Exception Expired | Renovar, encerrar ou mitigar exceção antes de nova evolução. |
+| RequirementRejected | Requirements Health | Requirements Health | Requirements Quality Alert | Corrigir requisito, retornar ao discovery ou descartar com justificativa. |
+| SolutionRejected | Solution Time | Solution Health | Solution Review Alert | Corrigir solução, registrar exceção ou reduzir escopo. |
+| ReadinessRejected | Readiness Time | Readiness Health | Readiness Alert | Resolver dependência, capacidade ou DOR antes da execução. |
+| BlockerCreated | Blocked Time | Blocker Resolution Health, Flow Health Score | Blocker Alert | Atribuir owner, definir plano e escalar conforme SLA. |
+| AlertReopened | Alert Aging | Alert Resolution Health | Alert Resolution Failed | Revisar ação, evidência, validação e causa original. |
 
 ## 27. Explainability Chains
 
@@ -953,7 +1062,7 @@ A camada de Decision Intelligence transforma eventos em alternativas de decisão
 | Por que estamos atrasados? | InitiativeStarted, FeatureBlocked, QueueThresholdBreached, BottleneckDetected, DependencyRaised, DecisionSLAExceeded, ForecastUpdated. | Lead Time, Queue Time, Blocked Time, Dependency Aging, Cost of Delay. | Initiative Health Score, Flow Health Score, Delivery Health Score. | Blocker, dependency, forecast drivers, decisões pendentes. | Narrativa causal com causa raiz, fatores contribuintes, decisão bloqueante e ação recomendada. |
 | Onde está o principal gargalo? | HeatMapGenerated, BottleneckDetected, BottleneckSeverityIncreased, QueueThresholdBreached. | Bottleneck Severity, Queue Time, Cost of Bottleneck. | Flow Health Score, Portfolio Health Score. | Heat map, queue history, owner, plano de ação. | Ranking do gargalo por severidade, escopo afetado, valor impactado e owner. |
 | Qual investimento está em risco? | InvestmentApproved, ValueAtRiskIncreased, InvestmentUnderperformingDetected, ValueLeakageDetected. | Investment At Risk, ROI, Benefit Variance, Value Leakage. | Portfolio Health Score, Value Realization Score. | Value case, forecast, benefício observado, decisões de funding. | Lista de investimentos em risco com causa, valor exposto e decisão sugerida. |
-| Qual decisão está bloqueando mais valor? | DecisionCreated, DecisionSLAExceeded, ApprovalRejected, CostOfDelayCalculated, ValueAtRiskIncreased. | Decision Latency, Approval Aging, Cost of Delay, Investment At Risk. | Portfolio Health Score, Governance Health. | Decision gate, autoridade, evidência pendente, value case. | Decisão pendente com maior impacto econômico e caminho de escalonamento. |
+| Qual decisão está bloqueando mais valor? | DecisionCreated, DecisionSLAExceeded, ApprovalRejected, CostOfDelayCalculated, ValueAtRiskIncreased. | Decision Latency, Approval Aging, Cost of Delay, Investment At Risk. | Portfolio Health Score, Governance Health Score. | Decision gate, autoridade, evidência pendente, value case. | Decisão pendente com maior impacto econômico e caminho de escalonamento. |
 | Por que o KPI caiu? | KPIUpdated, TargetChanged, KPIAssignedToOutcome, BenefitObserved, DataConfidenceDegraded, ForecastUpdated. | KPI Target Deviation, KPI Forecast Accuracy, Data Confidence Score. | Strategic Health Score, Product Health Score, Data Confidence Score. | Fonte do KPI, lineage, target, benefício e releases relacionadas. | Explicação do desvio com separação entre causa operacional, valor e qualidade de dado. |
 | O que devemos fazer agora? | AlertDetected, RootCauseIdentified, RemediationPlanCreated, DecisionSLAExceeded, ValueAtRiskIncreased. | Métricas associadas ao alerta dominante. | Score degradado dominante. | Evidências do alerta, causa raiz, owner, decisões abertas. | Próxima melhor ação, papel responsável, horizonte, consequência da inação e confiança da recomendação. |
 
@@ -1001,11 +1110,13 @@ A camada de Decision Intelligence transforma eventos em alternativas de decisão
 - Eventos de flow stage, queue, WIP, bottleneck, flow health e heat map.
 - Eventos técnicos de risco, débito, integração, readiness e exceção arquitetural.
 - Eventos de architecture capability, incluindo domain, subdomain, capability, business service, technology service, offer, product-offer association, modernização, assessment, dívida e exceção arquitetural.
+- Eventos arquiteturais e analíticos formalizados para CapabilityHealthDegraded, ServiceModernizationDelayed e ProductHealthCalculated.
 - Eventos de KPI, target, health score, métrica e definição governada.
 - Eventos de forecast, confidence e accuracy.
 - Eventos de value case, benefício, validação, rejeição e value leakage.
 - Eventos econômicos de cost of delay, cost of queue, cost of bottleneck, delay impact, value at risk, investment underperformance e portfolio value leakage.
 - Eventos de narrativa executiva, causa raiz, plano corretivo e aceite formal de risco.
+- Eventos operacionais de BusinessNeed, PainPoint, BusinessProblem, Discovery, Requirements, SolutionDesign, Reviews, Readiness, Validation, Blocker e Alert Resolution.
 - Eventos de decisão, gate, aprovação, evidência, controle, exceção e auditoria.
 - Eventos organizacionais de unidade, time, capacidade, owner e papel.
 - Eventos de observabilidade, frescor, divergência, erro, confiança e lineage.
@@ -1032,6 +1143,15 @@ A camada de Decision Intelligence transforma eventos em alternativas de decisão
 - `CapabilityRetired` -> `OfferRetired` e `ProductOfferRemoved`.
 - `ArchitectureAssessmentCompleted` -> `ArchitectureDebtRegistered`, `CapabilityModernizationStarted`, `ServiceModernizationStarted` ou `ArchitectureExceptionGranted`.
 - `ArchitectureDebtRegistered` -> `ArchitectureDebtResolved` ou `ArchitectureExceptionGranted`.
+- `HealthScoreCalculated` -> `CapabilityHealthDegraded` quando capability cruza threshold material.
+- `ServiceModernizationStarted` -> `ServiceModernizationDelayed` quando plano ultrapassa prazo, capacidade ou dependência crítica.
+- `ProductOfferAssociated` ou `ProductOfferRemoved` -> `ProductHealthCalculated` quando composição de produto muda.
+- `BusinessNeedCaptured` -> `DiscoveryStarted`.
+- `RequirementApproved` -> `SolutionDesignCreated`.
+- `SolutionApproved` -> `ReadinessAssessmentStarted`.
+- `ReadinessApproved` -> `FeatureStarted`.
+- `FeatureCompleted` -> `ValidationStarted`.
+- `AlertActionRegistered` -> `AlertEvidenceAttached` -> `AlertConditionValidated` -> `AlertResolved`.
 - `QueueThresholdBreached` -> `BottleneckDetected`.
 - `BottleneckDetected` -> `FlowHealthDegraded`.
 - `ForecastAccuracyMeasured` -> `ForecastAccuracyDegraded`.
@@ -1049,6 +1169,8 @@ A camada de Decision Intelligence transforma eventos em alternativas de decisão
 - Eventos de value realization alimentam ROI, Time to Value, Benefit Variance e Value Realization Score.
 - Eventos econômicos alimentam Cost of Delay, Cost of Queue, Cost of Bottleneck, Delay Impact Score, Value at Risk, Investment At Risk e Value Leakage.
 - Eventos de arquitetura alimentam Capability Health Score, Capability Coverage, Service Health Score, Offer Health Score, Product Health Score, modernization scores, Architecture Debt Score, Architecture Exception Rate, Technology Rationalization Score, Offer Adoption Score e métricas de rastreabilidade capability/offer.
+- Eventos operacionais alimentam Business Discovery Health, Requirements Health, Solution Health, Readiness Health, Validation Health, Alert Resolution Health, Blocker Resolution Health, Review Time, Approval Time, Solution Time, Readiness Time e Validation Time.
+- Eventos de governança e alerta alimentam Governance Health Score por decisão, evidência, controle, exceção, aging e validação da condição original.
 
 ### Impactos em Health Scores
 
@@ -1060,6 +1182,8 @@ A camada de Decision Intelligence transforma eventos em alternativas de decisão
 - Data Confidence Score passa a ser explicado por eventos de frescor, divergência, erro de cálculo e lineage.
 - Eventos econômicos passam a explicar degradação de Portfolio Health Score, Initiative Health Score, Flow Health Score e Value Realization Score.
 - Eventos de arquitetura passam a explicar Capability Health Score, Service Health Score, Offer Health Score, Product Health Score e riscos de modernização.
+- Eventos operacionais passam a explicar Business Discovery Health, Requirements Health, Solution Health, Architecture Review Health, Engineering Review Health, Readiness Health, Validation Health, Alert Resolution Health e Blocker Resolution Health.
+- Eventos de decisão, exceção, controle e alert resolution passam a explicar Governance Health Score.
 
 ### Impactos em Forecasting
 
@@ -1070,6 +1194,7 @@ A camada de Decision Intelligence transforma eventos em alternativas de decisão
 - Forecast de KR recebe eventos de OKR, KR, KPI, iniciativas e valor realizado.
 - Forecasts passam a considerar eventos econômicos como CostOfDelayThresholdBreached, ValueAtRiskIncreased e InvestmentUnderperformingDetected.
 - Forecasts e narratives de modernização podem considerar ArchitectureDebtRegistered, ArchitectureExceptionExpired, CapabilityModernizationStarted e ServiceModernizationStarted como drivers de risco.
+- Forecast operacional de fluxo passa a considerar necessidade, requisito aprovado, solução aprovada, readiness, validação, blockers e resolução de blockers como drivers de passagem entre etapas.
 
 ### Novos Mapeamentos de Decisão
 

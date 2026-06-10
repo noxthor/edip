@@ -6,7 +6,7 @@ The project is currently in **conceptual modeling and architecture preparation**
 
 ## 1. Overview
 
-The Enterprise Delivery Intelligence Platform, EDIP, is a conceptual platform for connecting corporate strategy, portfolio, product, architecture, delivery, metrics, events, value realization and decision intelligence.
+The Enterprise Delivery Intelligence Platform, EDIP, is a conceptual platform for connecting corporate strategy, portfolio, product, architecture, discovery, requirements, solution design, delivery, validation, metrics, events, value realization and decision intelligence.
 
 EDIP is designed as an intelligence and governance layer over existing enterprise tools. It does not replace Jira, Azure DevOps, ServiceNow, GitHub, ERP systems, data lakes, OKR tools, portfolio tools or architecture repositories. Its purpose is to provide integration, traceability, governance, explainability and decision support across those domains.
 
@@ -38,6 +38,7 @@ EDIP aims to answer, with evidence:
 - Where are the main risks, bottlenecks and decision delays?
 - What value is expected, forecast, realized and validated?
 - Which decisions are required now?
+- Where is the Need-to-Value flow stopped, who should act and what evidence is missing?
 - What can the organization learn from execution outcomes?
 
 ## 4. Conceptual Model
@@ -45,6 +46,10 @@ EDIP aims to answer, with evidence:
 The main EDIP conceptual chain is:
 
 Strategy -> Portfolio -> Product -> Architecture Capability Model -> Delivery -> Metrics -> Events -> Intelligence -> Value Realization -> Governance.
+
+The operating model chain is:
+
+Business Need -> Pain Point -> Journey -> Process -> Discovery -> Hypothesis -> Opportunity -> Requirement -> Solution Design -> Readiness -> Feature -> Story -> Validation -> Outcome -> Value Case -> Value Realization.
 
 The intelligence chain is:
 
@@ -173,6 +178,8 @@ Contributions and feedback must preserve the conceptual integrity of EDIP:
 - Every metric must have an owner.
 - Every dashboard must support drill-down.
 - Every critical decision must have evidence.
+- Every alert must have an owner, action, evidence and validation before resolution.
+- The Need-to-Value flow must remain traceable from business need to realized value.
 - Product, Capability, Service and Offer must not be confused.
 - Events are completed facts.
 - Metrics are not events.

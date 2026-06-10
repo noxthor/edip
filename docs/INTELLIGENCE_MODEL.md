@@ -48,6 +48,8 @@ A EDIP deve produzir inteligência sobre:
 - Observabilidade e qualidade de dados: frescor, divergência, completude, lineage, confiança e erro de cálculo.
 - Economics: cost of delay, cost of queue, cost of bottleneck, delay impact, value at risk e value leakage.
 - Architecture Capability Model: domains, subdomains, business layers, capabilities, services, offers, application services e composição de produto.
+- Operating Model Need-to-Value: necessidades, dores, discovery, requisitos, solução, readiness, delivery, validação e value realization.
+- Alert and Blocker Resolution: ações, evidências, validação da condição original, resolução efetiva e reabertura.
 
 ### Architecture Elevator
 
@@ -168,6 +170,11 @@ Learning é aprendizado organizacional consolidado e reutilizável, derivado de 
 | ValueInsight | Insight sobre realização de valor. | insightId, valueCaseId, valueGap, leakageDrivers, confidenceLevel. | Relaciona ValueCase, Benefit, KPI, Outcome, Product e Initiative. | Sponsor de valor / Product Manager. | Detected, Validated, Actioned, Learned. | Deve diferenciar valor esperado, forecast, realizado e validado. |
 | RiskInsight | Insight sobre risco material. | insightId, riskCategory, severity, exposure, affectedScope. | Relaciona technical risk, dependency, governance, data, architecture e value. | Risk Owner / PMO. | Detected, Escalated, Accepted, Mitigated, Closed. | Deve apontar risco de inação e evidência. |
 | GovernanceInsight | Insight sobre decisão, gate, controle ou evidência. | insightId, governanceScope, decisionLatency, evidenceGap, complianceImpact. | Relaciona decisions, gates, approvals, controls e evidence chains. | PMO / Auditoria / Compliance. | Detected, Escalated, Resolved, Audited. | Deve preservar segregação de funções e trilha de auditoria. |
+| OperatingInsight | Insight sobre o fluxo Need-to-Value. | insightId, stage, blockedEntityId, ownerId, aging, nextRequiredEvent. | Relaciona BusinessNeed, Discovery, Requirement, SolutionDesign, Readiness, Delivery, Validation, ValueCase, alerts e blockers. | PMO / Operating Model Owner. | Detected, Investigating, ActionDefined, Resolved, Learned. | Deve responder onde está parado, quem deveria agir e qual evidência falta. |
+| QueueInsight | Insight sobre fila operacional ou de fluxo. | insightId, queueId, stage, aging, capacitySignal, ownerId. | Usa Queue, FlowStage, Queue Time, WIP, Bottleneck events e operating events. | Scrum Master / PMO. | Detected, Investigating, ActionDefined, Resolved. | Deve distinguir espera legítima de fila sem owner. |
+| BlockerInsight | Insight sobre bloqueador, causa, severidade e resolução. | insightId, blockerId, blockerType, severity, ownerId, resolutionStatus. | Usa BlockerCreated, BlockerResolved, Blocked Time e Blocker Resolution Health. | Blocker Owner / Coordenador. | Detected, Assigned, Resolving, Validated, Closed. | Deve exigir evidência de resolução quando crítico. |
+| ReviewInsight | Insight sobre revisão pendente, envelhecida ou rejeitada. | insightId, reviewType, solutionDesignId, reviewerId, slaStatus. | Usa SolutionReviewRequested, ReviewCompleted, Review Time, Approval Time e review health scores. | Arquiteto / Líder Técnico / Especialista. | Detected, Assigned, Reviewed, Escalated, Closed. | Deve indicar reviewer, pendência e impacto em readiness. |
+| AlertResolutionInsight | Insight sobre alerta aberto, encerrado indevidamente ou reaberto. | insightId, alertId, actionId, evidenceId, validationId, resolutionStatus. | Usa AlertActionRegistered, AlertEvidenceAttached, AlertConditionValidated, AlertResolved e AlertReopened. | Alert Owner / PMO. | Detected, ActionRequired, EvidenceRequired, ValidationRequired, Resolved, Reopened. | Não pode recomendar encerramento sem ação, evidência e validação da condição original. |
 
 ## 5. Intelligence Lifecycle
 
@@ -283,7 +290,7 @@ flowchart LR
 | Delivery | Iniciativas, épicos, features, releases e dependências. | InitiativeStarted, FeatureBlocked, FeatureCompleted, ReleasePublished. | Lead Time, Release Lead Time, Dependency Aging, Commitment Reliability. | Initiative Health Score, Delivery Health Score. | Schedule Forecast. | Delivery Heat Map. | Gerente, Coordenador, Scrum Master. | Replanejar, dividir iniciativa, remover dependência. |
 | Fluxo | Queues, WIP, bottlenecks e flow stages. | QueueEntered, QueueExited, BottleneckDetected, WIPThresholdBreached. | Queue Time, Wait Time, Flow Efficiency, Bottleneck Severity. | Flow Health Score. | Schedule Forecast, Capacity Forecast. | Enterprise, Portfolio, Delivery e Squad Heat Maps. | Scrum Master, Coordenador, Gerente. | Reduzir WIP, rebalancear capacidade, remover gargalo. |
 | Engenharia | Risco técnico, dívida, readiness e integração. | TechnicalRiskCreated, TechnicalDebtRegistered, ReleaseReadinessRejected. | Technical Debt Exposure, Integration Risk Score, Release Readiness. | Technical Delivery Health. | Schedule Forecast. | Risk Dimension. | Líder Técnico, Desenvolvedor, Arquiteto. | Remediar dívida, ajustar release, mitigar integração. |
-| Governança | Decisões, gates, controles, evidências e exceções. | DecisionSLAExceeded, GateRejected, EvidenceAttached, ExceptionExpired. | Decision Latency, Approval Aging, Evidence Coverage, Control Adherence Rate. | Governance Health quando aplicável, Portfolio Health Score. | Forecast de prazo e valor afetados. | Governance Dimension. | PMO, Auditoria, Compliance. | Escalar decisão, exigir evidência, aceitar ou mitigar risco. |
+| Governança | Decisões, gates, controles, evidências e exceções. | DecisionSLAExceeded, GateRejected, EvidenceAttached, ExceptionExpired. | Decision Latency, Approval Aging, Evidence Coverage, Control Adherence Rate. | Governance Health Score, Portfolio Health Score. | Forecast de prazo e valor afetados. | Governance Dimension. | PMO, Auditoria, Compliance. | Escalar decisão, exigir evidência, aceitar ou mitigar risco. |
 | Econômico | Atraso, filas, gargalos e valor em risco. | CostOfDelayThresholdBreached, CostOfQueueCalculated, CostOfBottleneckCalculated. | Cost of Delay, Cost of Queue, Cost of Bottleneck, Delay Impact Score. | Portfolio Health Score, Value Realization Score. | Value Forecast. | Value Dimension, Capacity Dimension. | Diretor, Superintendente, Financeiro. | Acelerar, cancelar, pausar, repriorizar ou ajustar funding. |
 | Valor | Value cases, benefícios e outcomes observados. | ValueCaseCreated, BenefitObserved, BenefitValidated, BenefitRejected. | Planned Value, Forecast Value, Realized Benefit, Validated Benefit, Value Leakage. | Value Realization Score. | Value Forecast. | Value Dimension. | Diretor, Product Manager, Sponsor. | Validar benefício, rever hipótese, corrigir adoção. |
 | Qualidade de Dados | Fontes, lineage, divergência e cálculo. | DataFreshnessBreached, SourceDivergenceDetected, DataConfidenceDegraded. | Data Freshness, Lineage Completeness, Source Divergence, Data Confidence Score. | Data Confidence Score. | Forecast confidence afetado. | Data Quality Dimension. | Data Owner, Especialista, Auditoria. | Bloquear decisão frágil, corrigir fonte, reconciliar dados. |
@@ -293,6 +300,7 @@ flowchart LR
 | Offer | Offer e relação com produto. | OfferCreated, OfferRetired, ProductOfferAssociated, ProductOfferRemoved. | Offer Health Score, Offer Adoption Score, Offer Traceability Health. | Offer Health Score, Product Health Score. | Value Forecast. | Architecture Offer Dimension. | Product Owner, Arquiteto, Offer Owner. | Substituir offer, rever composição do produto. |
 | Modernização | Capabilities e services em evolução. | CapabilityModernizationStarted, ServiceModernizationCompleted, ArchitectureDebtResolved. | Capability Modernization Score, Service Modernization Score, Architecture Debt Score. | Capability Health Score, Service Health Score. | Modernization forecast. | Architecture Modernization Dimension. | Arquiteto, PMO, Diretor. | Escalar modernização, ajustar roadmap e funding. |
 | Produto-Composição | Product como composição de offers. | ProductOfferAssociated, ProductOfferRemoved, OfferRetired. | Product Health Score, Offer Adoption Score, Time to Value. | Product Health Score, Value Realization Score. | KPI Forecast, Value Forecast. | Offer/Product composition views. | Product Manager, Product Owner, Arquiteto. | Ajustar composição, substituir offer, rever roadmap. |
+| Operacional Need-to-Value | Necessidades, requisitos, solução, readiness, validação, blockers e alertas. | BusinessNeedCaptured, RequirementReviewed, SolutionReviewRequested, ReadinessRejected, ValidationStarted, BlockerCreated, AlertReopened. | Business Discovery Health, Requirements Health, Solution Health, Readiness Health, Validation Health, Alert Resolution Health, Blocker Resolution Health. | Operating health scores, Flow Health Score. | Forecast operacional de fluxo. | Business Discovery, Requirements, Review, Readiness, Validation, Blocker e Alert Heat Maps. | PMO, Gerente, Coordenador, Product Owner, Arquiteto. | Atribuir owner, destravar fila, exigir evidência, escalar decisão, impedir encerramento falso de alerta. |
 
 ## 8. Explanation Model
 
@@ -307,6 +315,8 @@ Eventos -> Métricas -> Scores -> Forecasts -> Heat Maps -> Evidências -> Causa
 | Por que o forecast mudou? | ForecastUpdated, ForecastConfidenceChanged, ForecastAccuracyMeasured, TeamCapacityChanged. | Forecast Confidence, Forecast Accuracy, Capacity Forecast Risk. | Schedule, Value, KPI ou Capacity Forecast. | Versão do forecast, premissas, drivers e qualidade de dados. | Mostrar novos drivers, premissas alteradas, eventos recentes e confiança. |
 | Por que o valor não foi realizado? | BenefitObserved, BenefitRejected, ValueLeakageDetected, InvestmentUnderperformingDetected. | Benefit Variance, ROI, Value Leakage, Time to Value. | Value Forecast, Value Dimension. | Value case, baseline, target, evidência e validação. | Explicar se a falha foi hipótese, adoção, atraso, atribuição, escopo ou evidência. |
 | Por que o Flow Health degradou? | QueueEntered, WIPThresholdBreached, BottleneckDetected, FlowHealthDegraded. | Queue Time, Wait Time, Flow Efficiency, Bottleneck Severity. | Flow Heat Maps. | Histórico de queue, owners, blockers e work items. | Mostrar queue, WIP, bottleneck, dependência e capacidade como cadeia causal. |
+| Onde estamos parados? | BusinessNeedCaptured, RequirementReviewed, SolutionReviewRequested, ReadinessRejected, ValidationStarted, BlockerCreated. | Queue Time, Requirements Queue Time, Review Time, Readiness Time, Validation Time, Blocked Time. | Operating Heat Maps e forecast operacional de fluxo. | Need-to-Value path, owner, SLA, blocker, alert e evidência. | Mostrar etapa parada, aging, owner responsável, próximo evento esperado e ação necessária. |
+| Qual alerta continua aberta e por quê? | AlertDetected, AlertActionRegistered, AlertEvidenceAttached, AlertConditionValidated, AlertReopened. | Alert Aging, Alert Resolution Health, Evidence Coverage. | Alert Heat Map. | Alerta, ação, evidência, validação, condição original e histórico de reabertura. | Indicar se falta ação, evidência, validação ou remoção da condição original. |
 | Por que esta capability está crítica? | CapabilityUpdated, ArchitectureDebtRegistered, ArchitectureExceptionExpired. | Capability Health Score, Architecture Debt Score, Capability Traceability Health. | Architecture Capability Dimension. | Assessment arquitetural, dívida, exceções e produtos afetados. | Explicar risco por estratégia, serviços, offers, produtos, dívida e modernização. |
 | Por que esta oferta está em risco? | OfferRetired, ProductOfferRemoved, ArchitectureAssessmentCompleted. | Offer Health Score, Offer Adoption Score, Offer Traceability Health. | Architecture Offer Dimension. | Offers, services, products, decisões e plano de transição. | Mostrar se o risco vem de service legado, aposentadoria, baixa adoção ou perda de suporte. |
 | Por que este produto não entrega valor? | ProductOfferAssociated, ProductOfferRemoved, BenefitRejected, ValueLeakageDetected. | Product Health Score, Time to Value, Value Realization Score. | Value Forecast, Offer/Product composition views. | Composição de offers, outcomes, KPIs, value cases e roadmap. | Separar falha de hipótese, composição, delivery, offer, service ou adoção. |
@@ -369,6 +379,10 @@ Evento -> Signal -> Insight -> RootCause -> Recommendation.
 | ArchitectureDebtRegistered | Dívida arquitetural formalizada. | Criar plano de remediação técnica ou associar iniciativa. | Reduzir Architecture Debt Score e risco de obsolescência. | Conforme severidade. | Arquiteto / Service Owner. | 1 a 30 dias úteis. | Remediar, financiar ou aceitar risco. | Exceções, falhas de modernização e risco regulatório. | Debt record, assessment, evidências e plano. |
 | OfferHealthDegraded | Offer crítica em risco. | Revisar composição do produto ou dependências de serviço. | Proteger Product Health e valor. | Alta se produto crítico. | Product Owner / Offer Owner. | Próximo ciclo de produto. | Substituir offer ou criar transição. | Produto perde suporte e valor. | Composição do produto, services, adoption e value impact. |
 | ServiceModernizationDelayed | Modernização de serviço atrasada. | Escalar decisão arquitetural ou capacidade técnica. | Recuperar modernization score e reduzir debt. | Média a alta. | Arquiteto / Líder Técnico / PMO. | Próximo comitê técnico. | Repriorizar modernização ou ajustar escopo. | Serviço legado continua sustentando offers críticas. | Modernization plan, blockers, capacity e decisions. |
+| RequirementRejected | Requisito rejeitado ou recorrente em revisão. | Corrigir origem, critérios, owner ou evidência antes de solution design. | Aumentar Requirements Health e reduzir retrabalho. | Média a alta se bloqueia solução. | Product Owner / Business Analyst. | 1 a 5 dias úteis. | Corrigir, voltar ao discovery ou descartar. | Solution design frágil, retrabalho e atraso. | Origem, review, critérios e evidência. |
+| SolutionRejected | Solução rejeitada em review. | Corrigir desenho, registrar exceção ou reduzir escopo. | Recuperar Solution Health e reduzir review time. | Alta se bloqueia iniciativa crítica. | Solution Owner / Arquiteto / Líder Técnico. | 1 a 10 dias úteis. | Aprovar correção, exceção ou mudança de escopo. | Readiness bloqueado e atraso de delivery. | Reviews, requisitos, pendências e evidências. |
+| ReadinessRejected | Item não está pronto para execução. | Completar DOR, resolver dependência ou ajustar capacidade. | Evitar WIP improdutivo e recuperar Readiness Health. | Alta se afeta release. | Scrum Master / Delivery Owner. | 1 a 5 dias úteis. | Bloquear entrada ou aprovar exceção formal. | Execução sem prontidão, blockers e cost of delay. | Checklist, capacidade, dependências e riscos. |
+| AlertReopened | Alerta reaberto por condição persistente ou evidência insuficiente. | Revisar ação, evidência e validação da condição original. | Recuperar Alert Resolution Health. | Alta se alerta crítico. | Alert Owner / PMO. | Mesmo dia a 3 dias úteis. | Reabrir tratamento ou aceitar risco formalmente. | Falsa resolução, risco recorrente e perda de confiança. | Alert, action, evidence, validation e histórico. |
 
 ## 11. Executive Narrative Model
 
@@ -438,10 +452,12 @@ O Knowledge Graph conceitual da EDIP conecta entidades de negócio, arquitetura,
 - Architecture Domain, SubDomain, BusinessLayer, Capability.
 - BusinessService, TechnologyService, Offer, ApplicationService.
 - Product, ProductCapability, RoadmapItem, Outcome.
+- BusinessNeed, PainPoint, BusinessProblem, Discovery, Requirement, SolutionDesign, Review, ReadinessAssessment, Validation.
 - Epic, Feature, Story, Task, Release.
 - KPI, MetricDefinition, HealthScore, Forecast, HeatMap.
 - DomainEvent, Signal, Insight, Explanation, RootCause.
 - Decision, Approval, DecisionGate, GovernanceGate, Evidence.
+- Alert, AlertAction, AlertEvidence, AlertValidation, AlertResolution, Blocker.
 - ValueCase, Benefit, DecisionOutcome, Learning, KnowledgeAsset.
 
 ### Relações Conceituais
@@ -454,6 +470,10 @@ O Knowledge Graph conceitual da EDIP conecta entidades de negócio, arquitetura,
 | measuredBy | Outcome measuredBy KPI. | Explicabilidade de KPI e valor. |
 | causedBy | FlowHealthDegraded causedBy BottleneckDetected. | Root Cause Analysis. |
 | contributedTo | ArchitectureDebtRegistered contributedTo OfferHealthDegraded. | Causa contribuinte e forecasting. |
+| waitsAt | Requirement waitsAt Review Queue. | Operating Intelligence e análise de aging. |
+| blockedBy | SolutionDesign blockedBy ComplianceReview. | Explainability de atraso e blocker. |
+| requiresEvidence | Alert requiresEvidence AlertEvidence. | Governança de encerramento de alertas. |
+| validatedBy | AlertResolution validatedBy AlertValidation. | Evitar falso encerramento e preservar auditoria. |
 | evidencedBy | BenefitValidated evidencedBy EvidenceChain. | Auditoria e governança. |
 | decidedBy | FundingAllocated decidedBy DecisionApproved. | Decision Intelligence. |
 | impactedBy | Product impactedBy OfferRetired. | Análise de impacto. |
@@ -505,6 +525,9 @@ O Copilot corporativo da EDIP deve raciocinar a partir de eventos, métricas, in
 | O que devemos fazer agora? | AlertDetected, RootCauseIdentified, DecisionSLAExceeded. | Métrica dominante do alerta, health score afetado. | Próxima ação por severidade. | Causa, consequência, urgência e owner. | Ação com owner e horizonte. | Alert, evidence chain, decision context. | Alert -> Insight -> RootCause -> Recommendation -> Decision. |
 | Qual decisão está bloqueando mais valor? | DecisionCreated, DecisionSLAExceeded, CostOfDelayCalculated. | Decision Latency, Approval Aging, Cost of Delay. | Decisão de maior impacto econômico. | Decisão -> atraso -> valor em risco. | Escalar autoridade ou convocar comitê. | Gate, decisão pendente, value impact. | Decision -> Initiative -> ValueCase -> Portfolio -> Objective. |
 | Qual squad requer intervenção? | WIPThresholdBreached, QueueEntered, FlowHealthDegraded, FeatureBlocked. | WIP by Flow Stage, Aging WIP, Flow Health Score, Throughput. | Squad congestionada. | Causa de congestionamento e impacto. | Reduzir WIP, redistribuir trabalho. | Work items, flow stage, squad capacity. | Squad -> FlowStage -> WorkItem -> Initiative -> Portfolio. |
+| Onde estamos parados? | BusinessNeedCaptured, RequirementReviewed, SolutionReviewRequested, ReadinessRejected, ValidationStarted, BlockerCreated. | Queue Time, Requirements Queue Time, Review Time, Readiness Time, Validation Time, Blocked Time. | OperatingInsight, QueueInsight, BlockerInsight. | Etapa parada, aging, owner e próximo evento esperado. | Ação por etapa e owner responsável. | Need-to-Value path, queue, blocker, evidence. | Need -> Requirement -> Solution -> Readiness -> Delivery -> Validation -> ValueCase. |
+| Qual alerta continua aberta? | AlertDetected, AlertActionRegistered, AlertEvidenceAttached, AlertConditionValidated, AlertReopened. | Alert Aging, Alert Resolution Time, Alert Resolution Health. | AlertResolutionInsight. | Se falta ação, evidência, validação ou remoção da condição original. | Registrar ação, anexar evidência, validar condição ou reabrir alerta. | Alert, action, evidence, validation, resolution. | Alert -> Action -> Evidence -> Validation -> Resolution. |
+| Qual revisão está pendente? | SolutionReviewRequested, ArchitectureReviewCompleted, EngineeringReviewCompleted, SecurityReviewCompleted, DataReviewCompleted, ComplianceReviewCompleted. | Review Time, Approval Time, Architecture Review Health, Engineering Review Health. | ReviewInsight. | Reviewer pendente, SLA, impacto em readiness e decisão necessária. | Escalar reviewer, aceitar exceção ou corrigir solução. | SolutionDesign, review, reviewer, evidence. | Requirement -> SolutionDesign -> Review -> Readiness. |
 | Qual capability está mais crítica? | CapabilityUpdated, ArchitectureDebtRegistered, ArchitectureExceptionExpired. | Capability Health Score, Architecture Debt Score, Capability Traceability Health. | Capability crítica por debt, exception ou valor. | Capability -> services/offers/produtos afetados. | Priorizar modernização ou aceitar risco. | Assessment, debt, exception, impacted products. | Domain -> SubDomain -> Capability -> Service -> Offer -> Product -> Objective. |
 | Qual domínio possui mais gargalos? | BottleneckDetected, DomainCreated, CapabilityUpdated. | Flow Health Score, Bottleneck Severity, Capability Health Score. | Domínio com concentração de gargalos. | Interação entre fluxo e arquitetura. | Priorizar intervenção cross-portfolio. | Heat maps por domínio e portfolio. | Domain -> Capability -> Offer -> Product -> Initiative -> FlowStage. |
 | Quais ofertas compõem este produto? | ProductOfferAssociated, ProductOfferRemoved. | Offer Adoption Score, Product Health Score. | Composição atual e lacunas. | Produto como composição de offers. | Revisar composição se houver risco. | Histórico de associação e owners. | Product -> Offer -> BusinessService/TechnologyService -> Capability. |
@@ -619,6 +642,11 @@ A camada de inteligência deve ser governada porque influencia decisões executi
 - ValueInsight.
 - RiskInsight.
 - GovernanceInsight.
+- OperatingInsight.
+- QueueInsight.
+- BlockerInsight.
+- ReviewInsight.
+- AlertResolutionInsight.
 
 ### Relacionamentos Definidos
 
@@ -628,6 +656,7 @@ A camada de inteligência deve ser governada porque influencia decisões executi
 - EvidenceChain sustenta Explanation, RootCause, Narrative, Recommendation e Decision.
 - CausalChain diferencia direct cause, contributing cause, dependency, inference e correlation.
 - KnowledgeGraph conecta Strategy, Portfolio, Architecture Domain, Capability, Service, Offer, Product, Delivery, Metrics, Events, Insights, Decisions e Learnings.
+- KnowledgeGraph conecta BusinessNeed, PainPoint, Discovery, Requirement, SolutionDesign, Review, Readiness, Validation, AlertAction, AlertEvidence, AlertValidation e AlertResolution ao fluxo Need-to-Value.
 - Product é tratado como composição flexível de N offers, sem ser Capability, Service ou Offer.
 
 ### Modelos de Inteligência
@@ -643,6 +672,7 @@ A camada de inteligência deve ser governada porque influencia decisões executi
 - Intelligence Health Model.
 - Intelligence Maturity Model.
 - Governance of Intelligence.
+- Operating Intelligence para Need-to-Value, filas, blockers, reviews, readiness, validation e alert resolution.
 
 ### Modelos de Explicação
 
@@ -650,11 +680,13 @@ A camada de inteligência deve ser governada porque influencia decisões executi
 - Causality and Root Cause Analysis Model.
 - Explainability Framework em sete níveis.
 - Perguntas explicáveis sobre KPI, KR, forecast, value realization, Flow Health, capability, offer, produto, modernização e domínio.
+- Perguntas explicáveis sobre onde estamos parados, quem deveria agir, qual revisão está pendente, qual evidência falta e qual alerta continua aberto.
 
 ### Modelos de Recomendação
 
 - Recommendation Model por evento, signal, insight, root cause, impacto, urgência, owner, horizonte, decisão esperada, risco de inação e evidências necessárias.
 - Recomendações específicas para bottleneck, decisão atrasada, value leakage, forecast accuracy, capability health, architecture debt, offer health e service modernization.
+- Recomendações específicas para requirement rejected, solution rejected, readiness rejected e alert reopened.
 
 ### Modelos de Aprendizado
 

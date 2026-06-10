@@ -49,7 +49,11 @@ Princípios obrigatórios:
 
 ## 3. End-to-End Value Flow
 
-Fluxo completo:
+Fluxo canônico:
+
+Business Need -> Pain Point -> Journey -> Process -> Discovery -> Hypothesis -> Opportunity -> Requirement -> Solution Design -> Readiness -> Feature -> Story -> Validation -> Outcome -> Value Case -> Value Realization.
+
+Fluxo detalhado:
 
 Business Need -> Pain Point -> Journey Analysis -> Process Analysis -> Discovery -> Hypothesis -> Opportunity -> Prioritization -> Functional Requirements -> Non Functional Requirements -> Solution Design -> Architecture Review -> Engineering Review -> Security Review -> Data Review -> Readiness -> Feature -> Story -> Delivery -> Validation -> Outcome -> Value Realization.
 
@@ -79,7 +83,8 @@ flowchart LR
   Story --> Delivery[Delivery]
   Delivery --> Validation[Validation]
   Validation --> Outcome[Outcome]
-  Outcome --> ValueRealization[Value Realization]
+  Outcome --> ValueCase[Value Case]
+  ValueCase --> ValueRealization[Value Realization]
 ```
 
 ### Fluxo Com Governança
@@ -472,48 +477,38 @@ Cada métrica deve permitir drill-down para entidade, fila, owner, blocker, evid
 
 ### DOMAIN_MODEL.md
 
-- Conceitos faltantes: BusinessNeed, PainPoint, StakeholderNeed, CustomerNeed, BusinessProblem, BusinessConstraint, BusinessEvidence, CustomerJourney, OperationalJourney, BusinessProcess, BusinessObjective.
-- Entidades faltantes: Discovery, DiscoveryHypothesis, DiscoveryExperiment, DiscoveryFinding, DiscoveryOutcome, ProblemStatement, OpportunityAssessment, PrioritizationDecision, FunctionalRequirement, NonFunctionalRequirement, BusinessRule, AcceptanceCriterion, DefinitionOfReady, DefinitionOfDone, SolutionDesign, SolutionReview, SolutionApproval, Validation variants.
-- Eventos faltantes: NeedProposed, PainPointRegistered, DiscoveryStarted, HypothesisValidated, RequirementApproved, SolutionDesignSubmitted, ReviewCompleted, ReadinessAchieved, ValidationCompleted, AlertConditionCleared.
-- Métricas faltantes: não se aplica como domínio primário, mas deve referenciar métricas operacionais.
-- Dashboards faltantes: não se aplica.
-- Capacidades de inteligência faltantes: rastreabilidade formal Need-to-Value e estados operacionais por entidade.
+- Status pós-harmonização: Business Discovery, Product Discovery, Requirements, Solution Design, Delivery Readiness e Validation foram incorporados ao domínio formal.
+- Entidades incorporadas: BusinessNeed, PainPoint, StakeholderNeed, CustomerNeed, BusinessProblem, BusinessConstraint, BusinessEvidence, journeys, processes, discovery, requirements, solution design, reviews, readiness, validation, blockers, alerts e alert resolution.
+- Eventos incorporados por referência: business need, pain, discovery, requirement, solution, review, readiness, validation, blocker e alert resolution.
+- Ajustes remanescentes esperados: manter state machines e RACI sincronizados quando novas entidades operacionais forem criadas.
 
 ### PRODUCT_MODEL.md
 
-- Conceitos faltantes: operating domains, queue-centric navigation, alert closure policy, blocker lifecycle.
-- Entidades faltantes: views para requirements, reviews, readiness, validation e alert resolution.
-- Eventos faltantes: eventos operacionais devem aparecer em timelines e workspaces.
-- Métricas faltantes: review time, approval time, readiness time, validation time, alert aging.
-- Dashboards faltantes: Business Discovery Heat Map, Requirements Heat Map, Review Heat Map, Readiness Heat Map, Validation Heat Map, Blocker Heat Map, Alert Heat Map.
-- Capacidades de inteligência faltantes: perguntas operacionais por fila, blocker, owner, ação e evidência.
+- Status pós-harmonização: dashboards e navegação operacional foram incorporados para Business Discovery, Requirements, Solution Review, Readiness, Validation, Blocker e Alert Resolution.
+- Métricas incorporadas: review time, approval time, readiness time, validation time, alert aging, alert resolution health e blocker resolution health.
+- Capacidades incorporadas: perguntas operacionais por fila, blocker, owner, ação, evidência, review e requisito.
+- Ajustes remanescentes esperados: manter personas especialistas alinhadas a novos dashboards e decisões suportadas.
 
 ### METRICS_CATALOG.md
 
-- Conceitos faltantes: operating health scores e métricas de revisão, aprovação, readiness, validação e resolução.
-- Entidades faltantes: measurement targets para Need, Requirement, SolutionDesign, Review, Validation, AlertResolution e BlockerResolution.
-- Eventos faltantes: eventos operacionais como fontes de métricas.
-- Métricas faltantes: Discovery Time, Solution Time, Readiness Time, Validation Time, Review Time, Approval Time, Alert Resolution Health, Blocker Resolution Health.
-- Dashboards faltantes: heat maps operacionais e dashboards de operating flow.
-- Capacidades de inteligência faltantes: composição de health scores operacionais.
+- Status pós-harmonização: operating health scores e métricas de revisão, aprovação, solution, readiness, validação, alert resolution e blocker resolution foram adicionados.
+- Measurement targets incorporados: Need, Requirement, SolutionDesign, Review, Validation, Alert, AlertResolution, Blocker e BlockerResolution.
+- Heat maps incorporados: Business Discovery, Requirements, Architecture Review, Engineering Review, Readiness, Validation, Blocker e Alert.
+- Ajustes remanescentes esperados: novas métricas devem preservar owner, fórmula, fonte, periodicidade, dashboard e drill-down.
 
 ### EVENT_CATALOG.md
 
-- Conceitos faltantes: eventos de need, pain, requirements, solution reviews, readiness, validation, alert closure e blocker resolution.
-- Entidades faltantes: payload conceitual para operating events.
-- Eventos faltantes: NeedProposed, NeedAccepted, PainPointEvidenced, DiscoveryCompleted, RequirementCreated, RequirementApproved, SolutionReviewRequested, ArchitectureReviewCompleted, SecurityReviewCompleted, DataReviewCompleted, ReadinessBlocked, ReadinessAchieved, ValidationRejected, AlertActionRegistered, AlertEvidenceAttached, AlertConditionCleared, AlertClosed.
-- Métricas faltantes: mapeamentos event-to-metric para operating flow.
-- Dashboards faltantes: event-to-heat-map para operating heat maps.
-- Capacidades de inteligência faltantes: causalidade operacional Need-to-Value.
+- Status pós-harmonização: eventos de need, pain, requirements, solution reviews, readiness, validation, alert closure e blocker resolution foram incorporados com payload conceitual.
+- Mapeamentos incorporados: event-to-metric, event-to-alert, event-to-health-score, event-to-forecast, event-to-heat-map e event-to-decision para operating flow.
+- Eventos de encerramento de alerta foram normalizados em AlertActionRegistered, AlertEvidenceAttached, AlertConditionValidated, AlertResolved e AlertReopened.
+- Ajustes remanescentes esperados: qualquer evento citado por forecast, heat map, Copilot ou narrative deve ter definição formal no catálogo.
 
 ### INTELLIGENCE_MODEL.md
 
-- Conceitos faltantes: Operating Intelligence, Queue Intelligence, Blocker Intelligence, Alert Resolution Intelligence, Readiness Intelligence e Validation Intelligence.
-- Entidades faltantes: OperatingInsight, QueueInsight, BlockerInsight, AlertResolutionInsight.
-- Eventos faltantes: eventos operacionais como sinais para insights e recommendations.
-- Métricas faltantes: operating metrics como fontes de explanation.
-- Dashboards faltantes: não se aplica diretamente, mas deve referenciar operating heat maps.
-- Capacidades de inteligência faltantes: Copilot operacional com perguntas sobre fila, blocker, evidência, ação, revisão e requisito.
+- Status pós-harmonização: OperatingInsight, QueueInsight, BlockerInsight, ReviewInsight e AlertResolutionInsight foram incorporados.
+- Eventos operacionais, métricas operacionais e heat maps operacionais passaram a alimentar explanation, recommendation, Copilot e Knowledge Graph.
+- Capacidades incorporadas: Copilot operacional para fila, blocker, evidência, ação, revisão, requisito e alerta aberto.
+- Ajustes remanescentes esperados: novas recomendações devem sempre declarar owner sugerido, horizonte, risco de inação e evidências necessárias.
 
 ## 22. Copilot Support
 
@@ -595,6 +590,7 @@ Posicionamento da EDIP:
 ### Novas Alertas
 
 - Alertas de queue aging, blocker aging, review pending, approval pending, evidence missing, DoR violation, DoD violation, validation pending e value realization pending.
+- Cadeia canônica Need-to-Value padronizada até Value Case e Value Realization.
 
 ### Novos Health Scores
 

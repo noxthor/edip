@@ -40,6 +40,16 @@ O catálogo não define banco de dados, APIs, pipelines, queries ou implementaç
 | Technical Delivery Health | Saúde técnica de entrega. | release readiness, qualidade, observabilidade, débito, riscos técnicos, blockers. | Technical Leadership Dashboard |
 | Value Realization Score | Saúde de realização de valor. | benefício validado, evidência, confiança, value forecast accuracy, value leakage, time to value, desvio de forecast, rejeições. | Value Realization Dashboard, Executive Overview |
 | Data Confidence Score | Confiança de dado, métrica ou cálculo. | completude, frescor, lineage, sucesso de integração, divergência, erro. | Observability and Data Quality Dashboard, Governance and Evidence Dashboard |
+| Governance Health Score | Saúde de governança, decisões, evidências, controles, exceções e alertas críticos. | decision latency, approval aging, evidence coverage, control adherence, exception aging, alert resolution health, auditability. | Governance and Evidence Dashboard, Portfolio Command Center, Executive Overview |
+| Business Discovery Health | Saúde da descoberta de negócio antes de produto ou solução. | necessidade com owner, evidência, dor clara, jornada/processo, problema definido, aging. | Business Discovery Dashboard, Executive Overview |
+| Requirements Health | Saúde de requisitos funcionais e não funcionais. | origem rastreável, completude, critérios de aceite, revisão, aprovação, rejeições, retrabalho. | Requirements Dashboard, Initiative Workspace |
+| Solution Health | Saúde do desenho de solução. | requisitos cobertos, revisões concluídas, pendências, evidências, aprovações, rejeições, riscos. | Solution Review Dashboard, Architecture Cockpit |
+| Architecture Review Health | Saúde das revisões arquiteturais. | review time, pendências, dívidas, exceções, evidências, aprovações. | Architecture Review Heat Map, Governance and Evidence Dashboard |
+| Engineering Review Health | Saúde das revisões de engenharia. | review time, viabilidade, riscos técnicos, pendências, evidências, aprovações. | Engineering Review Heat Map, Technical Leadership Dashboard |
+| Readiness Health | Saúde de prontidão para delivery. | DOR, capacidade, dependências, riscos, checklist, blockers, approval aging. | Readiness Dashboard, Delivery Flow Dashboard |
+| Validation Health | Saúde de validação pós-entrega. | critérios validados, evidência, rejeições, validation time, outcome validation. | Validation Dashboard, Value Realization Dashboard |
+| Alert Resolution Health | Saúde de tratamento efetivo de alertas. | alert aging, ação, evidência, validação da condição original, resolução, reabertura. | Alert Heat Map, Governance and Evidence Dashboard |
+| Blocker Resolution Health | Saúde de resolução de bloqueadores. | blocked time, aging, owner, severidade, evidência de resolução, reabertura. | Blocker Heat Map, Flow Intelligence Dashboard |
 
 ## Strategy Metrics
 
@@ -163,6 +173,7 @@ Estas métricas conectam atrasos, filas e gargalos ao impacto econômico, permit
 
 | Nome | Descrição | Domínio | Persona Principal | Entidade Medida | Fórmula Conceitual | Fonte Esperada | Periodicidade | Owner | Uso em Dashboard | Alertas Associados | Nível de Confiança | Possibilidade de Drill-down | Possibilidade de Drill-up |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Governance Health Score | Mede saúde de governança por decisões, aprovações, evidências, controles, exceções e resolução de alertas. | Governance and Audit | PMO / Auditoria | Decision, DecisionGate, Control, Exception, Alert | decision SLA + evidence coverage + control adherence + alert resolution health - approval aging - exception aging - decision rework | Governance, Metrics, Alerts, Audit | Semanal | PMO / Governança | Governance and Evidence Dashboard, Portfolio Command Center, Executive Overview | Governance Health Degraded, Decision Latency Critical, Alert Resolution Failed | Média | Decision, gate, approval, evidence, control, exception, alert | Portfólio, objetivo, enterprise |
 | Evidence Coverage | Mede cobertura de evidências para decisões, métricas, controles e benefícios. | Governance and Audit | Especialista | Evidence | entidades que exigem evidência e possuem evidência válida / entidades que exigem evidência | Governance, Value Realization, Metrics | Diário | Especialista / PMO | Governance and Evidence Dashboard | Evidência ausente | Alta | Entidade, evidência, owner, decisão | Comitê, portfólio, auditoria |
 | Control Adherence Rate | Mede aderência a controles aplicáveis. | Governance and Audit | Especialista | Control | controles atendidos / controles aplicáveis | Governance, Risk, Compliance | Semanal | Riscos / Compliance | Governance and Evidence Dashboard | Controle não atendido | Média | Controle, evidência, exceção, owner | Domínio regulatório, auditoria |
 | Approval Cycle Time | Mede tempo total de ciclo de aprovações concluídas. | Governance and Audit | PMO | Approval | data da decisão - data da solicitação | Governance | Diário | PMO | Governance and Evidence Dashboard, Portfolio Command Center | Aprovação vencida | Alta | Approval, decision gate, evidência, owner | Comitê, portfólio, enterprise |
@@ -180,6 +191,53 @@ Estas métricas medem velocidade, volume e qualidade de decisões, separando lat
 | Decision Latency | Mede tempo entre identificação do problema e tomada da decisão. | Decision Intelligence / Governance | PMO | Decision, DecisionGate, Issue | data da decisão - data de identificação formal do problema ou necessidade decisória | Governance, Portfolio, Flow Intelligence, Alerts | Diário / Semanal | PMO / Owner do gate | Executive Overview, Portfolio Command Center, Governance and Evidence Dashboard | Decision Latency Critical, Approval Aging Breached | Média | Problema, decisão, gate, owner, evidência, iniciativa | Comitê, portfólio, objetivo estratégico |
 | Decision Throughput | Mede quantidade de decisões concluídas por período. | Decision Intelligence / Governance | PMO | Decision | contagem de decisões concluídas no período por tipo, comitê, portfólio ou gate | Governance, Portfolio | Semanal | PMO | Portfolio Command Center, Governance and Evidence Dashboard | baixa vazão decisória | Média | Decision, tipo, comitê, gate, owner | Portfólio, governança executiva |
 | Decision Rework Rate | Mede percentual de decisões revertidas, refeitas ou reavaliadas. | Decision Intelligence / Governance | PMO | Decision | decisões revertidas, refeitas ou reavaliadas / decisões concluídas | Governance, Portfolio, Audit | Mensal | PMO / Governança | Governance and Evidence Dashboard, Portfolio Command Center, Executive Overview | Decision Latency Critical, decisão reavaliada recorrente | Média | Decision, motivo de retrabalho, evidência, impacto | Comitê, portfólio, auditoria |
+
+## Operating Model Metrics
+
+Estas métricas medem o fluxo corporativo Need-to-Value, incluindo discovery de negócio, requirements, solution design, reviews, readiness, validation, blockers e resolução efetiva de alertas.
+
+| Nome | Descrição | Domínio | Persona Principal | Entidade Medida | Fórmula Conceitual | Fonte Esperada | Periodicidade | Owner | Uso em Dashboard | Alertas Associados | Nível de Confiança | Possibilidade de Drill-down | Possibilidade de Drill-up |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Business Discovery Lead Time | Mede tempo entre captura de necessidade e problema qualificado ou decisão de descarte. | Business Discovery | Business Teams / Product Owner | BusinessNeed, BusinessProblem | data de qualificação ou descarte - data de captura da necessidade | Business Discovery, Governance | Diário / Semanal | Business Owner | Business Discovery Dashboard, Executive Overview | Business Discovery Aging Breached | Média | Need, pain, journey, process, evidence | Produto, portfólio, objetivo |
+| Business Discovery Health | Mede saúde da descoberta de negócio por owner, evidência, dor, jornada, processo e aging. | Business Discovery | Business Teams | BusinessNeed, BusinessProblem | completude + evidência + clareza do problema + owner - aging - lacunas | Business Discovery, Governance | Semanal | Business Owner | Business Discovery Dashboard | Discovery Intake Risk | Média | Need, pain, evidence, process, owner | Produto, portfólio |
+| Requirements Health | Mede qualidade e prontidão de requisitos. | Requirements | Product Owner | FunctionalRequirement, NonFunctionalRequirement | origem rastreável + critérios + revisão + aprovação + owner - rejeições - lacunas | Requirements, Product Discovery, Governance | Diário / Semanal | Product Owner / Business Analyst | Requirements Dashboard, Initiative Workspace | Requirements Quality Alert | Média | Requisito, origem, critério, reviewer, evidência | Iniciativa, produto, objetivo |
+| Requirements Queue Time | Mede tempo de requisitos aguardando revisão, owner, evidência ou aprovação. | Requirements / Flow | Product Owner | FunctionalRequirement, NonFunctionalRequirement | soma de tempo em estados ou filas de requirements sem avanço | Requirements, Flow Intelligence | Diário | Product Owner / PMO | Requirements Dashboard, Flow Intelligence Dashboard | Requirements Queue Threshold Breached | Média | Requisito, fila, reviewer, blocker | Produto, iniciativa |
+| Review Time | Mede tempo consumido em revisões de solução por especialidade. | Solution Design | Arquiteto Corporativo | ArchitectureReview, EngineeringReview, SecurityReview, DataReview, ComplianceReview | data de conclusão da revisão - data de solicitação da revisão | Solution Design, Governance | Diário | Owner da revisão | Solution Review Dashboard, Architecture Review Heat Map, Engineering Review Heat Map | Review Aging Breached | Alta | Review, reviewer, solução, pendência, SLA | Iniciativa, produto, capability |
+| Approval Time | Mede tempo entre solicitação e aprovação ou rejeição formal. | Governance / Solution Design | PMO | SolutionApproval, Approval, DecisionGate | data de decisão - data de solicitação | Governance, Solution Design | Diário | PMO / Autoridade do gate | Governance and Evidence Dashboard, Solution Review Dashboard | Approval Aging Breached | Alta | Aprovação, gate, approver, evidência | Iniciativa, portfólio |
+| Solution Time | Mede tempo entre criação de solution design e aprovação, rejeição ou retorno. | Solution Design | Arquiteto Corporativo | SolutionDesign | data de decisão de solução - data de criação do solution design | Solution Design, Governance | Diário / Semanal | Solution Owner | Solution Review Dashboard, Architecture Cockpit | Solution Review Alert | Média | Solution design, requisito, review, pendência | Produto, iniciativa, capability |
+| Solution Health | Mede saúde do desenho de solução por cobertura, revisão, evidência e decisão. | Solution Design | Arquiteto Corporativo | SolutionDesign | requisitos cobertos + reviews concluídos + evidências + aprovação - pendências - rejeições - riscos | Solution Design, Architecture, Engineering | Semanal | Solution Owner | Solution Review Dashboard, Architecture Cockpit | Solution Health Degraded | Média | Solução, requirement, review, evidence, exception | Iniciativa, produto, capability |
+| Architecture Review Health | Mede saúde das revisões arquiteturais. | Solution Design / Architecture | Arquiteto Corporativo | ArchitectureReview | reviews concluídas no SLA + evidências + decisões - pendências críticas - exceções vencidas | Solution Design, Architecture Capability, Governance | Semanal | Arquiteto Corporativo | Architecture Review Heat Map, Governance and Evidence Dashboard | Architecture Review Degraded | Média | Review, capability, service, debt, exception | Domain, produto, iniciativa |
+| Engineering Review Health | Mede saúde das revisões de engenharia. | Solution Design / Engineering | Líder Técnico | EngineeringReview | reviews concluídas no SLA + riscos tratados + evidências - pendências técnicas - rejeições | Solution Design, Engineering | Semanal | Líder Técnico | Engineering Review Heat Map, Technical Leadership Dashboard | Engineering Review Degraded | Média | Review, risco, serviço, feature, evidência | Iniciativa, release |
+| Readiness Time | Mede tempo entre início e aprovação ou rejeição de readiness. | Delivery Readiness | Scrum Master | ReadinessAssessment | data de decisão de readiness - data de início do assessment | Delivery Readiness, Flow Intelligence | Diário | Scrum Master / Delivery Owner | Readiness Dashboard, Delivery Flow Dashboard | Readiness Aging Breached | Alta | Assessment, DOR, blocker, dependência, capacidade | Iniciativa, portfólio |
+| Readiness Health | Mede saúde de prontidão para execução. | Delivery Readiness | Gerente | ReadinessAssessment | DOR atendido + capacidade disponível + dependências tratadas + riscos aceitos - blockers - lacunas | Delivery Readiness, Delivery, Governance | Diário / Semanal | Delivery Owner | Readiness Dashboard, Initiative Workspace | Readiness Alert | Média | Assessment, checklist, blocker, capacity, dependency | Iniciativa, produto |
+| Validation Time | Mede tempo entre início e conclusão de validação. | Validation | Product Owner | Validation | data de conclusão da validação - data de início da validação | Validation, Delivery, Value Realization | Diário / Semanal | Validation Owner | Validation Dashboard, Value Realization Dashboard | Validation Aging Breached | Média | Validação, critério, evidência, validador | Outcome, value case |
+| Validation Health | Mede saúde de validação por evidência, critérios, aceite e outcome. | Validation | Product Owner | Validation, OutcomeValidation | critérios validados + evidências + owner + resultado - rejeições - lacunas | Validation, Product, Value Realization | Semanal | Validation Owner | Validation Dashboard, Product Value Dashboard | Validation Health Degraded | Média | Critério, feature, outcome, evidence | Produto, iniciativa, value case |
+| Alert Aging | Mede tempo de alerta aberto desde detecção até resolução válida. | Metrics and Intelligence / Governance | PMO | Alert | data atual ou resolução - data de detecção | Alerts, Metrics, Governance | Contínua / Diária | Alert Owner | Alert Heat Map, Governance and Evidence Dashboard | Alert Aging Breached | Alta | Alert, owner, action, evidence, validation | Dashboard, domínio, enterprise |
+| Alert Resolution Time | Mede tempo entre alerta detectado e AlertResolution válido. | Metrics and Intelligence / Governance | PMO | AlertResolution | data de resolução válida - data de detecção do alerta | Alerts, Governance | Diário / Semanal | Alert Owner | Alert Heat Map, Governance and Evidence Dashboard | Alert Resolution Failed | Alta | Alert, action, evidence, validation, resolution | Domínio, portfólio, enterprise |
+| Alert Resolution Health | Mede qualidade de resolução de alertas por ação, evidência, validação e reabertura. | Metrics and Intelligence / Governance | PMO | Alert, AlertResolution | alertas resolvidos com ação + evidência + validação / alertas encerrados - reaberturas - aging | Alerts, Governance, Evidence | Semanal | PMO / Alert Owner | Alert Heat Map, Governance and Evidence Dashboard | Alert Resolution Health Degraded | Alta | Alert, action, evidence, validator, cause | Domínio, dashboard, enterprise |
+| Blocker Resolution Health | Mede efetividade de resolução de bloqueadores. | Delivery / Flow Intelligence | Coordenador | Blocker | blockers resolvidos com evidência no SLA / blockers abertos - reaberturas - severidade vencida | Delivery, Flow Intelligence, Governance | Diário / Semanal | Blocker Owner | Blocker Heat Map, Flow Intelligence Dashboard | Blocker Resolution Degraded | Média | Blocker, owner, cause, evidence, impacted item | Squad, iniciativa, portfólio |
+
+## Architecture Metrics
+
+Estas métricas consolidam o Architecture Elevator e suas relações com strategy, product, delivery, value, governance e modernization.
+
+| Nome | Descrição | Domínio | Persona Principal | Entidade Medida | Fórmula Conceitual | Fonte Esperada | Periodicidade | Owner | Uso em Dashboard | Alertas Associados | Nível de Confiança | Possibilidade de Drill-down | Possibilidade de Drill-up |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Capability Health Score | Mede saúde de capability por criticidade, rastreabilidade, dívida, modernização, risco e valor. | Architecture Capability | Arquiteto Corporativo | Capability | cobertura + rastreabilidade + modernization + service health - debt - exceptions - risk | Architecture Capability, Metrics, Governance | Semanal | Capability Owner | Capability Landscape, Architecture Cockpit | Capability Health Degraded | Média | Capability, service, offer, product, debt | Domain, subdomain, objetivo |
+| Capability Coverage | Mede cobertura de capabilities mapeadas e com owner. | Architecture Capability | Arquiteto Corporativo | Capability | capabilities com owner, propósito e criticidade / capabilities esperadas ou ativas | Architecture Capability | Mensal | Arquiteto Corporativo | Capability Landscape | Capability Coverage Alert | Média | Domain, subdomain, business layer, owner | Enterprise architecture |
+| Service Health Score | Mede saúde de BusinessService ou TechnologyService. | Architecture Capability | Líder Técnico / Arquiteto | BusinessService, TechnologyService | disponibilidade conceitual + modernization + adoption + traceability - debt - exceptions - risk | Architecture, Engineering, Governance | Semanal | Service Owner | Service Landscape, Modernization Cockpit | Service Health Degraded | Média | Service, offer, app service, debt, exception | Capability, domain |
+| Offer Health Score | Mede saúde de offer por adoção, rastreabilidade, serviços, produtos e risco. | Architecture Capability / Product | Product Owner / Offer Owner | Offer | adoption + product traceability + service health + value support - debt - retirement risk | Architecture, Product, Metrics | Semanal | Offer Owner | Offer Landscape, Product Value Dashboard | Offer Health Degraded | Média | Offer, service, product, app service | Capability, product, objective |
+| Product Health Score | Mede saúde de produto incluindo composição de offers, outcomes, valor, delivery e arquitetura. | Product / Architecture | Product Owner | Product | outcome progress + offer health + value realization + delivery health - risk - debt | Product, Architecture, Delivery, Value Realization | Semanal | Product Owner | Product Value Dashboard, Architecture Cockpit | Product Health Degraded | Média | Product, offer, outcome, initiative, value case | Portfolio, objective |
+| Capability Modernization Score | Mede progresso e efetividade da modernização de capability. | Architecture Capability | Arquiteto Corporativo | Capability, ModernizationPlan | progresso de modernização + redução de debt + service modernization - atraso - exceções | Architecture Capability, Delivery, Governance | Mensal | Capability Owner / PMO | Modernization Cockpit | Capability Modernization Delayed | Média | Capability, modernization plan, service, initiative | Domain, portfólio |
+| Service Modernization Score | Mede progresso de modernização de services. | Architecture Capability / Engineering | Líder Técnico | BusinessService, TechnologyService | progresso de modernização + redução de risco + racionalização - atraso - debt | Architecture, Engineering, Delivery | Mensal | Service Owner | Modernization Cockpit, Technical Leadership Dashboard | Service Modernization Delayed | Média | Service, application service, initiative, debt | Capability, domain |
+| Architecture Debt Score | Mede severidade e exposição de dívida arquitetural. | Architecture Capability | Arquiteto Corporativo | ArchitectureDebt | soma ponderada de dívidas por severidade, criticidade, aging e impacto em product/offers | Architecture, Governance | Semanal | Arquiteto Corporativo | Architecture Cockpit, Modernization Cockpit | Architecture Debt Critical | Média | Debt, capability, service, offer, product | Domain, portfolio |
+| Architecture Exception Rate | Mede frequência e envelhecimento de exceções arquiteturais. | Architecture Capability / Governance | Arquiteto Corporativo | ArchitectureException | exceções ativas e vencidas / entidades avaliadas ou decisões arquiteturais | Architecture, Governance | Semanal | Governança de Arquitetura | Governance and Evidence Dashboard | Architecture Exception Expired | Alta | Exception, entity, owner, expiration, evidence | Domain, governance |
+| Technology Rationalization Score | Mede racionalização tecnológica de services e application services. | Architecture Capability / Engineering | Arquiteto Corporativo | TechnologyService, ApplicationService | redução de redundância + aderência a padrão + modernization - legacy exposure - exceptions | Architecture, Engineering | Mensal | Technology Service Owner | Modernization Cockpit | Technology Rationalization Degraded | Média | Technology service, app service, standard, debt | Capability, domain |
+| Offer Adoption Score | Mede adoção de offer por produtos e valor associado. | Architecture Capability / Product | Offer Owner | Offer | products ativos usando offer + outcomes suportados + valor associado - baixa adoção - retirement risk | Product, Architecture, Value Realization | Mensal | Offer Owner | Offer Landscape, Product Value Dashboard | Offer Adoption Low | Média | Offer, product, outcome, value case | Capability, product portfolio |
+| Objective to Capability Coverage | Mede cobertura de objetivos estratégicos por capabilities. | Strategy / Architecture Capability | Diretor / Arquiteto | StrategicObjective, Capability | objetivos com capabilities vinculadas / objetivos que exigem suporte arquitetural | Strategy, Architecture | Mensal | Arquiteto Corporativo / PMO | Strategic Alignment Dashboard, Capability Landscape | Objective Without Capability | Média | Objective, capability, domain, owner | Strategy, theme |
+| Capability to Initiative Coverage | Mede cobertura de capabilities críticas por iniciativas ativas ou justificativa formal. | Architecture Capability / Portfolio | PMO | Capability, Initiative | capabilities críticas com iniciativa, modernization plan ou justificativa / capabilities críticas | Architecture, Portfolio, Delivery | Semanal | Capability Owner / PMO | Capability Landscape, Portfolio Command Center | Critical Capability Without Initiative | Média | Capability, initiative, modernization plan, owner | Domain, portfolio |
+| Capability Traceability Health | Mede integridade de vínculos de capability com objetivos, produtos, iniciativas, KPIs e value cases. | Architecture Capability | Arquiteto Corporativo | Capability | completude + consistência + owner + atualização dos vínculos - gaps | Architecture, Strategy, Product, Delivery, Metrics | Semanal | Arquiteto Corporativo | Capability Landscape, Governance and Evidence Dashboard | Capability Traceability Critical | Média | Capability, objective, product, initiative, KPI | Domain, enterprise |
+| Offer Traceability Health | Mede integridade de vínculos entre offer, services, application services e products. | Architecture Capability / Product | Offer Owner | Offer | offers com services, app services, products, owner e vigência / offers ativas | Architecture, Product | Semanal | Offer Owner | Offer Landscape, Product Value Dashboard | Offer Traceability Critical | Média | Offer, service, app service, product association | Capability, domain |
 
 ## Value Realization Metrics
 
@@ -241,6 +299,17 @@ Estas métricas avaliam precisão histórica de previsões. Elas não substituem
 | Portfolio Heat Map | Portfolio Health Score, Flow Health Score, Bottleneck Count, Bottleneck Severity, Funding Lead Time, Capacity Forecast Risk, Cost of Queue, Cost of Bottleneck, WIP by Flow Stage | portfólio, investimento, iniciativa, dependência | rebalancear capacidade, acelerar funding, resolver dependências, reordenar iniciativas. |
 | Delivery Heat Map | Initiative Health Score, Lead Time, Release Lead Time, Queue Time, Aging WIP, Blocked Time, Flow Efficiency, Delay Impact Score, Schedule Forecast Accuracy | iniciativa, épico, feature, release | destravar entrega, ajustar planos, remover filas, corrigir previsibilidade. |
 | Squad Heat Map | WIP by Flow Stage, Work Item Staleness, Touch Time, Wait Time, Blocked Time, Throughput, Aging WIP, Flow Efficiency | squad, owner, flow stage, story, task | reduzir WIP, redistribuir trabalho, resolver bloqueios, melhorar cadence. |
+| Business Discovery Heat Map | Business Discovery Health, Business Discovery Lead Time, Traceability Health Score, Evidence Coverage | business need, pain point, journey, process, owner | qualificar necessidade, exigir evidência, descartar demandas sem problema claro. |
+| Requirements Heat Map | Requirements Health, Requirements Queue Time, Review Time, Approval Time, Traceability Health Score | requisito, reviewer, owner, produto, iniciativa | destravar revisão, corrigir requisitos, priorizar critérios críticos. |
+| Architecture Review Heat Map | Architecture Review Health, Review Time, Approval Time, Architecture Debt Score, Architecture Exception Rate | capability, service, solution design, reviewer | destravar revisão arquitetural, registrar exceção ou remediação. |
+| Engineering Review Heat Map | Engineering Review Health, Review Time, Technical Delivery Health, Technical Debt Exposure | service, feature, release, reviewer | remover pendências técnicas, revisar viabilidade e risco. |
+| Readiness Heat Map | Readiness Health, Readiness Time, Queue Time, Blocker Resolution Health, Capacity Forecast Risk | readiness assessment, feature, story, squad | impedir entrada sem DOR, resolver dependências e capacidade. |
+| Validation Heat Map | Validation Health, Validation Time, Time to Value, Evidence Coverage | validation, criterion, outcome, value case | acelerar aceite, completar evidência e conectar outcome a valor. |
+| Blocker Heat Map | Blocker Resolution Health, Blocked Time, Blocker Resolution Time, Bottleneck Severity | blocker, owner, cause, entity, squad | tratar bloqueadores antigos, escalonar owners e reduzir blocked time. |
+| Alert Heat Map | Alert Resolution Health, Alert Aging, Alert Resolution Time, Evidence Coverage, Decision Latency | alert, owner, action, evidence, validation | manter alertas abertos até ação, evidência e validação efetiva. |
+| Capability Heat Map | Capability Health Score, Capability Coverage, Capability Modernization Score, Architecture Debt Score, Capability Traceability Health | domain, subdomain, business layer, capability | priorizar capability crítica, modernização e correção de rastreabilidade. |
+| Service Heat Map | Service Health Score, Service Modernization Score, Technology Rationalization Score, Architecture Debt Score | business service, technology service, application service | priorizar modernização, racionalização e remediação de serviço. |
+| Offer Heat Map | Offer Health Score, Offer Adoption Score, Offer Traceability Health, Product Health Score | offer, product, service, application service | revisar composição de produto e offers com baixa adoção ou risco. |
 
 ### Heat Map Dimensions
 
@@ -253,6 +322,8 @@ Estas métricas avaliam precisão histórica de previsões. Elas não substituem
 | Governance | Committee Readiness, Approval Aging, Decision SLA, Decision Latency, Decision Throughput, Decision Rework Rate, Evidence Coverage, Control Adherence Rate. | Tornar decisões lentas, gates envelhecidos e lacunas de evidência acionáveis. |
 | Data Quality | Data Freshness, Integration Success Rate, Processing Lag, Calculation Error Rate, Source Divergence, Data Confidence Score, Lineage Completeness. | Expor confiabilidade das leituras executivas e impedir decisões com dados frágeis. |
 | Strategic Alignment | Strategic Alignment Coverage, Traceability Health Score, Traceability Gap Count, Objective Funding Coverage, KPI Target Deviation, OKR Achievement Forecast. | Verificar se execução, funding, métricas e valor continuam conectados à estratégia. |
+| Operating Flow | Business Discovery Health, Requirements Health, Solution Health, Readiness Health, Validation Health, Alert Resolution Health, Blocker Resolution Health. | Verificar onde o fluxo Need-to-Value está parado, quem deveria agir e qual evidência falta. |
+| Architecture | Capability Health Score, Service Health Score, Offer Health Score, Product Health Score, Architecture Debt Score, Modernization Scores, Traceability Health. | Verificar saúde, cobertura, modernização, dívida e impacto de capabilities, services e offers. |
 
 ## Alertas Conceituais
 
@@ -271,6 +342,12 @@ Estas métricas avaliam precisão histórica de previsões. Elas não substituem
 | Traceability Health Critical | Rastreabilidade apresenta lacunas, inconsistência, ownership ausente ou vínculos desatualizados em cadeia crítica. | Traceability Health Score, Strategic Alignment Coverage, Traceability Gap Count | PMO deve corrigir vínculos, owners e evidências antes de decisão crítica. |
 | Decision Latency Critical | Tempo entre identificação do problema e decisão ultrapassa limite de risco, valor ou governança. | Decision Latency, Approval Aging, Decision SLA, Funding Lead Time | PMO deve escalar gate, remover ambiguidade decisória ou formalizar impedimento. |
 | Discovery Quality Degraded | Discovery avança com baixa evidência, hipóteses frágeis, baixo readiness ou retrabalho recorrente. | Discovery Quality Score, Discovery Rework Rate, Hypothesis Validation Accuracy | Product Owner deve reforçar evidências, revisar hipóteses e evitar compromisso prematuro de capacidade. |
+| Requirements Quality Alert | Requisitos apresentam baixa rastreabilidade, critérios ausentes, rejeições recorrentes ou aging elevado. | Requirements Health, Requirements Queue Time, Review Time | Product Owner deve corrigir origem, critérios, owner e evidências antes de solution design. |
+| Solution Review Alert | Solution design está pendente, rejeitado ou com reviews críticos vencidos. | Solution Health, Solution Time, Review Time, Architecture Review Health, Engineering Review Health | Solution Owner deve resolver pendências, registrar exceções ou revisar escopo. |
+| Readiness Alert | Item tenta avançar sem DOR, capacidade, dependência tratada ou evidência obrigatória. | Readiness Health, Readiness Time, Blocker Resolution Health | Scrum Master ou Delivery Owner deve bloquear entrada, completar readiness ou formalizar exceção. |
+| Alert Resolution Failed | Alerta foi encerrado sem condição removida, reaberto ou sem evidência suficiente. | Alert Resolution Health, Alert Aging, Alert Resolution Time | PMO deve reabrir tratamento, exigir ação, evidência e validação da condição original. |
+| Architecture Debt Critical | Dívida arquitetural crítica afeta capability, service, offer, application service ou produto. | Architecture Debt Score, Capability Health Score, Service Health Score | Arquiteto Corporativo deve criar plano, associar iniciativa ou registrar aceite formal de risco. |
+| Capability Traceability Critical | Capability crítica possui lacuna de rastreabilidade com objetivo, produto, iniciativa, KPI ou value case. | Capability Traceability Health, Objective to Capability Coverage, Capability to Initiative Coverage | Capability Owner deve corrigir vínculos ou registrar justificativa formal. |
 
 ## Métricas Críticas Por Dashboard
 
@@ -284,7 +361,17 @@ Estas métricas avaliam precisão histórica de previsões. Elas não substituem
 | Delivery Flow Dashboard | Lead Time, Cycle Time, Touch Time, Queue Time, Wait Time, Aging WIP, Blocked Time, Throughput, WIP by Flow Stage, Flow Efficiency, Commitment Reliability |
 | Flow Intelligence Dashboard | Flow Health Score, Queue Time, Wait Time, Touch Time, Flow Efficiency, Bottleneck Count, Bottleneck Severity, Aging WIP, Work Item Staleness, Throughput, WIP by Flow Stage, Blocked Time, Approval Aging, Discovery Lead Time, Funding Lead Time, Release Lead Time, Time to Value, Cost of Queue, Cost of Bottleneck |
 | Technical Leadership Dashboard | Technical Delivery Health, Technical Debt Exposure, Release Readiness, Release Lead Time, Defect Leakage, Rework Rate, Technical Blocker Aging, Integration Risk Score |
-| Governance and Evidence Dashboard | Evidence Coverage, Control Adherence Rate, Approval Cycle Time, Approval Aging, Compliance Issue Count, Decision SLA, Decision Latency, Decision Rework Rate, Metric Ownership Coverage, Lineage Completeness, Traceability Health Score |
+| Business Discovery Dashboard | Business Discovery Health, Business Discovery Lead Time, Evidence Coverage, Traceability Health Score |
+| Requirements Dashboard | Requirements Health, Requirements Queue Time, Review Time, Approval Time, Traceability Health Score |
+| Solution Review Dashboard | Solution Health, Solution Time, Review Time, Approval Time, Architecture Review Health, Engineering Review Health |
+| Readiness Dashboard | Readiness Health, Readiness Time, Queue Time, Blocker Resolution Health, Capacity Forecast Risk |
+| Validation Dashboard | Validation Health, Validation Time, Time to Value, Evidence Coverage, Value Realization Score |
+| Architecture Cockpit | Capability Health Score, Service Health Score, Offer Health Score, Product Health Score, Architecture Debt Score, Architecture Exception Rate |
+| Capability Landscape | Capability Health Score, Capability Coverage, Capability Modernization Score, Objective to Capability Coverage, Capability Traceability Health |
+| Service Landscape | Service Health Score, Service Modernization Score, Technology Rationalization Score, Architecture Debt Score |
+| Offer Landscape | Offer Health Score, Offer Adoption Score, Offer Traceability Health, Product Health Score |
+| Modernization Cockpit | Capability Modernization Score, Service Modernization Score, Architecture Debt Score, Technology Rationalization Score |
+| Governance and Evidence Dashboard | Evidence Coverage, Control Adherence Rate, Approval Cycle Time, Approval Aging, Compliance Issue Count, Decision SLA, Decision Latency, Decision Rework Rate, Metric Ownership Coverage, Lineage Completeness, Traceability Health Score, Alert Resolution Health |
 | Value Realization Dashboard | Planned Value, Forecast Value, Realized Benefit, Validated Benefit, Benefit Variance, ROI, Time to Value, Value Realization Score, Value Forecast Accuracy, Cost of Delay, Value Leakage |
 | Observability and Data Quality Dashboard | Data Freshness, Integration Success Rate, Processing Lag, Calculation Error Rate, Source Divergence, Data Confidence Score |
 
@@ -300,6 +387,9 @@ Estas métricas avaliam precisão histórica de previsões. Elas não substituem
 - Toda métrica crítica deve permitir drill-up para iniciativa, portfólio, objetivo ou nível enterprise quando aplicável.
 - Métrica de Flow Intelligence deve indicar se suporta análise de queue, bottleneck, heat map, waste ou plano de ação.
 - Flow Health Score deve permanecer distinto de Delivery Health Score: delivery mede execução e compromissos; flow mede fluidez, espera, filas, gargalos e desperdício.
+- Métrica de operating model deve indicar etapa Need-to-Value, owner, SLA, aging e evento de entrada/saída esperado.
+- Métrica de resolução de alerta deve considerar resolução válida apenas quando existir ação, evidência e validação da condição original.
+- Métrica de arquitetura deve preservar distinção entre Product, Capability, Service e Offer.
 
 ## Change Log
 
@@ -336,6 +426,39 @@ Estas métricas avaliam precisão histórica de previsões. Elas não substituem
 - Decision Latency.
 - Decision Throughput.
 - Decision Rework Rate.
+- Governance Health Score.
+- Business Discovery Lead Time.
+- Business Discovery Health.
+- Requirements Health.
+- Requirements Queue Time.
+- Review Time.
+- Approval Time.
+- Solution Time.
+- Solution Health.
+- Architecture Review Health.
+- Engineering Review Health.
+- Readiness Time.
+- Readiness Health.
+- Validation Time.
+- Validation Health.
+- Alert Aging.
+- Alert Resolution Time.
+- Alert Resolution Health.
+- Blocker Resolution Health.
+- Capability Health Score.
+- Capability Coverage.
+- Service Health Score.
+- Offer Health Score.
+- Capability Modernization Score.
+- Service Modernization Score.
+- Architecture Debt Score.
+- Architecture Exception Rate.
+- Technology Rationalization Score.
+- Offer Adoption Score.
+- Objective to Capability Coverage.
+- Capability to Initiative Coverage.
+- Capability Traceability Health.
+- Offer Traceability Health.
 
 ### Métricas Revisadas
 
@@ -352,6 +475,10 @@ Estas métricas avaliam precisão histórica de previsões. Elas não substituem
 - Technical Blocker Aging passou a alimentar Bottleneck Detected quando bloqueios técnicos degradam fluxo.
 - Métricas críticas por dashboard foram revisadas para incluir Delivery Flow Dashboard, Flow Intelligence Dashboard, Portfolio Command Center, Initiative Workspace e Executive Overview.
 - Heat Map Enablement foi revisado para incorporar dimensões de Flow, Capacity, Value, Risk, Governance, Data Quality e Strategic Alignment.
+- Health Scores Governados foi revisado para incluir Business Discovery Health, Requirements Health, Solution Health, Architecture Review Health, Engineering Review Health, Readiness Health, Validation Health, Alert Resolution Health e Blocker Resolution Health.
+- Product Health Score foi revisado para considerar composição de offers e sinais arquiteturais sem confundir Product com Capability, Service ou Offer.
+- Governance and Evidence Dashboard foi revisado para incluir Alert Resolution Health.
+- Governance Health Score foi formalizado como score próprio para consolidar decisão, evidência, controle, exceção e resolução de alertas.
 
 ### Dashboards Impactados
 
@@ -362,6 +489,8 @@ Estas métricas avaliam precisão histórica de previsões. Elas não substituem
 - Governance and Evidence Dashboard recebeu Decision Latency, Decision Rework Rate e Traceability Health Score.
 - Product Value Dashboard recebeu Discovery Quality Score, Discovery Rework Rate e Hypothesis Validation Accuracy.
 - Strategic Alignment Dashboard recebeu Traceability Health Score.
+- Business Discovery Dashboard, Requirements Dashboard, Solution Review Dashboard, Readiness Dashboard, Validation Dashboard, Architecture Cockpit, Capability Landscape, Service Landscape, Offer Landscape e Modernization Cockpit foram adicionados ao catálogo de métricas críticas.
+- Heat maps operacionais e arquiteturais foram incorporados como consumidores formais de métricas.
 
 ### Alertas Adicionados
 
@@ -371,6 +500,12 @@ Estas métricas avaliam precisão histórica de previsões. Elas não substituem
 - Traceability Health Critical.
 - Decision Latency Critical.
 - Discovery Quality Degraded.
+- Requirements Quality Alert.
+- Solution Review Alert.
+- Readiness Alert.
+- Alert Resolution Failed.
+- Architecture Debt Critical.
+- Capability Traceability Critical.
 
 ### Métricas Preservadas
 

@@ -135,6 +135,147 @@ Não é responsável por:
 - Calcular métricas, health scores ou forecasts.
 - Aprovar funding ou decisões de portfólio.
 
+### Business Discovery Context
+
+Responsável por necessidades, dores, jornadas, processos, problemas, constraints de negócio, evidências e objetivos de negócio que antecedem discovery de produto e decisões de portfólio.
+
+Linguagem principal:
+
+- Business Need
+- Pain Point
+- Stakeholder Need
+- Customer Need
+- Business Problem
+- Business Constraint
+- Business Evidence
+- Customer Journey
+- Operational Journey
+- Business Process
+- Business Objective
+
+Responsabilidade de domínio:
+
+- Capturar necessidade e dor com owner e evidência.
+- Conectar jornadas e processos a problemas de negócio.
+- Diferenciar necessidade, problema, oportunidade e solução.
+- Preparar insumos rastreáveis para discovery, priorização e solução.
+
+Não é responsável por:
+
+- Validar hipótese de produto.
+- Aprovar solução técnica.
+- Executar delivery.
+
+### Product Discovery Context
+
+Responsável por discovery, hipóteses, experimentos, findings, outcomes de discovery, problem statements, opportunity assessments, premissas e decisões de priorização.
+
+Linguagem principal:
+
+- Discovery
+- Discovery Hypothesis
+- Discovery Experiment
+- Discovery Finding
+- Discovery Outcome
+- Problem Statement
+- Opportunity Assessment
+- Prioritization Decision
+- Assumption
+
+Responsabilidade de domínio:
+
+- Transformar problemas e necessidades em hipóteses validáveis.
+- Registrar evidências, experimentos e findings.
+- Determinar readiness de oportunidade antes de compromisso relevante de capacidade.
+- Explicitar premissas e incertezas.
+
+Não é responsável por:
+
+- Criar requisitos aprovados sem revisão.
+- Substituir decisão de portfólio ou funding.
+
+### Requirements Context
+
+Responsável por requisitos funcionais, requisitos não funcionais, regras de negócio, critérios de aceite, Definition of Ready, Definition of Done, constraints, dependências, riscos e premissas associados à solução.
+
+Linguagem principal:
+
+- Functional Requirement
+- Non Functional Requirement
+- Business Rule
+- Acceptance Criterion
+- Definition of Ready
+- Definition of Done
+- Constraint
+- Dependency
+- Risk
+- Assumption
+
+Responsabilidade de domínio:
+
+- Preservar origem rastreável de cada requisito.
+- Definir critérios de aceite e prontidão.
+- Registrar dependências, constraints, riscos e premissas antes de solution design e delivery.
+- Separar requisito, critério, regra, risco, constraint e hipótese.
+
+Não é responsável por:
+
+- Aprovar arquitetura.
+- Gerenciar backlog técnico detalhado.
+
+### Solution Design Context
+
+Responsável por desenho de solução, decisões de solução, registros de solução, revisões de arquitetura, engenharia, segurança, dados, compliance, aprovações e evidências.
+
+Linguagem principal:
+
+- Solution Design
+- Solution Record
+- Solution Decision
+- Architecture Review
+- Engineering Review
+- Security Review
+- Data Review
+- Compliance Review
+- Solution Approval
+- Solution Evidence
+
+Responsabilidade de domínio:
+
+- Avaliar solução antes de readiness e delivery.
+- Registrar revisões, participantes, decisões, evidências e pendências.
+- Tornar explícito quando a solução está aprovada, rejeitada ou pendente de ajuste.
+
+Não é responsável por:
+
+- Executar features e stories.
+- Medir benefício realizado.
+
+### Delivery Readiness Context
+
+Responsável por readiness assessment, readiness checklist, dependency assessment, risk assessment, capacity assessment e bloqueadores antes da execução.
+
+Linguagem principal:
+
+- Readiness Assessment
+- Readiness Checklist
+- Dependency Assessment
+- Risk Assessment
+- Capacity Assessment
+- Definition of Ready
+- Blocker
+
+Responsabilidade de domínio:
+
+- Determinar se uma iniciativa, feature ou story pode entrar em execução.
+- Verificar critérios de entrada, capacidade, dependências, riscos e evidências.
+- Impedir avanço sem owner, critérios, evidência ou aprovação obrigatória.
+
+Não é responsável por:
+
+- Priorizar portfólio.
+- Aprovar benefício realizado.
+
 ### Delivery Context
 
 Responsável por iniciativas, épicos, features, stories, tasks, fluxo, bloqueios, dependências de entrega e releases de negócio.
@@ -164,6 +305,31 @@ Não é responsável por:
 
 - Definir estratégia corporativa.
 - Validar value realization.
+
+### Validation Context
+
+Responsável por validação funcional, técnica, de negócio, de aceite, de outcome, de benefício e de valor após entrega.
+
+Linguagem principal:
+
+- Validation
+- Acceptance Validation
+- Business Validation
+- Technical Validation
+- Outcome Validation
+- Benefit Validation
+- Value Validation
+
+Responsabilidade de domínio:
+
+- Comprovar que entregas atendem critérios de aceite, outcomes e hipóteses de valor.
+- Registrar evidências de validação e rejeição.
+- Conectar delivery a value realization.
+
+Não é responsável por:
+
+- Executar backlog.
+- Definir métrica ou forecast.
 
 ### Engineering Context
 
@@ -333,6 +499,12 @@ Não é responsável por:
 | Strategy | Architecture Capability | Customer/Supplier | Strategy define objetivos que capabilities devem sustentar. |
 | Portfolio | Product | Partnership | Produto e portfólio alinham roadmap, oportunidades, investimentos e outcomes. |
 | Portfolio | Delivery | Customer/Supplier | Delivery executa iniciativas priorizadas e financiadas pelo portfólio. |
+| Business Discovery | Product Discovery | Customer/Supplier | Product Discovery consome necessidades, dores, jornadas e problemas qualificados. |
+| Product Discovery | Portfolio | Customer/Supplier | Portfolio consome oportunidades e assessments de discovery para priorização e funding. |
+| Product Discovery | Requirements | Customer/Supplier | Requirements consome hipóteses, findings e decisões de priorização aprovadas. |
+| Requirements | Solution Design | Customer/Supplier | Solution Design consome requisitos, regras, critérios, constraints, dependências e riscos. |
+| Solution Design | Delivery Readiness | Customer/Supplier | Readiness consome desenhos, revisões, aprovações e evidências de solução. |
+| Delivery Readiness | Delivery | Customer/Supplier | Delivery executa apenas itens que atendem readiness definido ou exceção formal. |
 | Product | Delivery | Partnership | Product define valor e escopo; Delivery representa execução. |
 | Architecture Capability | Product | Partnership | Product consome Offers; Offers derivam de Services e Capabilities. |
 | Architecture Capability | Delivery | Partnership | Delivery executa iniciativas que criam, alteram, modernizam ou aposentam capabilities, services, offers e application services. |
@@ -341,6 +513,8 @@ Não é responsável por:
 | Architecture Capability | Governance and Audit | Partnership | Assessments, exceções, debts, standards e decisões arquiteturais são governados e auditáveis. |
 | Delivery | Engineering | Partnership | Delivery depende da viabilidade técnica e Engineering expõe riscos e readiness. |
 | Delivery | Value Realization | Customer/Supplier | Value Realization mede se entregas produziram benefício. |
+| Delivery | Validation | Customer/Supplier | Validation consome entregas e critérios para aceitar, rejeitar ou solicitar correção. |
+| Validation | Value Realization | Customer/Supplier | Value Realization consome validações e evidências de outcome e benefício. |
 | Metrics and Intelligence | Todos | Conformist/Published Language | Contextos usam definições governadas de KPI, score e forecast. |
 | Governance and Audit | Todos | Shared Kernel conceitual | Decisão, evidência, controle e auditoria atravessam contextos. |
 | Organization and Ownership | Todos | Shared Kernel conceitual | Owner, papel e responsabilidade são conceitos transversais. |
@@ -352,10 +526,16 @@ Não é responsável por:
 flowchart LR
   STR[Strategy Context]
   PORT[Portfolio Context]
+  BDISC[Business Discovery Context]
+  PDISC[Product Discovery Context]
+  REQ[Requirements Context]
+  SOL[Solution Design Context]
+  READY[Delivery Readiness Context]
   PROD[Product Context]
   ARCH[Architecture Capability Context]
   DEL[Delivery Context]
   ENG[Engineering Context]
+  VALID[Validation Context]
   MET[Metrics and Intelligence Context]
   VAL[Value Realization Context]
   GOV[Governance and Audit Context]
@@ -365,6 +545,12 @@ flowchart LR
   STR --> PORT
   STR --> MET
   STR --> ARCH
+  BDISC --> PDISC
+  PDISC --> PORT
+  PDISC --> REQ
+  REQ --> SOL
+  SOL --> READY
+  READY --> DEL
   PORT <--> PROD
   PORT --> DEL
   PROD <--> DEL
@@ -374,6 +560,8 @@ flowchart LR
   ARCH --> MET
   ARCH <--> GOV
   DEL <--> ENG
+  DEL --> VALID
+  VALID --> VAL
   DEL --> VAL
   MET --> STR
   MET --> PORT
@@ -450,6 +638,75 @@ flowchart LR
 | ArchitectureException | Exceção arquitetural temporária com prazo, controles e risco aceito. | architectureExceptionId | Arquiteto Corporativo / Governança | Permitir desvio controlado, auditável e com plano de encerramento. |
 | ModernizationPlan | Plano de modernização de capability ou service. | modernizationPlanId | Capability Owner / Service Owner / PMO | Coordenar objetivo, escopo, decisão, evidência e progresso de modernização. |
 
+### Business Discovery Context
+
+| Entidade | Descrição | Identidade | Ownership | Propósito |
+| --- | --- | --- | --- | --- |
+| BusinessNeed | Necessidade de negócio capturada antes de solução ou oportunidade. | businessNeedId | Business Owner | Preservar origem do fluxo de valor e evitar solução sem problema explícito. |
+| PainPoint | Dor observada por cliente, operação, negócio ou stakeholder. | painPointId | Business Owner / Journey Owner | Evidenciar fricção, perda, risco ou ineficiência. |
+| StakeholderNeed | Necessidade declarada por stakeholder interno ou externo. | stakeholderNeedId | Stakeholder Owner | Diferenciar demanda de stakeholder de necessidade validada. |
+| CustomerNeed | Necessidade de cliente, usuário ou segmento. | customerNeedId | Product Owner / Journey Owner | Conectar jornadas e valor percebido. |
+| BusinessProblem | Problema de negócio formulado a partir de necessidade, dor, evidência e impacto. | businessProblemId | Business Owner | Orientar discovery e priorização por problema, não por solução prematura. |
+| BusinessConstraint | Restrição de negócio, regulatória, operacional, temporal ou financeira. | businessConstraintId | Business Owner / Compliance quando aplicável | Limitar opções de solução e priorização. |
+| BusinessEvidence | Evidência de necessidade, dor, processo, jornada ou impacto. | businessEvidenceId | Owner da evidência | Sustentar decisão, discovery e auditoria. |
+| CustomerJourney | Jornada de cliente afetada por dor, necessidade ou oportunidade. | customerJourneyId | Journey Owner | Conectar experiência, produto e outcome. |
+| OperationalJourney | Jornada operacional interna afetada por processo, risco ou ineficiência. | operationalJourneyId | Operations Owner | Conectar operação, processo e delivery. |
+| BusinessProcess | Processo de negócio afetado ou alvo de melhoria. | businessProcessId | Process Owner | Localizar impacto operacional e controles. |
+| BusinessObjective | Objetivo de negócio local, não necessariamente estratégico corporativo. | businessObjectiveId | Business Owner | Explicitar resultado esperado antes de solução. |
+
+### Product Discovery Context
+
+| Entidade | Descrição | Identidade | Ownership | Propósito |
+| --- | --- | --- | --- | --- |
+| Discovery | Trabalho estruturado para entender problema, oportunidade, usuário, solução e valor. | discoveryId | Product Owner | Organizar hipóteses, experimentos, findings e decisão de avanço. |
+| DiscoveryHypothesis | Hipótese validável sobre problema, solução, comportamento, valor ou adoção. | discoveryHypothesisId | Product Owner | Tornar premissas testáveis antes de investimento relevante. |
+| DiscoveryExperiment | Experimento ou pesquisa para testar hipótese. | discoveryExperimentId | Product Owner / Research Owner | Produzir evidência para decisão. |
+| DiscoveryFinding | Achado derivado de experimento, pesquisa ou análise. | discoveryFindingId | Product Owner | Transformar evidência em aprendizado acionável. |
+| DiscoveryOutcome | Resultado do discovery: avançar, pivotar, descartar ou aprofundar. | discoveryOutcomeId | Product Owner / PMO | Condicionar opportunity assessment e priorização. |
+| ProblemStatement | Formulação clara de problema, público, impacto e evidência. | problemStatementId | Product Owner / Business Owner | Evitar solução sem problema definido. |
+| OpportunityAssessment | Avaliação de oportunidade por valor, risco, evidência, capacidade e alinhamento. | opportunityAssessmentId | Product Owner / PMO | Preparar decisão de portfólio ou roadmap. |
+| PrioritizationDecision | Decisão de priorização baseada em evidência, valor, risco e capacidade. | prioritizationDecisionId | Product Owner / PMO | Registrar por que algo avança, pausa ou é descartado. |
+| Assumption | Premissa explícita que ainda precisa ser validada ou monitorada. | assumptionId | Owner da entidade associada | Evitar que incertezas virem fatos implícitos. |
+
+### Requirements Context
+
+| Entidade | Descrição | Identidade | Ownership | Propósito |
+| --- | --- | --- | --- | --- |
+| FunctionalRequirement | Requisito funcional rastreável a problema, oportunidade ou decisão. | functionalRequirementId | Product Owner / Business Analyst | Definir comportamento esperado da solução. |
+| NonFunctionalRequirement | Requisito não funcional de qualidade, segurança, dados, resiliência, performance ou compliance. | nonFunctionalRequirementId | Owner especialista | Definir restrições e qualidades obrigatórias. |
+| BusinessRule | Regra de negócio que condiciona comportamento ou decisão. | businessRuleId | Business Owner | Preservar semântica de negócio e auditoria. |
+| AcceptanceCriterion | Critério verificável de aceite. | acceptanceCriterionId | Product Owner / QA Owner | Permitir validação objetiva de feature, story ou requisito. |
+| DefinitionOfReady | Critérios mínimos para entrada em execução. | definitionOfReadyId | Product Owner / Delivery Owner | Impedir início de trabalho sem clareza suficiente. |
+| DefinitionOfDone | Critérios mínimos para considerar trabalho concluído. | definitionOfDoneId | Delivery Owner / Quality Owner | Impedir encerramento sem qualidade e evidência. |
+| Constraint | Restrição aplicável a requisito, solução ou entrega. | constraintId | Owner da restrição | Explicitar limites não negociáveis. |
+| RequirementDependency | Dependência que condiciona requisito, solução ou entrega. | requirementDependencyId | Dependency Owner | Expor bloqueios e aging antes do delivery. |
+| RequirementRisk | Risco associado a requisito, regra, dependência ou constraint. | requirementRiskId | Risk Owner | Tornar risco tratável antes de execução. |
+
+### Solution Design Context
+
+| Entidade | Descrição | Identidade | Ownership | Propósito |
+| --- | --- | --- | --- | --- |
+| SolutionDesign | Desenho da solução proposta para requisitos e constraints. | solutionDesignId | Solution Owner / Arquiteto | Explicitar opção de solução, impacto, riscos e dependências. |
+| SolutionRecord | Registro consolidado da solução, decisões, alternativas e evidências. | solutionRecordId | Solution Owner | Preservar racional e histórico. |
+| SolutionDecision | Decisão sobre opção de solução, trade-off ou exceção. | solutionDecisionId | Autoridade de solução | Sustentar governança e explainability. |
+| ArchitectureReview | Revisão arquitetural da solução. | architectureReviewId | Arquiteto Corporativo | Avaliar aderência, debt, exception e modernization impact. |
+| EngineeringReview | Revisão de engenharia da solução. | engineeringReviewId | Líder Técnico | Avaliar viabilidade técnica, esforço, riscos e readiness. |
+| SecurityReview | Revisão de segurança. | securityReviewId | Security Specialist | Avaliar controles, riscos e compliance de segurança. |
+| DataReview | Revisão de dados, lineage, qualidade e privacidade. | dataReviewId | Data Specialist | Avaliar impacto de dados e evidências. |
+| ComplianceReview | Revisão de compliance, política ou regulação. | complianceReviewId | Compliance Specialist | Avaliar aderência normativa. |
+| SolutionApproval | Aprovação formal da solução ou de exceção. | solutionApprovalId | Autoridade aprovadora | Condicionar readiness e execução. |
+| SolutionEvidence | Evidência usada em revisão, decisão ou aprovação de solução. | solutionEvidenceId | Owner da evidência | Sustentar auditoria e decisão. |
+
+### Delivery Readiness Context
+
+| Entidade | Descrição | Identidade | Ownership | Propósito |
+| --- | --- | --- | --- | --- |
+| ReadinessAssessment | Avaliação de prontidão para execução. | readinessAssessmentId | Delivery Owner / Scrum Master | Verificar DOR, capacidade, dependências, riscos e aprovações. |
+| ReadinessChecklist | Checklist governado de critérios de entrada. | readinessChecklistId | Delivery Owner | Padronizar entrada em delivery sem engessar contextos. |
+| DependencyAssessment | Avaliação de dependências abertas ou críticas. | dependencyAssessmentId | Dependency Owner / PMO | Evitar entrada em execução com dependência invisível. |
+| RiskAssessment | Avaliação de riscos antes da execução. | riskAssessmentId | Risk Owner | Decidir mitigação, aceite ou bloqueio. |
+| CapacityAssessment | Avaliação de capacidade disponível e comprometida. | capacityAssessmentId | Manager / Coordinator | Evitar compromisso além da capacidade. |
+
 ### Delivery Context
 
 | Entidade | Descrição | Identidade |
@@ -465,6 +722,17 @@ flowchart LR
 | Blocker | Impedimento explícito que trava fluxo. | blockerId |
 | Release | Conjunto de entregas disponibilizadas. | releaseId |
 | Dependency | Relação de dependência entre entidades. | dependencyId |
+
+### Validation Context
+
+| Entidade | Descrição | Identidade | Ownership | Propósito |
+| --- | --- | --- | --- | --- |
+| Validation | Validação geral de entrega, requisito, outcome ou benefício. | validationId | Validation Owner | Consolidar status de aceite, evidência e resultado. |
+| AcceptanceValidation | Validação de critérios de aceite. | acceptanceValidationId | Product Owner / QA Owner | Confirmar que AcceptanceCriteria foram atendidos. |
+| BusinessValidation | Validação de aderência ao problema, processo ou regra de negócio. | businessValidationId | Business Owner | Confirmar utilidade e conformidade de negócio. |
+| TechnicalValidation | Validação técnica da solução entregue. | technicalValidationId | Líder Técnico / Quality Owner | Confirmar qualidade técnica e readiness. |
+| OutcomeValidation | Validação de outcome observado. | outcomeValidationId | Product Owner / Metrics Owner | Confirmar mudança observável ligada à entrega. |
+| ValueValidation | Validação de valor ou benefício antes de value realization final. | valueValidationId | Sponsor de valor | Confirmar evidência suficiente para benefício. |
 
 ### Engineering Context
 
@@ -488,6 +756,11 @@ flowchart LR
 | HeatMap | Projeção de intensidade de gargalos, filas, esperas e desperdícios. | heatMapId |
 | Forecast | Projeção explicável de prazo, valor, KPI, KR ou capacidade. | forecastId |
 | Alert | Sinal acionável de exceção ou desvio. | alertId |
+| AlertCondition | Condição objetiva que disparou o alerta e que deve ser removida, mitigada ou formalmente aceita para encerramento. | alertConditionId |
+| AlertAction | Ação registrada para tratar a causa ou condição de um alerta. | alertActionId |
+| AlertEvidence | Evidência de execução, mitigação, decisão ou remoção da condição original. | alertEvidenceId |
+| AlertValidation | Validação de que a condição original do alerta deixou de existir ou foi formalmente aceita. | alertValidationId |
+| AlertResolution | Encerramento auditável de alerta após ação, evidência e validação. | alertResolutionId |
 
 ### Value Realization Context
 
@@ -553,6 +826,11 @@ flowchart LR
 | FlowStageType | Intake, Prioritization, Commitment, Discovery, Ready, In Progress, Waiting, Validation, Released ou Value Check. |
 | BottleneckSeverity | Severidade de gargalo por impacto, duração, recorrência e escopo afetado. |
 | HeatMapCell | Célula de heat map com dimensão, intensidade, entidade e período. |
+| Aging | Tempo transcorrido desde a entrada em estado, fila ou etapa. |
+| SLAThreshold | Limite acordado para permanência em estado, fila, revisão, decisão ou validação. |
+| ReviewOutcome | Approved, Rejected, ChangesRequired, Waived ou Deferred. |
+| AlertSeverity | Informational, Warning, Risk, Critical ou Regulatory Critical. |
+| RACIAssignment | Responsável, accountable, consultado e informado para entidade, revisão, decisão ou alerta. |
 
 ## 5. Agregados
 
@@ -690,6 +968,120 @@ Invariantes:
 - ArchitectureDebt deve possuir owner, severidade, entidade afetada e plano de tratamento ou aceite formal de risco.
 - ArchitectureException deve possuir owner, prazo, justificativa, controles compensatórios e plano de encerramento.
 - Toda modernização de Capability ou Service deve possuir owner, objetivo, escopo, decisão e evidência.
+
+### Business Discovery Aggregate
+
+Root: `BusinessNeed`
+
+Entidades internas:
+
+- PainPoint
+- StakeholderNeed
+- CustomerNeed
+- BusinessProblem
+- BusinessConstraint
+- BusinessEvidence
+- CustomerJourney
+- OperationalJourney
+- BusinessProcess
+- BusinessObjective
+
+Invariantes:
+
+- BusinessNeed deve possuir owner, origem, evidência mínima e estado.
+- PainPoint deve possuir evidência ou justificativa de investigação pendente.
+- BusinessProblem deve estar ligado a necessidade, dor, jornada, processo ou constraint.
+- BusinessEvidence deve declarar fonte, validade e owner.
+- BusinessNeed aceita ou priorizada deve possuir caminho rastreável para discovery, oportunidade ou decisão de descarte.
+
+### Product Discovery Aggregate
+
+Root: `Discovery`
+
+Entidades internas:
+
+- DiscoveryHypothesis
+- DiscoveryExperiment
+- DiscoveryFinding
+- DiscoveryOutcome
+- ProblemStatement
+- OpportunityAssessment
+- PrioritizationDecision
+- Assumption
+
+Invariantes:
+
+- Discovery deve possuir problema ou necessidade de origem.
+- DiscoveryHypothesis deve ser validável, falseável ou explicitamente marcada como premissa.
+- DiscoveryOutcome deve registrar avançar, pivotar, descartar ou aprofundar.
+- OpportunityAssessment deve possuir evidência, valor esperado, risco, owner e decisão.
+- PrioritizationDecision deve possuir racional, owner, data e impacto esperado.
+
+### Requirements Aggregate
+
+Root: `FunctionalRequirement`
+
+Entidades internas:
+
+- NonFunctionalRequirement
+- BusinessRule
+- AcceptanceCriterion
+- DefinitionOfReady
+- DefinitionOfDone
+- Constraint
+- RequirementDependency
+- RequirementRisk
+- Assumption
+
+Invariantes:
+
+- Todo requisito deve possuir origem rastreável para BusinessNeed, ProblemStatement, Opportunity ou decisão formal.
+- FunctionalRequirement deve possuir owner e critério de aceite.
+- NonFunctionalRequirement deve possuir owner especialista quando for crítico.
+- AcceptanceCriterion deve ser verificável.
+- DefinitionOfReady e DefinitionOfDone devem possuir owner e versão conceitual.
+- Constraint, Dependency, Risk e Assumption devem ser classificados de forma distinta.
+
+### Solution Design Aggregate
+
+Root: `SolutionDesign`
+
+Entidades internas:
+
+- SolutionRecord
+- SolutionDecision
+- ArchitectureReview
+- EngineeringReview
+- SecurityReview
+- DataReview
+- ComplianceReview
+- SolutionApproval
+- SolutionEvidence
+
+Invariantes:
+
+- SolutionDesign deve possuir requisitos de origem, owner, escopo, decisões e evidências.
+- Revisões obrigatórias devem declarar reviewer, resultado, pendências, SLA e evidência.
+- SolutionApproval deve depender de revisões obrigatórias aprovadas ou exceção formal.
+- SolutionDecision deve registrar alternativas consideradas e racional.
+
+### Delivery Readiness Aggregate
+
+Root: `ReadinessAssessment`
+
+Entidades internas:
+
+- ReadinessChecklist
+- DependencyAssessment
+- RiskAssessment
+- CapacityAssessment
+
+Invariantes:
+
+- ReadinessAssessment deve declarar entidade avaliada, owner, critérios de entrada e saída.
+- Item não deve avançar para delivery sem DOR atendido ou exceção formal.
+- Dependências críticas devem possuir owner, prazo e plano.
+- CapacityAssessment deve indicar capacidade disponível, demanda e risco de sobrecarga.
 
 ### Initiative Aggregate
 
@@ -835,11 +1227,23 @@ Root: `Alert`
 Entidades internas:
 
 - MeasurementTarget
+- AlertCondition
+- AlertAction
+- AlertEvidence
+- AlertValidation
+- AlertResolution
 
 Invariantes:
 
 - Alerta deve possuir owner, severidade, causa provável e ação sugerida.
 - Alerta deve referenciar entidade afetada.
+- Alerta deve possuir pelo menos uma AlertCondition mensurável ou verificável.
+- AlertCondition deve declarar métrica, evento, threshold, estado esperado ou evidência necessária para demonstrar que deixou de existir.
+- Alerta deve permanecer aberto até possuir ação registrada, evidência de execução e validação de que a condição original deixou de existir.
+- AlertAction deve possuir owner, prazo, status e resultado esperado.
+- AlertEvidence deve demonstrar execução da ação, decisão formal ou remoção da condição original.
+- AlertValidation deve verificar a AlertCondition original, não apenas registrar comentário ou aceite informal.
+- AlertResolution só pode existir quando AlertAction, AlertEvidence e AlertValidation estiverem completos; aceite de risco deve ser registrado como decisão formal auditável.
 
 ### Value Realization Aggregate
 
@@ -917,6 +1321,41 @@ Invariantes:
 | Offer | suporta | ProductOutcome |
 | ArchitectureDebt | afeta | Capability, BusinessService, TechnologyService, Offer ou ApplicationService |
 | ModernizationPlan | moderniza | Capability, BusinessService ou TechnologyService |
+| BusinessNeed | evidencia-se por | BusinessEvidence |
+| BusinessNeed | expressa | StakeholderNeed ou CustomerNeed |
+| BusinessNeed | pode revelar | PainPoint |
+| PainPoint | ocorre em | CustomerJourney ou OperationalJourney |
+| CustomerJourney ou OperationalJourney | atravessa | BusinessProcess |
+| BusinessProcess | contém ou evidencia | BusinessProblem |
+| BusinessProblem | condicionado por | BusinessConstraint |
+| BusinessProblem | descrito por | ProblemStatement |
+| ProblemStatement | orienta | Discovery |
+| Discovery | testa | DiscoveryHypothesis |
+| DiscoveryHypothesis | testada por | DiscoveryExperiment |
+| DiscoveryExperiment | produz | DiscoveryFinding |
+| Discovery | conclui | DiscoveryOutcome |
+| DiscoveryOutcome | alimenta | OpportunityAssessment |
+| OpportunityAssessment | sustenta | PrioritizationDecision |
+| PrioritizationDecision | pode originar | Opportunity, RoadmapItem ou FunctionalRequirement |
+| FunctionalRequirement | deriva de | Opportunity, ProblemStatement ou PrioritizationDecision |
+| NonFunctionalRequirement | complementa | FunctionalRequirement ou SolutionDesign |
+| BusinessRule | condiciona | FunctionalRequirement |
+| AcceptanceCriterion | valida | FunctionalRequirement, Feature ou Story |
+| DefinitionOfReady | condiciona entrada de | Feature ou Story |
+| DefinitionOfDone | condiciona conclusão de | Feature ou Story |
+| Constraint | limita | Requirement, SolutionDesign ou Delivery |
+| RequirementDependency | bloqueia ou condiciona | Requirement, SolutionDesign ou Feature |
+| RequirementRisk | afeta | Requirement, SolutionDesign ou Delivery |
+| SolutionDesign | atende | FunctionalRequirement e NonFunctionalRequirement |
+| SolutionDesign | avaliado por | ArchitectureReview, EngineeringReview, SecurityReview, DataReview ou ComplianceReview |
+| SolutionDecision | decide | SolutionDesign |
+| SolutionApproval | aprova | SolutionDesign |
+| SolutionEvidence | sustenta | SolutionDesign, Review ou SolutionApproval |
+| ReadinessAssessment | avalia | Feature, Story, Initiative ou SolutionDesign |
+| ReadinessChecklist | verifica | DefinitionOfReady |
+| DependencyAssessment | avalia | RequirementDependency ou Dependency |
+| RiskAssessment | avalia | RequirementRisk, TechnicalRisk ou Delivery Risk |
+| CapacityAssessment | avalia | Team, Squad, Initiative ou Feature |
 | Initiative | decompõe-se em | Epic |
 | Epic | decompõe-se em | Feature |
 | RoadmapItem | pode ser implementado por | Feature |
@@ -926,6 +1365,12 @@ Invariantes:
 | Queue | agrupa | Feature, Story ou Task |
 | Bottleneck | afeta | Queue, FlowStage, Initiative, Portfolio ou Team |
 | Feature | entregue em | Release |
+| Validation | avalia | Release, Feature, Story, Requirement, Outcome ou ValueCase |
+| AcceptanceValidation | verifica | AcceptanceCriterion |
+| BusinessValidation | verifica | BusinessRule, BusinessProcess ou BusinessObjective |
+| TechnicalValidation | verifica | NonFunctionalRequirement, SolutionDesign ou Release |
+| OutcomeValidation | verifica | ProductOutcome ou StrategicOutcome |
+| ValueValidation | verifica | ValueCase ou RealizedBenefit |
 | Initiative | associado a | ValueCase |
 | Initiative | contribui para | StrategicOutcome |
 | ValueCase | mede valor de | StrategicOutcome |
@@ -940,6 +1385,11 @@ Invariantes:
 | Queue, Bottleneck ou FlowStage | pode possuir | FlowHealthScore |
 | HeatMap | agrega | Queue, Bottleneck e FlowHealthScore |
 | Entidade de domínio | pode disparar | Alert |
+| Alert | possui | AlertCondition |
+| Alert | exige | AlertAction |
+| AlertAction | sustentada por | AlertEvidence |
+| AlertResolution | depende de | AlertValidation |
+| AlertValidation | verifica | AlertCondition |
 | Entidade crítica | sustentada por | Evidence |
 | Decision | pode exigir | Approval |
 | DecisionGate | avalia | Entidade de domínio |
@@ -974,6 +1424,35 @@ Invariantes:
 | Product -> Roadmap | 1:N |
 | Product -> Offer | N:M |
 | Offer -> Product | N:M |
+| BusinessNeed -> PainPoint | 0:N |
+| BusinessNeed -> BusinessEvidence | 1:N |
+| BusinessNeed -> StakeholderNeed | 0:N |
+| BusinessNeed -> CustomerNeed | 0:N |
+| PainPoint -> Journey | N:M |
+| Journey -> BusinessProcess | N:M |
+| BusinessProcess -> BusinessProblem | 0:N |
+| BusinessProblem -> ProblemStatement | 1:1 |
+| ProblemStatement -> Discovery | 0:N |
+| Discovery -> DiscoveryHypothesis | 1:N |
+| DiscoveryHypothesis -> DiscoveryExperiment | 0:N |
+| DiscoveryExperiment -> DiscoveryFinding | 0:N |
+| Discovery -> DiscoveryOutcome | 0:N |
+| DiscoveryOutcome -> OpportunityAssessment | 0:N |
+| OpportunityAssessment -> PrioritizationDecision | 0:N |
+| PrioritizationDecision -> FunctionalRequirement | 0:N |
+| FunctionalRequirement -> NonFunctionalRequirement | N:M |
+| FunctionalRequirement -> BusinessRule | N:M |
+| FunctionalRequirement -> AcceptanceCriterion | 1:N |
+| FunctionalRequirement -> SolutionDesign | N:M |
+| SolutionDesign -> Review | 1:N |
+| Review -> SolutionApproval | 0..1:1 |
+| SolutionDesign -> ReadinessAssessment | 0:N |
+| ReadinessAssessment -> Feature | 0:N |
+| AcceptanceCriterion -> AcceptanceValidation | 0:N |
+| Feature -> Validation | 0:N |
+| Story -> Validation | 0:N |
+| Validation -> Outcome | 0:N |
+| Validation -> ValueCase | 0:N |
 | ArchitectureDomain -> ArchitectureSubDomain | 1:N |
 | ArchitectureSubDomain -> BusinessLayer | 1:N |
 | BusinessLayer -> Capability | 1:N |
@@ -1019,6 +1498,11 @@ Invariantes:
 | Control -> Evidence | 0:N |
 | Entity -> HealthScore | 0:N temporal |
 | Entity -> Alert | 0:N |
+| Alert -> AlertCondition | 1:N |
+| Alert -> AlertAction | 1:N |
+| AlertAction -> AlertEvidence | 1:N |
+| Alert -> AlertValidation | 0:N |
+| Alert -> AlertResolution | 0..1:1 |
 
 ## 8. Regras de Negócio
 
@@ -1081,6 +1565,46 @@ Invariantes:
 - Flow Health Score deve decompor seus drivers: queue time, bottleneck severity, aging WIP, WIP, throughput e flow efficiency.
 - Enterprise Heat Map, Portfolio Heat Map, Delivery Heat Map e Squad Heat Map são projeções analíticas de fluxo, não novos níveis de domínio.
 - Heat maps devem permitir drill-down até work items causadores e drill-up até objetivo, portfólio ou iniciativa afetada.
+
+### Operating Model Rules
+
+- Toda BusinessNeed deve possuir owner, data de entrada, estado, evidência ou justificativa de investigação pendente.
+- Toda dor relevante deve possuir BusinessEvidence ou ser marcada como hipótese a validar.
+- Toda hipótese deve ser validável, possuir owner e declarar como será aceita, rejeitada ou revisada.
+- Todo requisito deve possuir origem rastreável para BusinessNeed, ProblemStatement, Opportunity, PrioritizationDecision ou decisão formal.
+- Todo SolutionDesign deve possuir requisitos de origem, revisões aplicáveis, evidências e decisão de aprovação, rejeição ou ajuste.
+- Toda revisão deve possuir reviewer, accountable, resultado, SLA, pendências e evidência.
+- Feature ou Story não deve avançar para execução sem DefinitionOfReady atendida ou exceção formal auditável.
+- Feature ou Story não deve ser concluída sem DefinitionOfDone, AcceptanceCriterion ou exceção formal auditável.
+- Validation deve registrar critério, evidência, validador, resultado e impacto em outcome ou value case quando aplicável.
+- Fila operacional sem owner, SLA ou capacidade definida deve gerar alerta de governança ou fluxo.
+
+### Alert Closure Rules
+
+- Alerta somente pode ser encerrado quando existe AlertAction registrada.
+- Alerta somente pode ser encerrado quando existe AlertEvidence comprovando execução, decisão formal ou remoção da condição original.
+- Alerta somente pode ser encerrado quando AlertValidation confirma que a condição original que disparou o alerta deixou de existir ou foi aceita formalmente por autoridade definida.
+- Comentário, mudança manual de status ou ausência temporária de dado não encerram alerta.
+- Aceite de risco encerra tratamento apenas quando registrado como Decision, Evidence e, quando aplicável, Exception.
+- Alerta reaberto deve preservar resolução anterior, causa da reabertura e novo owner de ação.
+
+### Concept Taxonomy Rules
+
+- Need representa necessidade antes de solução; Opportunity representa possibilidade qualificada de gerar valor; Requirement representa condição a ser satisfeita; Feature representa entrega executável.
+- Hypothesis é afirmação testável; Assumption é premissa ainda não validada; Constraint é limite imposto; Risk é incerteza com impacto; Issue é problema ocorrido ou identificado; Evidence é artefato verificável.
+- BusinessEvidence, SolutionEvidence e AlertEvidence são especializações conceituais de Evidence usadas em contextos diferentes, sem alterar a semântica central de evidência.
+- Dependency no Delivery Context representa dependência de execução; RequirementDependency representa dependência que condiciona requisitos ou solução antes do delivery.
+- Capability, ProductCapability, BusinessService, TechnologyService, Offer e Product não podem ser usados como sinônimos.
+- TechnicalDebt representa dívida localizada em implementação, código, teste, integração, release, operação técnica ou componente técnico sob ownership de engenharia.
+- ArchitectureDebt representa dívida estrutural de capability, service, offer, application service, padrão, tecnologia, integração corporativa ou decisão arquitetural com impacto em produto, estratégia, risco ou modernização.
+- Uma dívida pode ter efeitos técnicos e arquiteturais, mas deve possuir classificação primária, owner primário e relação explícita quando uma gera ou agrava a outra.
+
+### Ownership and RACI Rules
+
+- Entidades críticas devem declarar owner e accountable; revisões devem declarar reviewer; decisões devem declarar approver.
+- Owner responde pela atualização e ação; accountable responde pelo resultado; reviewer responde pela avaliação; approver responde pela decisão.
+- A mesma pessoa ou papel pode acumular owner e accountable apenas quando segregação de funções não for exigida por governança.
+- Decisão, aprovação, validação, exceção e encerramento de alerta devem registrar autoridade responsável.
 
 ### Architecture Capability Rules
 
@@ -1225,11 +1749,47 @@ stateDiagram-v2
   [*] --> Detected
   Detected --> Acknowledged
   Acknowledged --> InTreatment
-  InTreatment --> Mitigated
-  Mitigated --> Resolved
+  InTreatment --> ActionDefined
+  ActionDefined --> EvidenceAttached
+  EvidenceAttached --> ConditionValidated
+  ConditionValidated --> Resolved
   Resolved --> Reopened
   Reopened --> InTreatment
   Resolved --> [*]
+```
+
+### Need to Value Operating Flow
+
+```mermaid
+stateDiagram-v2
+  [*] --> NeedProposed
+  NeedProposed --> NeedUnderAnalysis
+  NeedUnderAnalysis --> NeedAccepted
+  NeedUnderAnalysis --> NeedRejected
+  NeedAccepted --> DiscoveryActive
+  DiscoveryActive --> DiscoveryValidated
+  DiscoveryActive --> DiscoveryRejected
+  DiscoveryValidated --> RequirementsDraft
+  RequirementsDraft --> RequirementsReviewed
+  RequirementsReviewed --> RequirementsApproved
+  RequirementsApproved --> SolutionDraft
+  SolutionDraft --> SolutionUnderReview
+  SolutionUnderReview --> SolutionApproved
+  SolutionUnderReview --> SolutionRejected
+  SolutionApproved --> ReadinessAssessing
+  ReadinessAssessing --> ReadyForDelivery
+  ReadinessAssessing --> Blocked
+  ReadyForDelivery --> InDelivery
+  InDelivery --> ValidationPending
+  ValidationPending --> Validated
+  ValidationPending --> ReworkRequired
+  ReworkRequired --> InDelivery
+  Validated --> ValueRealizationMeasuring
+  ValueRealizationMeasuring --> ValueRealized
+  ValueRealized --> [*]
+  NeedRejected --> [*]
+  DiscoveryRejected --> [*]
+  SolutionRejected --> [*]
 ```
 
 ### Decision Gate
@@ -1302,6 +1862,51 @@ stateDiagram-v2
 | BottleneckDetected | Gargalo foi detectado. |
 | BottleneckResolved | Gargalo foi resolvido. |
 
+### Operating Model Events
+
+| Evento | Fato |
+| --- | --- |
+| BusinessNeedCaptured | Necessidade de negócio foi capturada. |
+| PainPointRegistered | Dor foi registrada com owner e evidência ou hipótese de evidência. |
+| BusinessEvidenceAttached | Evidência de negócio foi anexada. |
+| BusinessProblemDefined | Problema de negócio foi definido. |
+| ProblemStatementCreated | Problem statement foi criado. |
+| DiscoveryStarted | Discovery foi iniciado. |
+| DiscoveryHypothesisDefined | Hipótese de discovery foi definida. |
+| DiscoveryExperimentCompleted | Experimento de discovery foi concluído. |
+| DiscoveryFindingRegistered | Finding de discovery foi registrado. |
+| DiscoveryOutcomeDecided | Resultado de discovery foi decidido. |
+| OpportunityAssessmentCompleted | Assessment de oportunidade foi concluído. |
+| PrioritizationDecisionRecorded | Decisão de priorização foi registrada. |
+| FunctionalRequirementCreated | Requisito funcional foi criado. |
+| NonFunctionalRequirementCreated | Requisito não funcional foi criado. |
+| RequirementReviewed | Requisito foi revisado. |
+| RequirementApproved | Requisito foi aprovado. |
+| RequirementRejected | Requisito foi rejeitado. |
+| AcceptanceCriterionDefined | Critério de aceite foi definido. |
+| DefinitionOfReadyDefined | Definition of Ready foi definida ou atualizada. |
+| DefinitionOfDoneDefined | Definition of Done foi definida ou atualizada. |
+| SolutionDesignCreated | Desenho de solução foi criado. |
+| SolutionReviewRequested | Revisão de solução foi solicitada. |
+| ArchitectureReviewCompleted | Revisão de arquitetura foi concluída. |
+| EngineeringReviewCompleted | Revisão de engenharia foi concluída. |
+| SecurityReviewCompleted | Revisão de segurança foi concluída. |
+| DataReviewCompleted | Revisão de dados foi concluída. |
+| ComplianceReviewCompleted | Revisão de compliance foi concluída. |
+| SolutionApproved | Solução foi aprovada. |
+| SolutionRejected | Solução foi rejeitada. |
+| ReadinessAssessmentStarted | Assessment de readiness foi iniciado. |
+| ReadinessApproved | Readiness foi aprovado. |
+| ReadinessRejected | Readiness foi rejeitado. |
+| BlockerCreated | Bloqueador foi criado. |
+| BlockerResolved | Bloqueador foi resolvido com evidência. |
+| ValidationStarted | Validação foi iniciada. |
+| AcceptanceValidationCompleted | Validação de aceite foi concluída. |
+| BusinessValidationCompleted | Validação de negócio foi concluída. |
+| TechnicalValidationCompleted | Validação técnica foi concluída. |
+| OutcomeValidationCompleted | Validação de outcome foi concluída. |
+| ValueValidationCompleted | Validação de valor foi concluída. |
+
 ### Engineering Events
 
 | Evento | Fato |
@@ -1349,6 +1954,11 @@ stateDiagram-v2
 | ForecastGenerated | Forecast foi gerado. |
 | ForecastConfidenceChanged | Confiança do forecast mudou. |
 | AlertDetected | Alerta foi detectado. |
+| AlertActionRegistered | Ação de tratamento de alerta foi registrada. |
+| AlertEvidenceAttached | Evidência de tratamento de alerta foi anexada. |
+| AlertConditionValidated | Condição original do alerta foi validada como removida ou formalmente aceita. |
+| AlertResolved | Alerta foi encerrado após ação, evidência e validação. |
+| AlertReopened | Alerta foi reaberto por retorno da condição ou evidência insuficiente. |
 
 ### Value Realization Events
 
@@ -1396,6 +2006,25 @@ stateDiagram-v2
 | Investment | Sponsor ou owner de portfólio | Responsável por funding e retorno. |
 | Idea | Originador ou owner de triagem | Responsável por qualificação inicial. |
 | Opportunity | Product Owner, PMO ou owner de portfólio | Responsável por hipótese e decisão de conversão. |
+| BusinessNeed | Business Owner | Responsável por origem, evidência inicial, triagem e decisão de avanço. |
+| PainPoint | Business Owner ou Journey Owner | Responsável por evidência, impacto e contexto da dor. |
+| BusinessProblem | Business Owner | Responsável por formulação e impacto do problema. |
+| BusinessEvidence | Owner da evidência | Responsável por validade, fonte e atualização. |
+| Discovery | Product Owner | Responsável por hipóteses, experimentos, findings e outcome de discovery. |
+| DiscoveryHypothesis | Product Owner | Responsável por validação, rejeição ou revisão da hipótese. |
+| OpportunityAssessment | Product Owner / PMO | Responsável por avaliação de valor, risco e evidência. |
+| FunctionalRequirement | Product Owner / Business Analyst | Responsável por origem, clareza, critério e aprovação. |
+| NonFunctionalRequirement | Especialista responsável | Responsável por qualidade, controle e restrição técnica, dados, segurança ou compliance. |
+| AcceptanceCriterion | Product Owner / Quality Owner | Responsável por verificabilidade e aceite. |
+| SolutionDesign | Solution Owner / Arquiteto | Responsável por solução, decisões, revisões e evidências. |
+| ArchitectureReview | Arquiteto Corporativo | Responsável por avaliação arquitetural. |
+| EngineeringReview | Líder Técnico | Responsável por avaliação de viabilidade técnica. |
+| SecurityReview | Security Specialist | Responsável por riscos e controles de segurança. |
+| DataReview | Data Specialist | Responsável por dados, lineage, privacidade e qualidade. |
+| ComplianceReview | Compliance Specialist | Responsável por aderência regulatória e política. |
+| SolutionApproval | Autoridade definida | Responsável por decisão de aprovação ou rejeição. |
+| ReadinessAssessment | Delivery Owner / Scrum Master | Responsável por DOR, dependências, riscos e capacidade. |
+| CapacityAssessment | Gerente ou Coordenador | Responsável por capacidade disponível e risco de sobrecarga. |
 | Initiative | Gerente ou accountable tático | Responsável por execução e status. |
 | Epic | Product Owner ou gerente | Responsável por escopo. |
 | RoadmapItem | Product Owner | Responsável por valor e aceite de produto. |
@@ -1425,6 +2054,29 @@ stateDiagram-v2
 | Evidence | Owner da entidade evidenciada | Responsável por validade. |
 | DecisionGate | Autoridade definida pelo gate | Responsável por avaliação e decisão. |
 | Alert | Owner da entidade afetada | Responsável por ação. |
+| AlertCondition | Owner do alerta ou owner da métrica/evento causador | Responsável por definir condição original, threshold, evidência esperada e critério de remoção. |
+| AlertAction | Owner do alerta ou owner delegado | Responsável por executar tratamento. |
+| AlertEvidence | Owner da ação | Responsável por comprovar execução ou decisão. |
+| AlertValidation | Reviewer ou autoridade definida | Responsável por confirmar remoção da condição original. |
+| AlertResolution | Owner do alerta e accountable | Responsáveis por encerramento auditável. |
+
+### RACI Conceitual Por Domínio
+
+| Escopo | Responsible | Accountable | Consulted | Informed | Observação |
+| --- | --- | --- | --- | --- | --- |
+| Strategy | Owner do objetivo / OKR | Diretor ou comitê executivo | PMO, Metrics Owner | Portfólio, Produto, Auditoria | Accountable responde por target, prioridade e decisão estratégica. |
+| Portfolio | PMO / Portfolio Owner | Superintendente | Financeiro, Product Owner, Arquitetura | Diretores, Gerentes | Funding, capacidade e priorização exigem evidência. |
+| Business Discovery | Business Owner | Sponsor de negócio | Product Owner, Journey Owner, Process Owner | PMO, Arquitetura | Necessidade sem owner ou evidência não deve avançar. |
+| Product Discovery | Product Owner | Product Manager / Sponsor de produto | Business Owner, Dados, UX, PMO | Portfólio, Delivery | Hipóteses devem ser validáveis e rastreáveis. |
+| Requirements | Product Owner / Business Analyst | Product Owner | Especialistas, Arquitetura, Engenharia, Segurança, Dados, Compliance | Delivery, PMO | Requisitos críticos exigem reviewer e approver definidos. |
+| Solution Design | Solution Owner | Arquiteto ou autoridade de solução definida | Engenharia, Segurança, Dados, Compliance, Product Owner | PMO, Gerente | Reviews devem declarar reviewer, SLA, resultado e evidência. |
+| Delivery Readiness | Scrum Master / Delivery Owner | Gerente ou Coordenador | Product Owner, Líder Técnico, PMO | Portfólio | Entrada em delivery exige DOR ou exceção formal. |
+| Delivery Execution | Time / Líder Técnico | Gerente / Coordenador | Product Owner, Arquitetura, PMO | Stakeholders impactados | Execução deve preservar rastreabilidade e blockers. |
+| Validation | Validation Owner / Product Owner | Business Owner ou Sponsor de valor | QA, Líder Técnico, Dados, Métricas | PMO, Auditoria | Validação deve declarar critério, evidência e resultado. |
+| Value Realization | Sponsor de valor | Diretor / Superintendente | Financeiro, Product Owner, Metrics Owner | Auditoria, Portfólio | Benefício validado exige método e evidência. |
+| Architecture Capability | Capability Owner / Arquiteto | Arquiteto Corporativo | Product Owner, Service Owner, Segurança, Dados | PMO, Diretores | Capability, service e offer exigem ownership explícito. |
+| Governance and Audit | PMO / Governance Owner | Autoridade de governança | Auditoria, Risco, Compliance, Jurídico quando aplicável | Owners afetados | Decisão crítica exige evidência e segregação. |
+| Alert Resolution | Alert Owner / Action Owner | Owner da entidade afetada ou autoridade definida | PMO, Reviewer, especialistas necessários | Stakeholders impactados | Encerramento exige AlertCondition, ação, evidência e validação. |
 
 ## 12. Auditabilidade
 
@@ -1438,6 +2090,14 @@ stateDiagram-v2
 - Exceções devem preservar prazo, owner, razão e plano de encerramento.
 - Mudanças de rastreabilidade devem preservar relação anterior e nova relação.
 - DecisionGates devem preservar critérios, avaliadores, resultado, evidência e decisão associada.
+- BusinessNeed, PainPoint e BusinessProblem devem preservar origem, owner, evidências e decisão de avanço ou descarte.
+- Discovery deve preservar hipóteses, experimentos, findings, outcomes e decisões de priorização.
+- Requirements devem preservar origem, owner, revisão, aprovação e critérios de aceite.
+- SolutionDesign deve preservar decisões, revisões, evidências, aprovações, rejeições e exceções.
+- ReadinessAssessment deve preservar DOR, capacidade, dependências, riscos, owner e decisão.
+- Validation deve preservar critérios, evidências, validador, resultado e impacto em outcome ou value case.
+- AlertResolution deve preservar ação, evidência, validação da condição original, owner, data e decisão de aceite quando aplicável.
+- AlertCondition deve preservar condição original, regra de disparo, threshold, fonte, entidade afetada e critério de remoção.
 - ProductOfferAssociation deve preservar owner, motivo, vigência, status, evidência e histórico de remoção.
 - CapabilityRetired e OfferRetired devem preservar decisão, impacto, substituto, produtos afetados e plano de transição.
 - ArchitectureAssessment deve preservar escopo, entidade avaliada, resultado, evidências, recomendações e decisão associada.
@@ -1454,6 +2114,30 @@ stateDiagram-v2
 | KPI | Sim |
 | Portfolio | Sim |
 | Investment | Sim |
+| BusinessNeed | Sim |
+| PainPoint | Sim quando crítico ou usado em decisão |
+| BusinessProblem | Sim |
+| BusinessEvidence | Sim |
+| Discovery | Sim quando gera oportunidade, requisito ou descarte relevante |
+| DiscoveryHypothesis | Sim quando usada em decisão |
+| OpportunityAssessment | Sim |
+| PrioritizationDecision | Sim |
+| FunctionalRequirement | Sim |
+| NonFunctionalRequirement | Sim quando crítico |
+| SolutionDesign | Sim |
+| ArchitectureReview | Sim |
+| EngineeringReview | Sim |
+| SecurityReview | Sim |
+| DataReview | Sim |
+| ComplianceReview | Sim |
+| SolutionApproval | Sim |
+| ReadinessAssessment | Sim |
+| Validation | Sim |
+| AlertAction | Sim |
+| AlertCondition | Sim |
+| AlertEvidence | Sim |
+| AlertValidation | Sim |
+| AlertResolution | Sim |
 | Initiative | Sim |
 | RoadmapItem | Sim quando crítica ou vinculada a KPI |
 | Feature | Sim quando crítica ou vinculada a KPI |
@@ -1509,6 +2193,16 @@ flowchart TD
   Outcome -. measured by .-> KPI
   Outcome --> Portfolio[Portfolio]
   Product --> Outcome
+  Need[Business Need] --> Pain[Pain Point]
+  Pain --> Journey[Journey]
+  Journey --> Process[Business Process]
+  Process --> Problem[Problem Statement]
+  Problem --> Discovery[Discovery]
+  Discovery --> Hypothesis[Hypothesis]
+  Hypothesis --> Opportunity[Opportunity]
+  Opportunity --> Requirement[Requirement]
+  Requirement --> Solution[Solution Design]
+  Solution --> Readiness[Readiness]
   Portfolio --> Investment[Investment]
   Investment --> Initiative[Initiative]
   Capability -. supports .-> Initiative
@@ -1523,6 +2217,46 @@ flowchart TD
   Task --> Delivery[Delivery]
   Delivery --> Benefit[Realized Benefit]
   Benefit -. measured by .-> KPI
+```
+
+### Need to Value Operating Traceability
+
+```mermaid
+flowchart LR
+  Need[Business Need] --> Pain[Pain Point]
+  Pain --> Journey[Customer / Operational Journey]
+  Journey --> Process[Business Process]
+  Process --> Problem[Problem Statement]
+  Problem --> Discovery[Discovery]
+  Discovery --> Hypothesis[Discovery Hypothesis]
+  Hypothesis --> Opportunity[Opportunity]
+  Opportunity --> FR[Functional Requirement]
+  Opportunity --> NFR[Non Functional Requirement]
+  FR --> Solution[Solution Design]
+  NFR --> Solution
+  Solution --> ArchitectureReview[Architecture Review]
+  Solution --> EngineeringReview[Engineering Review]
+  Solution --> SecurityReview[Security Review]
+  Solution --> DataReview[Data Review]
+  Solution --> Readiness[Readiness Assessment]
+  Readiness --> Feature[Feature]
+  Feature --> Story[Story]
+  Story --> Acceptance[Acceptance Criterion]
+  Acceptance --> Validation[Validation]
+  Validation --> Outcome[Outcome]
+  Outcome --> ValueCase[Value Case]
+```
+
+### Alert Closure Governance
+
+```mermaid
+flowchart LR
+  Alert[Alert Detected] --> Action[Alert Action]
+  Action --> Evidence[Alert Evidence]
+  Evidence --> Validation[Alert Validation]
+  Validation --> Resolution[Alert Resolution]
+  Validation -->|condition still exists| Open[Alert Remains Open]
+  Resolution --> Audit[Audit Trail]
 ```
 
 ### Agregados Principais
@@ -1711,6 +2445,30 @@ flowchart TD
 | Funding | Envelope, ciclo ou decisão de financiamento. |
 | Ideia | Possibilidade inicial ainda não qualificada. |
 | Oportunidade | Hipótese qualificada de valor, risco, eficiência ou crescimento. |
+| Business Need | Necessidade de negócio capturada antes de solução, oportunidade ou requisito. |
+| Pain Point | Dor observada com impacto potencial em cliente, operação, risco, custo ou experiência. |
+| Business Problem | Formulação rastreável de problema baseada em necessidade, dor, processo, jornada e evidência. |
+| Business Evidence | Evidência que sustenta necessidade, dor, problema, jornada ou processo. |
+| Discovery | Trabalho estruturado para validar problema, hipótese, oportunidade, solução ou valor. |
+| Discovery Hypothesis | Hipótese testável e verificável antes de compromisso relevante de capacidade. |
+| Discovery Finding | Achado produzido por experimento, pesquisa ou análise. |
+| Problem Statement | Declaração clara de problema, público, impacto, evidência e restrição conhecida. |
+| Functional Requirement | Condição funcional que a solução deve satisfazer, com origem rastreável. |
+| Non Functional Requirement | Condição de qualidade, segurança, dados, resiliência, performance, compliance ou arquitetura. |
+| Acceptance Criterion | Critério verificável usado para aceitar requisito, story, feature ou entrega. |
+| Definition of Ready | Critérios mínimos para entrada em execução. |
+| Definition of Done | Critérios mínimos para conclusão de trabalho. |
+| Assumption | Premissa explicitada que ainda precisa ser validada ou monitorada. |
+| Constraint | Limite imposto por negócio, tecnologia, regulação, tempo, capacidade ou política. |
+| Risk | Incerteza com impacto potencial e owner de tratamento. |
+| Solution Design | Desenho de solução que atende requisitos, constraints, decisões e revisões aplicáveis. |
+| Solution Review | Revisão formal de solução por arquitetura, engenharia, segurança, dados ou compliance. |
+| Readiness Assessment | Avaliação de prontidão para entrada em execução. |
+| Validation | Verificação formal de entrega, requisito, outcome ou valor contra critérios definidos. |
+| Alert Action | Ação registrada para tratar alerta e sua condição original. |
+| Alert Evidence | Evidência que comprova ação, mitigação, decisão ou remoção da condição original de alerta. |
+| Alert Validation | Confirmação de que a condição original do alerta deixou de existir ou foi formalmente aceita. |
+| Alert Resolution | Encerramento auditável de alerta condicionado a ação, evidência e validação. |
 | Architecture Domain | Domínio arquitetural corporativo que agrupa subdomínios, business layers e capabilities relacionadas. |
 | Architecture SubDomain | Subdivisão de um Architecture Domain com escopo de negócio ou arquitetura mais específico. |
 | Business Layer | Camada de negócio que organiza capabilities dentro de um subdomínio. |
@@ -1751,6 +2509,7 @@ flowchart TD
 | Health Score | Sinal composto e explicável de saúde de entidade. |
 | Forecast | Projeção explicável de prazo, valor, KPI, KR ou capacidade. |
 | Alert | Sinal acionável de exceção, risco ou desvio. |
+| Alert Condition | Condição objetiva que disparou alerta e que deve ser removida, mitigada ou formalmente aceita para encerramento. |
 | Traceability Path | Sequência explícita e auditável de vínculos entre entidades. |
 | Measurement Target | Entidade de domínio medida por KPI, score ou forecast. |
 | Data Confidence | Grau de confiança de dado, métrica ou cálculo. |
@@ -1793,3 +2552,17 @@ flowchart TD
 - Atualizada Cadeia de Rastreabilidade com capability, services, offers, application services e product composition.
 - Atualizado diagrama de Agregados Principais com entidades e relações arquiteturais.
 - Adicionado diagrama Architecture Elevator.
+
+### Harmonização Cross-Artifact Pós-Assessment
+
+- Adicionados Business Discovery Context, Product Discovery Context, Requirements Context, Solution Design Context, Delivery Readiness Context e Validation Context ao domínio formal.
+- Incorporada a cadeia operacional Need -> Discovery -> Solution -> Delivery -> Validation -> Value Realization ao Context Map, relacionamentos, cardinalidades e diagramas.
+- Adicionados agregados Business Discovery, Product Discovery, Requirements, Solution Design e Delivery Readiness.
+- Fortalecida a governança de alertas com AlertAction, AlertEvidence, AlertValidation e AlertResolution.
+- Formalizada AlertCondition como entidade conceitual obrigatória para explicar, validar e auditar a condição original de um alerta.
+- Adicionadas regras de encerramento de alerta exigindo ação, evidência e validação da condição original.
+- Adicionadas regras de taxonomia conceitual para Need, Opportunity, Requirement, Feature, Hypothesis, Assumption, Constraint, Risk, Issue e Evidence.
+- Adicionadas regras de fronteira entre TechnicalDebt e ArchitectureDebt para evitar ambiguidade de ownership, governança e impacto.
+- Adicionadas regras de ownership e RACI para owners, accountables, reviewers e approvers.
+- Adicionados eventos operacionais de necessidade, discovery, requisito, solução, review, readiness, blocker, validação e resolução de alertas.
+- Atualizados ownership, auditabilidade, glossário e diagramas para eliminar entidades operacionais órfãs.

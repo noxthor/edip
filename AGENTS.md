@@ -5,6 +5,8 @@ A EDIP deve permitir que qualquer trabalho relevante seja explicado a partir da 
 A plataforma deve transformar dados dispersos de execução em decisões corporativas confiáveis, acionáveis e auditáveis.
 A EDIP não é uma ferramenta operacional isolada; é uma plataforma de inteligência corporativa sobre o fluxo de valor.
 A missão central é responder, com evidência: o que estamos tentando alcançar, por que isso importa, quem é responsável, como está sendo executado, qual risco existe e qual valor está sendo realizado.
+A EDIP também deve coordenar o fluxo Need-to-Value: Need -> Discovery -> Solution -> Delivery -> Validation -> Value Realization.
+Esse fluxo deve permitir responder onde estamos parados, por que estamos parados, quem deveria agir, há quanto tempo, qual evidência falta e qual impacto estratégico ou econômico existe.
 ## 2. Problema de Negócio
 Grandes bancos executam estratégia por meio de múltiplos portfólios, produtos, times, sistemas, fornecedores, controles e ferramentas.
 Essa execução normalmente se fragmenta entre planejamento estratégico, gestão de OKRs, portfólio, backlog, DevOps, financeiro, riscos, auditoria e métricas de negócio.
@@ -26,6 +28,7 @@ Forecast sem explicação não deve orientar decisão crítica.
 Health score sem decomposição não deve ser usado como julgamento final.
 A EDIP deve favorecer transparência, governança proporcional ao risco e redução de controle burocrático sem evidência.
 A plataforma deve expor desalinhamentos, dependências, riscos, lacunas de dados, fragilidades operacionais e vazamento de valor.
+Alertas são compromissos de ação, evidência, validação e resolução efetiva; não devem ser tratados como simples sinalização visual.
 A EDIP deve se integrar ao ecossistema existente do banco, preservando sistemas de origem quando eles forem maduros, governados e adequados ao seu domínio.
 A EDIP deve criar uma visão canônica sem apagar a complexidade real da organização, dos produtos, dos portfólios e dos controles bancários.
 ## 4. Princípios Arquiteturais
@@ -55,6 +58,12 @@ Investimento representa alocação aprovada ou proposta de funding, capacidade o
 Funding representa envelope, ciclo ou decisão de financiamento associada a portfólio e iniciativa.
 Ideia é uma possibilidade inicial ainda sem qualificação suficiente.
 Oportunidade é uma hipótese qualificada de valor, risco, eficiência ou crescimento.
+Business Need é uma necessidade antes de solução, oportunidade ou requisito.
+Pain Point é uma dor observada com evidência ou hipótese explícita de evidência.
+Requirement é uma condição rastreável que a solução deve satisfazer.
+Solution Design é o desenho aprovado ou rejeitado que conecta requisitos, arquitetura, engenharia, segurança, dados e compliance.
+Readiness é a avaliação de prontidão antes de execução.
+Validation é a comprovação de aceite, outcome ou valor após entrega.
 Iniciativa é uma unidade tática de execução conectada a portfólio, investimento, outcome ou KPI.
 Épico agrupa escopo significativo dentro de uma iniciativa.
 Feature materializa capacidade funcional, técnica ou operacional.
@@ -69,6 +78,8 @@ Sinal de Observabilidade é dado operacional ou analítico que permite explicar 
 ## 6. Cadeia de Rastreabilidade Corporativa
 A cadeia padrão da EDIP é:
 Estratégia Corporativa -> Tema Estratégico -> Objetivo Estratégico -> OKR -> Outcome -> KPI -> Portfólio -> Investimento -> Iniciativa -> Épico -> Feature -> Story -> Task -> Entrega -> Benefício Realizado.
+A cadeia operacional Need-to-Value é:
+Business Need -> Pain Point -> Journey -> Process -> Discovery -> Hypothesis -> Opportunity -> Requirement -> Solution Design -> Readiness -> Feature -> Story -> Validation -> Outcome -> Value Case -> Value Realization.
 Toda iniciativa deve possuir vínculo explícito com portfólio, investimento ou justificativa formal de exceção.
 Toda iniciativa estratégica deve declarar outcome esperado, KPI impactado, owner, hipótese de valor e critério de sucesso.
 Todo épico deve estar vinculado a uma iniciativa.
@@ -116,6 +127,7 @@ Visões compartilháveis devem preservar filtros, período, escopo e permissões
 Entidades sem owner, sem vínculo ou com dado inconsistente devem aparecer como exceções, não desaparecer do produto.
 Navegação executiva deve priorizar exceções, decisões e impactos.
 Navegação operacional deve priorizar fluxo, bloqueios, contexto e próxima ação.
+Navegação do operating model deve priorizar etapa parada, fila, aging, owner, evidência ausente, próximo evento esperado e ação pendente.
 ## 10. Health Scores
 Health scores são sinais de saúde, não verdades absolutas.
 Todo health score deve ser decomponível em componentes explicáveis.
@@ -125,6 +137,7 @@ Scores devem explicitar dados ausentes ou de baixa confiança.
 Scores não devem combinar dimensões incompatíveis sem fórmula, peso, faixa e interpretação documentados.
 Scores devem ajudar a priorizar investigação e decisão.
 Nenhum score crítico deve existir sem owner, causa provável, impacto e ação recomendada.
+Operating health scores devem cobrir Business Discovery, Requirements, Solution, Reviews, Readiness, Validation, Alert Resolution e Blocker Resolution.
 Mudanças relevantes de score devem gerar eventos, histórico e justificativa.
 Scores devem ser comparáveis no tempo, mas sensíveis ao contexto de cada entidade.
 ## 11. Forecasting
@@ -155,6 +168,8 @@ Exceções devem ter owner, prazo, motivo e plano de encerramento.
 Dados pessoais e sensíveis devem seguir minimização, finalidade, necessidade e proteção adequada.
 Governança bancária deve cobrir risco operacional, compliance, auditoria interna, segurança, privacidade, continuidade, fornecedores e resiliência.
 Observabilidade corporativa deve permitir reconstruir eventos, integrações, cálculos, decisões, falhas, atrasos e impactos.
+Encerramento de alerta crítico deve preservar ação registrada, evidência de execução, validação da condição original, owner e data.
+Alerta crítico não pode ser encerrado apenas por comentário, mudança manual de status ou ausência temporária de dado.
 ## 13. Regras de Qualidade
 Toda entidade relevante deve possuir identificação, owner, status e contexto.
 Todo indicador deve possuir owner, definição, fórmula, fonte, periodicidade, baseline, target e confiança.
@@ -169,6 +184,9 @@ Toda experiência deve diferenciar ausência de dado, dado atrasado, dado incons
 Qualidade de dados deve ser medida como parte da saúde da plataforma.
 Observabilidade deve medir frescor, completude, latência, falha de ingestão, lag de processamento, erro de cálculo e divergência entre fonte e projeção.
 Value realization deve diferenciar benefício esperado, benefício forecast, benefício realizado, benefício validado e benefício rejeitado.
+Toda etapa crítica do operating model deve possuir owner, accountable, reviewer ou approver conforme aplicável.
+Toda review deve possuir reviewer, SLA, resultado, pendências e evidência.
+Toda resolução de blocker ou alerta crítico deve possuir evidência verificável.
 ## 14. Regras para Evolução do Domínio
 Novos conceitos de domínio devem ter definição clara, owner conceitual e relação com a cadeia de rastreabilidade.
 Nenhuma entidade deve ser criada apenas para satisfazer uma tela, integração ou relatório específico.
@@ -183,6 +201,7 @@ Novas APIs devem respeitar fronteiras de domínio e não expor acoplamentos inte
 Mudanças em rastreabilidade devem atualizar navegação, drill-down, drill-up, dashboards e auditoria.
 Mudanças de domínio devem ser compatíveis com evolução histórica e análise temporal.
 Mudanças em governança bancária devem preservar segregação de funções, trilha de auditoria, evidência e controles aplicáveis.
+Novas etapas, filas, blockers, reviews ou alertas devem declarar owner, SLA, aging, evento de entrada, evento de saída e condição de encerramento.
 Toda evolução deve favorecer clareza semântica sobre conveniência técnica imediata.
 ## 15. Tecnologias Estratégicas
 As tecnologias estratégicas devem servir à missão da plataforma, não defini-la.
