@@ -170,6 +170,7 @@ Learning é aprendizado organizacional consolidado e reutilizável, derivado de 
 | ValueInsight | Insight sobre realização de valor. | insightId, valueCaseId, valueGap, leakageDrivers, confidenceLevel. | Relaciona ValueCase, Benefit, KPI, Outcome, Product e Initiative. | Sponsor de valor / Product Manager. | Detected, Validated, Actioned, Learned. | Deve diferenciar valor esperado, forecast, realizado e validado. |
 | RiskInsight | Insight sobre risco material. | insightId, riskCategory, severity, exposure, affectedScope. | Relaciona technical risk, dependency, governance, data, architecture e value. | Risk Owner / PMO. | Detected, Escalated, Accepted, Mitigated, Closed. | Deve apontar risco de inação e evidência. |
 | GovernanceInsight | Insight sobre decisão, gate, controle ou evidência. | insightId, governanceScope, decisionLatency, evidenceGap, complianceImpact. | Relaciona decisions, gates, approvals, controls e evidence chains. | PMO / Auditoria / Compliance. | Detected, Escalated, Resolved, Audited. | Deve preservar segregação de funções e trilha de auditoria. |
+| CaseInsight | Insight sobre case, recorrência, aging, risco, valor em risco, evidência, decisão e resolução. | insightId, caseId, caseType, severity, aging, systemicPattern, valueAtRisk, confidenceLevel. | Relaciona Case, Alerts, Investigations, RootCauses, Recommendations, Decisions, ActionPlans, Evidence, Validations e Learnings. | Case Owner / PMO / Governance. | Detected, Investigating, Recommended, Escalated, Resolved, Learned. | Deve preservar distinção entre Case, Alert, Investigation, Decision, ActionPlan, Evidence e Learning. |
 | OperatingInsight | Insight sobre o fluxo Need-to-Value. | insightId, stage, blockedEntityId, ownerId, aging, nextRequiredEvent. | Relaciona BusinessNeed, Discovery, Requirement, SolutionDesign, Readiness, Delivery, Validation, ValueCase, alerts e blockers. | PMO / Operating Model Owner. | Detected, Investigating, ActionDefined, Resolved, Learned. | Deve responder onde está parado, quem deveria agir e qual evidência falta. |
 | QueueInsight | Insight sobre fila operacional ou de fluxo. | insightId, queueId, stage, aging, capacitySignal, ownerId. | Usa Queue, FlowStage, Queue Time, WIP, Bottleneck events e operating events. | Scrum Master / PMO. | Detected, Investigating, ActionDefined, Resolved. | Deve distinguir espera legítima de fila sem owner. |
 | BlockerInsight | Insight sobre bloqueador, causa, severidade e resolução. | insightId, blockerId, blockerType, severity, ownerId, resolutionStatus. | Usa BlockerCreated, BlockerResolved, Blocked Time e Blocker Resolution Health. | Blocker Owner / Coordenador. | Detected, Assigned, Resolving, Validated, Closed. | Deve exigir evidência de resolução quando crítico. |
@@ -291,6 +292,7 @@ flowchart LR
 | Fluxo | Queues, WIP, bottlenecks e flow stages. | QueueEntered, QueueExited, BottleneckDetected, WIPThresholdBreached. | Queue Time, Wait Time, Flow Efficiency, Bottleneck Severity. | Flow Health Score. | Schedule Forecast, Capacity Forecast. | Enterprise, Portfolio, Delivery e Squad Heat Maps. | Scrum Master, Coordenador, Gerente. | Reduzir WIP, rebalancear capacidade, remover gargalo. |
 | Engenharia | Risco técnico, dívida, readiness e integração. | TechnicalRiskCreated, TechnicalDebtRegistered, ReleaseReadinessRejected. | Technical Debt Exposure, Integration Risk Score, Release Readiness. | Technical Delivery Health. | Schedule Forecast. | Risk Dimension. | Líder Técnico, Desenvolvedor, Arquiteto. | Remediar dívida, ajustar release, mitigar integração. |
 | Governança | Decisões, gates, controles, evidências e exceções. | DecisionSLAExceeded, GateRejected, EvidenceAttached, ExceptionExpired. | Decision Latency, Approval Aging, Evidence Coverage, Control Adherence Rate. | Governance Health Score, Portfolio Health Score. | Forecast de prazo e valor afetados. | Governance Dimension. | PMO, Auditoria, Compliance. | Escalar decisão, exigir evidência, aceitar ou mitigar risco. |
+| Case Management | Cases, alertas relacionados, investigations, actions, evidências, validações, decisões e learnings. | CaseCreated, CaseSLAExceeded, CaseEvidenceAttached, CaseResolved, CaseClosed, CaseReopened. | Open Case Count, Critical Case Count, Case Aging, Case SLA Compliance, Case Evidence Coverage, Case Value at Risk, Case Resolution Health. | Case Governance Health, Case Resolution Health. | Forecast de risco, valor ou capacidade afetado quando aplicável. | Case Heat Map, Governance Dimension, Value Dimension. | Diretor, PMO, Governance, Auditoria, Case Owner. | Escalar case, exigir evidência, abrir decisão executiva, reabrir closure ou consolidar learning. |
 | Econômico | Atraso, filas, gargalos e valor em risco. | CostOfDelayThresholdBreached, CostOfQueueCalculated, CostOfBottleneckCalculated. | Cost of Delay, Cost of Queue, Cost of Bottleneck, Delay Impact Score. | Portfolio Health Score, Value Realization Score. | Value Forecast. | Value Dimension, Capacity Dimension. | Diretor, Superintendente, Financeiro. | Acelerar, cancelar, pausar, repriorizar ou ajustar funding. |
 | Valor | Value cases, benefícios e outcomes observados. | ValueCaseCreated, BenefitObserved, BenefitValidated, BenefitRejected. | Planned Value, Forecast Value, Realized Benefit, Validated Benefit, Value Leakage. | Value Realization Score. | Value Forecast. | Value Dimension. | Diretor, Product Manager, Sponsor. | Validar benefício, rever hipótese, corrigir adoção. |
 | Qualidade de Dados | Fontes, lineage, divergência e cálculo. | DataFreshnessBreached, SourceDivergenceDetected, DataConfidenceDegraded. | Data Freshness, Lineage Completeness, Source Divergence, Data Confidence Score. | Data Confidence Score. | Forecast confidence afetado. | Data Quality Dimension. | Data Owner, Especialista, Auditoria. | Bloquear decisão frágil, corrigir fonte, reconciliar dados. |
@@ -302,7 +304,37 @@ flowchart LR
 | Produto-Composição | Product como composição de offers. | ProductOfferAssociated, ProductOfferRemoved, OfferRetired. | Product Health Score, Offer Adoption Score, Time to Value. | Product Health Score, Value Realization Score. | KPI Forecast, Value Forecast. | Offer/Product composition views. | Product Manager, Product Owner, Arquiteto. | Ajustar composição, substituir offer, rever roadmap. |
 | Operacional Need-to-Value | Necessidades, requisitos, solução, readiness, validação, blockers e alertas. | BusinessNeedCaptured, RequirementReviewed, SolutionReviewRequested, ReadinessRejected, ValidationStarted, BlockerCreated, AlertReopened. | Business Discovery Health, Requirements Health, Solution Health, Readiness Health, Validation Health, Alert Resolution Health, Blocker Resolution Health. | Operating health scores, Flow Health Score. | Forecast operacional de fluxo. | Business Discovery, Requirements, Review, Readiness, Validation, Blocker e Alert Heat Maps. | PMO, Gerente, Coordenador, Product Owner, Arquiteto. | Atribuir owner, destravar fila, exigir evidência, escalar decisão, impedir encerramento falso de alerta. |
 
-## 8. Explanation Model
+## 8. Case Intelligence
+
+Case Intelligence identifica, explica e prioriza cases como objetos corporativos governados que agregam alertas, investigations, decisões, action plans, evidências, validações e learnings.
+
+Case Intelligence deve responder:
+
+- Quais cases concentram maior risco?
+- Quais cases estão envelhecendo?
+- Quais cases foram reabertos?
+- Quais causas sistêmicas aparecem em múltiplos cases?
+- Quais cases ameaçam maior valor?
+- Quais cases exigem decisão executiva?
+- Quais cases revelam padrão organizacional recorrente?
+
+Relação conceitual:
+
+```text
+Case -> Signals -> Insights -> Investigations -> Root Causes -> Recommendations -> Decisions -> Actions -> Outcomes -> Learnings
+```
+
+| Pergunta | Eventos Necessários | Métricas Necessárias | Evidências Necessárias | Explicação Esperada | Decisão / Ação Esperada |
+| --- | --- | --- | --- | --- | --- |
+| Quais cases concentram maior risco? | CaseCreated, CaseSeverityChanged, CaseSLAExceeded, CaseEscalated. | Critical Case Count, Case Business Impact, Case Value at Risk. | Case timeline, affected entities, risk evidence. | Ranking explicável por severidade, valor em risco, aging, escopo afetado e recorrência. | Escalar, priorizar, criar decision gate ou aceitar risco formal. |
+| Quais cases estão envelhecendo? | CaseCreated, CaseAssigned, CaseSLAExceeded. | Case Aging, Case SLA Compliance. | Owner, SLA, action history, blockers de resolução. | Identificar estágio parado, owner, próxima ação e consequência da inação. | Reatribuir owner, escalonar, revisar plano. |
+| Quais cases foram reabertos? | CaseClosed, CaseReopened. | Case Reopen Rate, Case Resolution Health. | Closure evidence, validation result, reopening reason. | Explicar se closure falhou por evidência, validação, causa raiz incompleta ou condição recorrente. | Reabrir investigation, revisar closure criteria, atualizar learning. |
+| Quais causas sistêmicas aparecem em múltiplos cases? | CaseLinkedToInvestigation, RootCauseIdentified, CaseReopened. | Case Recurrence Rate, Root Cause Accuracy. | Evidence chains, causal chains, related cases. | Identificar padrão por capability, product, owner, process, queue ou policy. | Criar modernization, policy change, capability remediation ou governance action. |
+| Quais cases ameaçam maior valor? | CaseCreated, ValueAtRiskIncreased, ValueLeakageDetected, CaseSeverityChanged. | Case Value at Risk, Value Leakage, Investment At Risk. | ValueCase, benefit evidence, forecast drivers. | Mostrar caminho causal do case para value case, KPI, portfolio e objective. | Priorizar resolução, revisar funding, acelerar delivery ou aceitar risco. |
+| Quais cases exigem decisão executiva? | CaseEscalated, DecisionSLAExceeded, CaseSLAExceeded. | Case Business Impact, Decision Latency, Case Governance Health. | Decision gate, authority, evidence gaps. | Mostrar autoridade necessária, trade-off e risco de não decisão. | Abrir decisão executiva, convocar comitê, aprovar exceção. |
+| Quais cases revelam padrão organizacional recorrente? | CaseReopened, CaseClosed, LearningCaptured. | Case Recurrence Rate, Recommendation Outcome Success, Knowledge Reuse Rate. | Learnings, decision outcomes, related cases. | Explicar anti-pattern ou padrão reutilizável. | Publicar learning, ajustar operating model, atualizar controles. |
+
+## 9. Explanation Model
 
 Explicações são construídas pela cadeia:
 
@@ -323,7 +355,7 @@ Eventos -> Métricas -> Scores -> Forecasts -> Heat Maps -> Evidências -> Causa
 | Por que a modernização está atrasada? | CapabilityModernizationStarted, ServiceModernizationStarted, DecisionSLAExceeded, ArchitectureDebtRegistered. | Capability Modernization Score, Service Modernization Score, Decision Latency. | Modernization forecast, Architecture Modernization Dimension. | Assessment, funding, owners, decisão, dependências técnicas. | Mostrar se o atraso é decisão, capacidade, dívida, dependência ou prioridade. |
 | Por que determinado domínio concentra gargalos? | DomainCreated, SubDomainCreated, BottleneckDetected, QueueThresholdBreached. | Flow Health Score, Capability Health Score, Cost of Queue. | Enterprise Heat Map, Architecture Capability Dimension. | Domain map, initiatives, queues, capabilities e portfolios. | Mostrar interação entre arquitetura, capacidade, fluxo e valor em risco. |
 
-## 9. Causality and Root Cause Analysis Model
+## 10. Causality and Root Cause Analysis Model
 
 Root Cause Analysis na EDIP é uma investigação governada que diferencia causalidade comprovada, contribuição, dependência, inferência e correlação.
 
@@ -363,7 +395,7 @@ Root Cause Analysis na EDIP é uma investigação governada que diferencia causa
 | Causa econômica | Relação causal que explica perda ou exposição de valor. | Economics of Delivery e value realization. |
 | Causa organizacional | Relação causal derivada de ownership, estrutura decisória ou capacidade. | Decision Intelligence e operating model. |
 
-## 10. Recommendation Model
+## 11. Recommendation Model
 
 Recomendações seguem a cadeia:
 
@@ -384,7 +416,7 @@ Evento -> Signal -> Insight -> RootCause -> Recommendation.
 | ReadinessRejected | Item não está pronto para execução. | Completar DOR, resolver dependência ou ajustar capacidade. | Evitar WIP improdutivo e recuperar Readiness Health. | Alta se afeta release. | Scrum Master / Delivery Owner. | 1 a 5 dias úteis. | Bloquear entrada ou aprovar exceção formal. | Execução sem prontidão, blockers e cost of delay. | Checklist, capacidade, dependências e riscos. |
 | AlertReopened | Alerta reaberto por condição persistente ou evidência insuficiente. | Revisar ação, evidência e validação da condição original. | Recuperar Alert Resolution Health. | Alta se alerta crítico. | Alert Owner / PMO. | Mesmo dia a 3 dias úteis. | Reabrir tratamento ou aceitar risco formalmente. | Falsa resolução, risco recorrente e perda de confiança. | Alert, action, evidence, validation e histórico. |
 
-## 11. Executive Narrative Model
+## 12. Executive Narrative Model
 
 Narrative é uma explicação executiva objetiva, auditável e orientada a decisão.
 
@@ -411,7 +443,7 @@ Toda narrativa deve responder:
 | Value Realization Narrative | Explicar captura ou perda de valor. | planned, forecast, realized, validated, rejected, leakage. | BenefitObserved, BenefitValidated, BenefitRejected, ValueLeakageDetected. |
 | Governance Narrative | Explicar decisões, gates, evidências e exceções. | decisions, aging, SLA, evidências, controles e riscos aceitos. | DecisionSLAExceeded, GateRejected, EvidenceAttached, ExceptionExpired. |
 
-## 12. Decision Intelligence Model
+## 13. Decision Intelligence Model
 
 Decision Intelligence conecta:
 
@@ -441,7 +473,7 @@ flowchart LR
 | Funding | InvestmentApproved, FundingAllocated, DecisionSLAExceeded. | Funding Lead Time, Objective Funding Coverage, Cost of Delay. | Comitê, business case, decisão, valor esperado. | Diretor / Financeiro / PMO. | Liberar funding ou cancelar hipótese. | Atraso econômico e valor em risco. |
 | Risco Aceito | RiskAccepted, ArchitectureExceptionGranted, ExceptionExpired. | Architecture Exception Rate, Risk Exposure, Control Adherence Rate. | Justificativa, controles compensatórios, prazo e autoridade. | Risco / Compliance / Arquiteto. | Formalizar risco e controles. | Risco informal, auditoria frágil e não conformidade. |
 
-## 13. Knowledge Graph Model
+## 14. Knowledge Graph Model
 
 O Knowledge Graph conceitual da EDIP conecta entidades de negócio, arquitetura, produto, delivery, eventos, métricas, decisões e aprendizados em uma rede navegável.
 
@@ -457,6 +489,7 @@ O Knowledge Graph conceitual da EDIP conecta entidades de negócio, arquitetura,
 - KPI, MetricDefinition, HealthScore, Forecast, HeatMap.
 - DomainEvent, Signal, Insight, Explanation, RootCause.
 - Decision, Approval, DecisionGate, GovernanceGate, Evidence.
+- Case, CaseTimeline, CaseClosure, CaseReopening.
 - Alert, AlertAction, AlertEvidence, AlertValidation, AlertResolution, Blocker.
 - ValueCase, Benefit, DecisionOutcome, Learning, KnowledgeAsset.
 
@@ -469,6 +502,8 @@ O Knowledge Graph conceitual da EDIP conecta entidades de negócio, arquitetura,
 | implementedBy | Offer implementedBy ApplicationService. | Análise de impacto e modernização. |
 | measuredBy | Outcome measuredBy KPI. | Explicabilidade de KPI e valor. |
 | causedBy | FlowHealthDegraded causedBy BottleneckDetected. | Root Cause Analysis. |
+| contains | Case contains Alert, Investigation, Decision, ActionPlan, Evidence ou Learning. | Case Intelligence e rastreabilidade de resolução. |
+| reopenedBy | Case reopenedBy CaseReopening ou AlertReopened. | Auditoria de closure e recorrência. |
 | contributedTo | ArchitectureDebtRegistered contributedTo OfferHealthDegraded. | Causa contribuinte e forecasting. |
 | waitsAt | Requirement waitsAt Review Queue. | Operating Intelligence e análise de aging. |
 | blockedBy | SolutionDesign blockedBy ComplianceReview. | Explainability de atraso e blocker. |
@@ -490,7 +525,7 @@ O Knowledge Graph suporta:
 - Modernização: priorizar capabilities e services por risco, valor e dependência.
 - Governança bancária: preservar decisões, evidências, ownership e trilha de auditoria.
 
-## 14. Organizational Learning Model
+## 15. Organizational Learning Model
 
 Aprendizados são capturados quando decisões e ações produzem resultados observáveis. A EDIP deve separar opinião, hipótese, insight e aprendizado validado.
 
@@ -513,7 +548,7 @@ Fluxo de aprendizado:
 
 Outcome -> DecisionOutcome -> Learning -> KnowledgeAsset -> Recommendation Reuse.
 
-## 15. Copilot Intelligence Model
+## 16. Copilot Intelligence Model
 
 O Copilot corporativo da EDIP deve raciocinar a partir de eventos, métricas, insights, explicações, evidências, recomendações e caminhos no Knowledge Graph. Ele não deve apresentar conclusão como fato quando a cadeia de evidência estiver incompleta.
 
@@ -537,7 +572,7 @@ O Copilot corporativo da EDIP deve raciocinar a partir de eventos, métricas, in
 | Que iniciativa impacta esta capability? | InitiativeCreated, CapabilityUpdated, ProductOfferAssociated. | Capability to Initiative Coverage, Initiative Health Score. | Iniciativas que alteram capability. | Iniciativa -> produto/offer -> capability. | Priorizar ou rever escopo. | Initiative links, roadmap, architecture assessment. | Capability -> Offer -> Product -> Initiative -> Feature. |
 | Que capability ameaça este KR? | KRTargetChanged, KPIUpdated, ArchitectureDebtRegistered, FlowHealthDegraded. | KR Forecast Probability, Capability Health Score, Flow Health Score. | Capability crítica associada a KR vermelho. | Capability debt/flow -> product/outcome -> KPI/KR. | Modernizar capability ou mitigar risco. | KR, KPI, product, offer, capability evidence. | KR -> KPI -> Outcome -> Product -> Offer -> Capability. |
 
-## 16. Explainability Framework
+## 17. Explainability Framework
 
 | Nível | Nome | Conteúdo | Exemplo |
 | --- | --- | --- | --- |
@@ -558,7 +593,7 @@ Regras:
 - Nível 7 deve apontar Learning ou KnowledgeAsset reutilizável.
 - Respostas executivas devem explicitar confiança, limitação e dados ausentes.
 
-## 17. Intelligence Health Model
+## 18. Intelligence Health Model
 
 A própria camada de inteligência deve ser mensurada para evitar recomendações frágeis, narrativas opacas ou aprendizados não reutilizáveis.
 
@@ -576,7 +611,7 @@ A própria camada de inteligência deve ser mensurada para evitar recomendaçõe
 | Capability Insight Accuracy | Insights de capability confirmados por health, value ou delivery outcome. | Medir qualidade de Capability Intelligence. |
 | Copilot Answer Confidence | Confiança das respostas baseada em evidência, lineage e completude. | Evitar respostas sem base suficiente. |
 
-## 18. Intelligence Maturity Model
+## 19. Intelligence Maturity Model
 
 | Nível | Nome | Característica | Capacidade EDIP |
 | --- | --- | --- | --- |
@@ -597,7 +632,7 @@ Posicionamento conceitual:
 - Copilot, Executive Narratives e Intelligence Health habilitam nível 6.
 - Architecture Capability Intelligence, Capability Intelligence, Offer Intelligence e Product Composition Intelligence habilitam nível 7.
 
-## 19. Governance of Intelligence
+## 20. Governance of Intelligence
 
 A camada de inteligência deve ser governada porque influencia decisões executivas, priorização, funding, risco, arquitetura e auditoria.
 
@@ -616,7 +651,7 @@ A camada de inteligência deve ser governada porque influencia decisões executi
 | Segregação de funções | A geração de recomendação não substitui aprovação formal em funding, risco, auditoria ou exceção arquitetural. |
 | Contestabilidade | Usuários autorizados devem poder contestar root cause, recommendation ou narrative, gerando nova investigação quando necessário. |
 
-## 20. Change Log
+## 21. Change Log
 
 ### Entidades Criadas
 
@@ -642,6 +677,7 @@ A camada de inteligência deve ser governada porque influencia decisões executi
 - ValueInsight.
 - RiskInsight.
 - GovernanceInsight.
+- CaseInsight.
 - OperatingInsight.
 - QueueInsight.
 - BlockerInsight.
@@ -653,9 +689,11 @@ A camada de inteligência deve ser governada porque influencia decisões executi
 - Dados -> Eventos -> Métricas -> Health Scores -> Forecasts -> Heat Maps -> Insights -> Explicações -> Recomendações -> Decisões -> Planos de Ação -> Aprendizado Organizacional.
 - Signal -> Insight -> Investigation -> Explanation -> RootCause -> Recommendation -> Decision -> ActionPlan -> Outcome -> Learning.
 - Alert -> Investigation -> RootCause -> Recommendation -> Decision -> RemediationPlan -> Learning.
+- Case -> Signals -> Insights -> Investigations -> Root Causes -> Recommendations -> Decisions -> Actions -> Outcomes -> Learnings.
 - EvidenceChain sustenta Explanation, RootCause, Narrative, Recommendation e Decision.
 - CausalChain diferencia direct cause, contributing cause, dependency, inference e correlation.
 - KnowledgeGraph conecta Strategy, Portfolio, Architecture Domain, Capability, Service, Offer, Product, Delivery, Metrics, Events, Insights, Decisions e Learnings.
+- KnowledgeGraph passa a tratar Case como nó obrigatório conectado a alerts, investigations, decisions, action plans, evidence, validations, learnings e entidades afetadas.
 - KnowledgeGraph conecta BusinessNeed, PainPoint, Discovery, Requirement, SolutionDesign, Review, Readiness, Validation, AlertAction, AlertEvidence, AlertValidation e AlertResolution ao fluxo Need-to-Value.
 - Product é tratado como composição flexível de N offers, sem ser Capability, Service ou Offer.
 
@@ -666,6 +704,7 @@ A camada de inteligência deve ser governada porque influencia decisões executi
 - Intelligence Lifecycle.
 - Architecture Capability Intelligence.
 - Insight Model.
+- Case Intelligence.
 - Decision Intelligence Model.
 - Knowledge Graph Model.
 - Copilot Intelligence Model.

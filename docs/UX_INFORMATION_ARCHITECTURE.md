@@ -793,16 +793,84 @@ A arquitetura da informação da EDIP está preparada para sustentar uma platafo
 | Narrative governance precisa definir review, approval, versioning e retention. | Risco de narrativa executiva virar apresentação sem auditabilidade. | KNOWLEDGE_ARCHITECTURE.md e EVENT_CATALOG.md. |
 | Frontend ainda precisa definir arquitetura de rotas, estado contextual, deep links, permissões e componentes de investigação. | Risco de perda de contexto entre workspaces e entidades. | FRONTEND_ARCHITECTURE.md. |
 
-## 29. Avaliação de Prontidão UX
+## 29. Case Management Experience Architecture
+
+Case Management adiciona à experiência da EDIP um objeto governado para coordenar problemas corporativos complexos que atravessam alertas, investigações, decisões, planos de ação, evidências, validações e aprendizados.
+
+Case não substitui Alert, Investigation, Decision, ActionPlan, Evidence, Validation ou Learning. Case agrega esses objetos em torno de um mesmo assunto relevante para garantir rastreabilidade, ownership, SLA, aging, resolução, auditoria e aprendizado organizacional.
+
+### Perguntas de Case Management
+
+| Pergunta | Contexto Necessário | Profundidade de Navegação |
+| --- | --- | --- |
+| Quais cases estão críticos? | Severidade, prioridade, owner, SLA, aging, valor em risco e entidades afetadas. | Case Cockpit -> Case -> Alerts -> Evidence -> ActionPlans -> Validations. |
+| Quais cases estão envelhecendo? | OpenedAt, dueDate, SLA, aging, último evento e etapa atual do lifecycle. | Case Heat Map -> célula de aging -> Case Timeline -> owner e próximos passos. |
+| Quais cases foram reabertos? | ClosureDecision, ClosureEvidence, validação falha, condição recorrente e motivo de reabertura. | Case Cockpit -> Reopened Cases -> CaseReopening -> Evidence -> Learning. |
+| Quais cases ameaçam maior valor? | ValueAtRisk, affectedValueCases, affectedPortfolios, affectedProducts e forecast de valor. | Value Realization -> Case -> ValueCase -> Benefit -> Evidence. |
+| Quais cases precisam de decisão? | Pendências de decisão, authority, escalation, riskAccepted e impacto de não decisão. | Case Governance View -> Decision -> Evidence -> Closure Criteria. |
+| Quais cases carecem de evidência? | Evidence coverage, evidências obrigatórias, closureEvidence e lacunas de validação. | Case Closure View -> Missing Evidence -> Evidence Request -> Validation. |
+| Quais cases indicam problema sistêmico? | Recorrência, múltiplos alertas relacionados, múltiplas capabilities/produtos afetados e root causes comuns. | Case Investigation View -> Root Causes -> Similar Cases -> Learnings. |
+
+### Capacidades de Experiência
+
+| Capacidade | Propósito | Informações Obrigatórias | Decisões Suportadas |
+| --- | --- | --- | --- |
+| Case Workspace | Coordenar resolução ponta a ponta de um Case. | Tipo, severidade, prioridade, owner, accountable, status, SLA, aging, impacto, entidades afetadas, alertas, investigações, decisões, ações, evidências e validações. | Priorizar, atribuir, escalar, investigar, remediar, validar, aceitar risco, fechar ou reabrir. |
+| Case Cockpit | Dar visão executiva e tática da carteira de cases. | Open Case Count, Critical Case Count, Case Aging, SLA Compliance, Value at Risk, Reopen Rate e cases sem evidência. | Alocar capacidade, escalar cases críticos, solicitar decisão executiva, priorizar remediação. |
+| Case Heat Map | Expor concentração de risco, aging, recorrência e valor em risco por dimensão corporativa. | Severidade, aging, SLA, portfolio, capability, produto, owner, tipo de case, valor em risco e recorrência. | Investigar concentração, rebalancear foco, priorizar capability/produto/portfólio e acionar owners. |
+| Case Entity Workspace | Tratar Case como entidade navegável de primeira classe. | Overview, traceability, metrics, events, evidence, decisions, alerts, knowledge, timeline e impact analysis. | Entender estado, origem, impacto, histórico, evidência, dependências e critérios de encerramento. |
+| Case Timeline | Reconstruir evolução completa do Case. | Created, triaged, assigned, escalated, linked events, evidence, actions, validations, resolved, closed e reopened. | Avaliar cadência, atrasos, responsabilidade, reabertura, recorrência e qualidade de resolução. |
+| Case Investigation View | Investigar causas e padrões relacionados ao Case. | Alerts, signals, investigations, findings, root causes, related cases, affected capabilities e recomendações. | Abrir investigação, consolidar causa raiz, gerar recomendação, associar casos semelhantes. |
+| Case Closure View | Controlar encerramento governado do Case. | Owner, closureCriteria, closureEvidence, closureDecision, validations, riskAccepted e residual risk. | Aprovar fechamento, rejeitar fechamento, solicitar evidência, aceitar risco ou reabrir. |
+| Case Governance View | Garantir auditabilidade, segregação de funções e compliance de lifecycle. | Owner, accountable, decisões, evidências, aprovações, exceções, SLA, alterações de severidade e timeline auditável. | Escalar, validar conformidade, auditar resolução, exigir evidência e revisar exceções. |
+| Case Narrative | Transformar um Case relevante em narrativa executiva, tática ou de aprendizado. | O que aconteceu, por que aconteceu, o que está em risco, o que foi decidido, o que foi feito, evidências e aprendizados. | Comunicar impacto, alinhar decisão, registrar aprendizado e reutilizar padrões organizacionais. |
+
+### Navegação de Case
+
+```text
+Case
+-> Alerts
+-> Investigations
+-> Evidence
+-> Decisions
+-> ActionPlans
+-> Validations
+-> Learnings
+```
+
+Todo Case deve permitir drill-down para alertas, investigações, ações, evidências, validações e aprendizados relacionados.
+
+Todo Alert crítico, recorrente ou sistêmico deve permitir criar ou associar um Case.
+
+Toda Investigation deve permitir recomendar criação de Case quando a causa for sistêmica, recorrente ou transversal a múltiplas entidades.
+
+Todo Case deve permitir drill-up para entidades afetadas: capability, produto, offer, iniciativa, portfólio, value case, objetivo estratégico e owner accountable.
+
+Todo Case fechado deve preservar closure criteria, closure evidence, closure decision, validação e timeline completa.
+
+Todo Case reaberto deve explicar a condição de retorno, evidência invalidada ou validação falha.
+
+### Personalização de Case
+
+| Persona | Ênfase da Experiência |
+| --- | --- |
+| Directors e Executives | Cases críticos, valor em risco, decisões pendentes, risco aceito, reaberturas e padrões sistêmicos. |
+| Superintendents e Managers | Aging, SLA, dependências, owners, capacidade de remediação, blockers e forecast de resolução. |
+| Coordinators | Filas, WIP, ações pendentes, validações, evidências faltantes e próximos passos operacionais. |
+| Architects | Capability degradation cases, architecture cases, modernization cases, offers em risco e debt relacionado. |
+| Security, Compliance, Data e Audit | Compliance cases, data quality cases, evidência, segregação de funções, auditoria e critérios de fechamento. |
+| Governance Teams | Carteira de cases, aderência ao lifecycle, escalonamentos, exceções, reopen rate e aprendizado organizacional. |
+
+## 30. Avaliação de Prontidão UX
 
 | Alvo | Prontidão | Justificativa |
 | --- | --- | --- |
-| API_CONTRACTS.md | YES WITH ADJUSTMENTS | A arquitetura da informação define navegação, comandos implícitos por ações, escopos de consulta, busca, drill paths, timelines, comparisons, investigations, narratives, entity workspaces e contratos de perguntas do Copilot. Os contratos de API ainda devem formalizar canonical queries, autorização, paginação, acesso a evidência, graph traversal, timeline retrieval, comparison queries, investigation lifecycle e respostas de command rejection. |
-| ANALYTICS_ARCHITECTURE.md | YES WITH ADJUSTMENTS | Métricas, health scores, forecasts, heat maps, cadeias de explicabilidade e perguntas de decisão estão especificadas. A inclusão de comparisons, timelines, persona landings e navigation intelligence exige detalhar normalização temporal, comparabilidade, confidence por célula, forecast versioning e métricas de maturity/learning. |
-| KNOWLEDGE_ARCHITECTURE.md | YES WITH ADJUSTMENTS | Navegação de knowledge, Evidence Graph, Decision Graph, Capability Graph, Narrative, Investigation, Entity Workspace e Navigation Intelligence estão explícitos. A arquitetura de knowledge ainda deve definir schemas de relação, confidence por edge, graph stewardship, traversal autorizado, reusable learnings e governança da Narrative Library. |
-| FRONTEND_ARCHITECTURE.md | YES WITH ADJUSTMENTS | A IA define landings, workspaces, cockpits, dashboards, heat maps, filtros, busca, timelines, comparisons, investigation workspace, narrative explorer, entity workspaces, alert experience e Copilot behavior. A arquitetura frontend ainda precisa definir routing contextual, state preservation, deep links, permission-aware rendering, data fetching, cache, acessibilidade e component contracts. |
+| API_CONTRACTS.md | YES WITH ADJUSTMENTS | A arquitetura da informação define navegação, comandos implícitos por ações, escopos de consulta, busca, drill paths, timelines, comparisons, investigations, narratives, entity workspaces, Case Workspace e contratos de perguntas do Copilot. Os contratos de API ainda devem formalizar canonical queries, autorização, paginação, acesso a evidência, graph traversal, timeline retrieval, comparison queries, investigation lifecycle, case lifecycle, associação de alerts/investigations/decisions/action plans/evidence e respostas de command rejection. |
+| ANALYTICS_ARCHITECTURE.md | YES WITH ADJUSTMENTS | Métricas, health scores, forecasts, heat maps, cadeias de explicabilidade e perguntas de decisão estão especificadas. A inclusão de comparisons, timelines, persona landings, case heat maps e navigation intelligence exige detalhar normalização temporal, comparabilidade, confidence por célula, forecast versioning, métricas de maturity/learning, recorrência de cases, value at risk e resolution health. |
+| KNOWLEDGE_ARCHITECTURE.md | YES WITH ADJUSTMENTS | Navegação de knowledge, Evidence Graph, Decision Graph, Capability Graph, Narrative, Investigation, Entity Workspace, Case Entity Workspace e Navigation Intelligence estão explícitos. A arquitetura de knowledge ainda deve definir schemas de relação, confidence por edge, graph stewardship, traversal autorizado, reusable learnings, Case Timeline, Similar Cases e governança da Narrative Library. |
+| FRONTEND_ARCHITECTURE.md | YES WITH ADJUSTMENTS | A IA define landings, workspaces, cockpits, dashboards, heat maps, filtros, busca, timelines, comparisons, investigation workspace, narrative explorer, entity workspaces, alert experience, Case Workspace, Case Cockpit, Case Closure View, Case Governance View e Copilot behavior. A arquitetura frontend ainda precisa definir routing contextual, state preservation, deep links, permission-aware rendering, data fetching, cache, acessibilidade e component contracts. |
 
-## 30. Registro de Mudanças
+## 31. Registro de Mudanças
 
 | Área | Mudança |
 | --- | --- |
@@ -829,3 +897,4 @@ A arquitetura da informação da EDIP está preparada para sustentar uma platafo
 | Entity Workspace Architecture | Definido workspace universal para entidades relevantes com overview, traceability, metrics, events, evidence, decisions, alerts, knowledge, timeline e impact analysis. |
 | Navigation Intelligence Layer | Adicionada camada de navegação assistida por inteligência para sugerir próximos passos, investigações, comparações, entidades, narrativas e casos semelhantes. |
 | UX Maturity Model | Adicionado modelo de maturidade de UX em seis níveis, posicionando a EDIP como alvo de Intelligence Driven Navigation. |
+| Case Management Experience Architecture | Adicionadas capacidades de Case Workspace, Case Cockpit, Case Heat Map, Case Entity Workspace, Case Timeline, Case Investigation View, Case Closure View, Case Governance View e Case Narrative. |

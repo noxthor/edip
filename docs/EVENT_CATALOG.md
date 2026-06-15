@@ -89,6 +89,7 @@ O payload conceitual listado nas seções seguintes representa campos específic
 | Value Realization Events | Registrar value cases, hipóteses, benefícios observados, validados, rejeitados e vazamento de valor. |
 | Economics Events | Registrar fatos econômicos derivados de atraso, fila, gargalo, valor em risco e performance de investimento. |
 | Governance Events | Registrar decisões, gates, aprovações, evidências, controles, exceções e auditoria. |
+| Case Management Events | Registrar criação, triagem, atribuição, vínculos, ações, evidências, validações, resolução, fechamento, reabertura e escalonamento de cases. |
 | Organization Events | Registrar mudanças de owner, time, capacidade, papel e estrutura organizacional relevante. |
 | Observability Events | Registrar frescor, divergência, confiança, erro de cálculo, lineage e qualidade de dados. |
 
@@ -124,6 +125,7 @@ Classificação não substitui contexto. Por exemplo, `FeatureCompleted` pertenc
 | Value Realization Events | EDIP, SAP, sistemas financeiros, analytics de produto, fontes de KPI, governança de benefícios. |
 | Economics Events | Economics Engine, Metrics Engine, Flow Intelligence Engine, EDIP, SAP, Value Realization sources. |
 | Governance Events | EDIP, ServiceNow, OneTrust, Confluence, ferramentas de GRC, sistemas de workflow corporativo. |
+| Case Management Events | EDIP, Case Management Service, Alert Engine, Governance Engine, Copilot Service, ServiceNow, ferramentas de GRC. |
 | Organization Events | EDIP, sistemas de RH, gestão de identidade, gestão de capacidade, ferramentas de times. |
 | Observability Events | Observability platform, Data Quality platform, pipelines analíticos, EDIP, source monitors. |
 
@@ -352,7 +354,31 @@ Classificação não substitui contexto. Por exemplo, `FeatureCompleted` pertenc
 | ControlAssessmentCompleted | Avaliação de controle foi concluída. | Control | Control | EvidenceAttached | ExceptionGranted | Risco / Compliance | Avaliação periódica ou gate. | Controle possui resultado, evidência e avaliador. | Afeta compliance e readiness. | controlId, entityId, assessmentResult, assessorId, assessedAt, evidenceIds. |
 | AuditTrailRecorded | Registro auditável foi produzido. | Control | AuditTrailEntry | Qualquer evento crítico | Nenhum | Auditoria / Plataforma | Registro de fato auditável. | Evento exige retenção e trilha. | Preserva reconstrução histórica. | auditEntryId, relatedEventId, entityId, actorId, recordedAt, auditCategory. |
 
-### 5.13 Organization Events
+### 5.13 Case Management Events
+
+Eventos de Case Management registram o lifecycle, vínculos, evidências, ações, validações, escalonamentos e reaberturas de cases. Case não substitui Alert, Investigation, Decision ou ActionPlan; ele agrega esses artefatos em uma estrutura governada e auditável.
+
+| Evento | Descrição | Produtor | Consumidor | Payload Conceitual | Métricas Impactadas | Inteligência Impactada | Governança |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| CaseCreated | Case foi criado para coordenar problema corporativo relevante. | Case Management Service, Alert Engine, Governance Service, Copilot Service. | Governance Engine, Metrics Engine, Knowledge Service, Copilot. | caseId, caseType, title, severity, priority, ownerId, affectedEntities, createdAt, triggerEventId. | Open Case Count, Critical Case Count, Case Aging. | Case Intelligence, OperatingInsight, GovernanceInsight. | Exige owner inicial ou triagem pendente auditável. |
+| CaseTriaged | Case foi classificado por tipo, severidade, prioridade, escopo e impacto. | Case Management Service. | Metrics Engine, Governance Engine, Knowledge Service. | caseId, previousType, newType, severity, priority, businessImpact, valueAtRisk, triagedAt, triagedBy. | Critical Case Count, Case Business Impact, Case Value at Risk. | Priorização de cases e recomendações de escalonamento. | Preserva racional de triagem e autoridade. |
+| CaseAssigned | Case recebeu owner, accountable e participantes. | Case Management Service / Organization Service. | Governance Engine, Metrics Engine, Notification consumers. | caseId, ownerId, accountableId, participants, assignedAt, dueDate, SLA. | Case SLA Compliance, Case Aging. | Quem deveria agir, owner gaps. | Owner e accountable tornam-se obrigatórios para closure. |
+| CaseEscalated | Case foi escalado por SLA, severidade, valor em risco ou decisão pendente. | Case Management Service / Governance Engine. | Executive Cockpit, Governance, Copilot. | caseId, escalationReason, fromOwnerId, toAuthorityId, severity, valueAtRisk, escalatedAt. | Case SLA Compliance, Case Business Impact, Case Value at Risk. | Recommendation, Decision Intelligence. | Escalonamento deve preservar motivo e autoridade. |
+| CaseLinkedToAlert | Alert foi associado ao case. | Case Management Service / Alert Service. | Alert Engine, Knowledge Service, Metrics Engine. | caseId, alertId, linkReason, linkedAt, linkedBy. | Open Case Count, Case Recurrence Rate, Alert Resolution Health. | Relação entre alertas recorrentes e problema sistêmico. | Preserva que Alert continua entidade própria. |
+| CaseLinkedToInvestigation | Investigation foi associada ao case. | Case Management Service / Intelligence Service. | Knowledge Service, Copilot, Governance. | caseId, investigationId, linkReason, scope, linkedAt. | Case Resolution Health, Case Aging. | Investigation path, root cause analysis. | Investigation mantém lifecycle próprio. |
+| CaseLinkedToDecision | Decision foi associada ao case. | Case Management Service / Governance Service. | Decision Service, Knowledge Service, Metrics Engine. | caseId, decisionId, decisionType, linkReason, linkedAt. | Case Resolution Time, Case Governance Health. | Decision Intelligence e narrative. | Decisão preserva autoridade e evidência própria. |
+| CaseLinkedToActionPlan | ActionPlan foi associado ao case. | Case Management Service / Intelligence Service. | Metrics Engine, Governance, Copilot. | caseId, actionPlanId, ownerId, dueDate, expectedOutcome, linkedAt. | Case Action Completion Rate, Case Resolution Health. | Recomendação para ação e follow-up. | ActionPlan permanece artefato próprio. |
+| CaseEvidenceAttached | Evidência foi anexada ou vinculada ao case. | Case Management Service / Evidence Service. | Governance Engine, Metrics Engine, Knowledge Service. | caseId, evidenceId, evidenceType, classification, validity, attachedBy, attachedAt. | Case Evidence Coverage, Case Governance Health. | EvidenceChain e explainability. | Evidência deve respeitar classification e access policy. |
+| CaseActionRegistered | Ação de tratamento do case foi registrada. | Case Management Service. | Metrics Engine, Governance Engine, Copilot. | caseId, actionId, actionOwnerId, dueDate, expectedOutcome, registeredAt. | Case Action Completion Rate, Case Aging. | Recommendation follow-up. | Ação deve ter owner e prazo. |
+| CaseValidationStarted | Validação de resolução do case foi iniciada. | Case Management Service / Validation Service. | Metrics Engine, Governance, Knowledge Service. | caseId, validationId, validationOwnerId, closureCriteria, startedAt. | Case Validation Success Rate, Case Resolution Health. | Closure explainability. | Validação deve testar closure criteria. |
+| CaseResolved | Case foi marcado como resolvido conforme critérios definidos. | Case Management Service. | Governance Engine, Metrics Engine, Knowledge Service. | caseId, resolvedAt, resolutionSummary, validationIds, evidenceIds, ownerId. | Case Resolution Time, Case Resolution Health. | Outcome e learning candidates. | Resolução não equivale a Closed sem closure governance. |
+| CaseClosed | Case foi encerrado com critérios, evidência e decisão quando aplicável. | Case Management Service / Governance Service. | Audit, Metrics Engine, Knowledge Service, Copilot. | caseId, closedAt, closureCriteria, closureEvidenceIds, closureDecisionId, closedBy. | Open Case Count, Case Resolution Time, Case Evidence Coverage. | Learning, Narrative, DecisionOutcome. | Case crítico exige evidence e closureDecision. |
+| CaseReopened | Case foi reaberto por retorno de condição, evidência invalidada ou validação falha. | Case Management Service / Governance Engine / Alert Engine. | Metrics Engine, Knowledge Service, Copilot. | caseId, reopenedAt, reason, previousClosureId, triggeringEventId, ownerId. | Case Reopen Rate, Case Recurrence Rate, Case Resolution Health. | Root cause recurrence e systemic patterns. | Reabertura deve preservar motivo e relação com closure anterior. |
+| CaseSLAExceeded | SLA do case foi excedido. | Case Management Service / SLA Monitor. | Governance Engine, Executive Cockpit, Alert Engine. | caseId, dueDate, exceededBy, severity, ownerId, valueAtRisk. | Case SLA Compliance, Case Aging, Critical Case Count. | Escalation recommendation. | Pode exigir escalonamento ou decision gate. |
+| CaseSeverityChanged | Severidade do case mudou. | Case Management Service / Governance Engine. | Metrics Engine, Alert Engine, Knowledge Service. | caseId, previousSeverity, newSeverity, reason, changedBy, changedAt. | Critical Case Count, Case Business Impact, Case Value at Risk. | Priority and risk narratives. | Mudança exige racional e actor. |
+| CaseOwnerChanged | Owner do case mudou. | Case Management Service / Organization Service. | Governance Engine, Metrics Engine, Audit. | caseId, previousOwnerId, newOwnerId, reason, changedAt. | Case SLA Compliance, Case Governance Health. | Ownership and accountability insights. | Preserva histórico de responsabilidade. |
+
+### 5.14 Organization Events
 
 | Nome | Descrição | Severidade | Entidade Principal | Evento Pai | Evento Filho | Owner Conceitual | Disparador | Condições de Geração | Impacto Esperado | Payload Conceitual |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -362,7 +388,7 @@ Classificação não substitui contexto. Por exemplo, `FeatureCompleted` pertenc
 | OwnerAssigned | Owner foi atribuído a entidade. | Control | Ownership | Qualquer evento de criação | HealthScoreCalculated | Owner da entidade / PMO | Atribuição de responsabilidade. | Entidade crítica sem owner ou mudança formal de owner. | Melhora governança e rastreabilidade. | entityId, entityType, previousOwnerId, newOwnerId, effectiveDate. |
 | RoleChanged | Papel de pessoa ou grupo mudou. | Control | RoleAssignment | OwnerAssigned | Nenhum | Governança de Acesso / RH | Mudança organizacional. | Papel possui escopo, validade e autoridade. | Afeta permissões e segregação de funções. | actorId, previousRole, newRole, scope, effectiveDate. |
 
-### 5.14 Observability Events
+### 5.15 Observability Events
 
 | Nome | Descrição | Severidade | Entidade Principal | Evento Pai | Evento Filho | Owner Conceitual | Disparador | Condições de Geração | Impacto Esperado | Payload Conceitual |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -373,7 +399,7 @@ Classificação não substitui contexto. Por exemplo, `FeatureCompleted` pertenc
 | DataConfidenceRecovered | Confiança do dado recuperou. | Business | DataConfidenceScore | DataConfidenceDegraded | HealthScoreCalculated | Dados / Analytics | Correção de fonte ou cálculo. | Dados retornam a nível aceitável. | Reabilita uso decisório. | confidenceScoreId, entityId, previousLevel, newLevel, recoveredAt. |
 | LineageUpdated | Lineage de métrica ou fonte foi atualizado. | Control | Lineage | MetricDefinitionApproved | DataConfidenceRecovered | Dados / Analytics | Governança de dados. | Fonte, transformação ou relação de cálculo mudou. | Melhora auditabilidade e confiança. | lineageId, metricId, sourceSystem, changedAttributes, updatedAt. |
 
-### 5.15 Operating Model Events
+### 5.16 Operating Model Events
 
 Eventos do sistema operacional corporativo da EDIP, cobrindo necessidade, discovery, requisitos, solução, readiness, execução, validação, blockers e encerramento efetivo de alertas.
 
@@ -1015,6 +1041,7 @@ Esta política define retenção conceitual. A retenção física, mídia, parti
 | --- | --- | --- | --- |
 | Regulatory Critical | DecisionApproved, FundingAllocated, InvestmentApproved, BenefitValidated, RiskAccepted. | 10 anos ou conforme política regulatória aplicável. | Evidência obrigatória, autoridade, segregação de funções, justificativa e trilha completa. |
 | Governance Critical | GateApproved, GateRejected, ExceptionGranted, ExceptionExpired, EvidenceAttached. | 5 a 10 anos. | Evidência, owner, escopo, data, autoridade e controles associados. |
+| Case Critical | CaseCreated, CaseEscalated, CaseEvidenceAttached, CaseResolved, CaseClosed, CaseReopened, CaseSLAExceeded. | 5 a 10 anos, ou conforme criticidade regulatória, valor em risco ou auditoria. | Preservar timeline completa, owner, accountable, critérios de encerramento, evidência, decisão de closure e motivo de reabertura. |
 | Architecture Critical | ArchitectureAssessmentCompleted, ArchitectureDebtRegistered, ArchitectureExceptionGranted, ArchitectureExceptionExpired, CapabilityRetired, OfferRetired. | 5 a 10 anos, ou mais quando vinculado a produto crítico, risco regulatório ou decisão executiva. | Preservar assessment, owner, decisão, evidência, entidade afetada, plano de mitigação e impacto em produto/oferta. |
 | Operating Critical | BusinessNeedCaptured, RequirementApproved, SolutionApproved, ReadinessApproved, ValidationStarted, AlertResolved, AlertReopened. | 5 a 10 anos quando usados em decisão crítica, auditoria, valor ou governança. | Preservar Need-to-Value, owner, revisão, ação, evidência, validação da condição original e decisão associada. |
 | Operational | FeatureStarted, StoryCompleted, QueueEntered, QueueExited, FeatureBlocked. | 2 a 5 anos. | Retenção suficiente para métricas, forecast, auditoria operacional e investigação. |
@@ -1030,6 +1057,8 @@ A camada de Decision Intelligence transforma eventos em alternativas de decisão
 | QueueThresholdBreached | Queue Time | Flow Health Score | Bottleneck Alert | Rebalancear capacidade, reduzir WIP ou escalar owner. |
 | ValueAtRiskIncreased | Investment At Risk | Portfolio Health Score | Executive Alert | Revisar funding, acelerar entrega ou aceitar risco formalmente. |
 | DecisionSLAExceeded | Decision Latency | Governance Health Score | Governance Alert | Escalonar autoridade, convocar comitê ou aprovar exceção. |
+| CaseSLAExceeded | Case SLA Compliance | Case Governance Health | Case SLA Alert | Escalar owner, ajustar prioridade, abrir decisão executiva ou registrar aceite formal de risco. |
+| CaseReopened | Case Reopen Rate | Case Resolution Health | Case Reopened Alert | Reavaliar causa raiz, validar evidência, revisar ação e atualizar learning. |
 | BottleneckDetected | Bottleneck Severity | Flow Health Score | Bottleneck Detected | Criar plano de ação, eliminar dependência ou dividir iniciativa. |
 | ForecastAccuracyDegraded | Forecast Accuracy | Portfolio Health Score | Forecast Accuracy Degraded | Revisar premissas, modelo e qualidade dos dados. |
 | ValueLeakageDetected | Value Leakage | Value Realization Score | Value Leakage Detected | Reavaliar hipótese, adoção, priorização ou continuidade. |
@@ -1118,6 +1147,7 @@ A camada de Decision Intelligence transforma eventos em alternativas de decisão
 - Eventos de narrativa executiva, causa raiz, plano corretivo e aceite formal de risco.
 - Eventos operacionais de BusinessNeed, PainPoint, BusinessProblem, Discovery, Requirements, SolutionDesign, Reviews, Readiness, Validation, Blocker e Alert Resolution.
 - Eventos de decisão, gate, aprovação, evidência, controle, exceção e auditoria.
+- Eventos de Case Management para criação, triagem, atribuição, escalonamento, vínculo com alertas, investigations, decisions, action plans, evidências, validações, resolução, fechamento, reabertura, SLA, severidade e owner.
 - Eventos organizacionais de unidade, time, capacidade, owner e papel.
 - Eventos de observabilidade, frescor, divergência, erro, confiança e lineage.
 
@@ -1235,6 +1265,7 @@ A camada de Decision Intelligence transforma eventos em alternativas de decisão
 
 - Regulatory Critical.
 - Governance Critical.
+- Case Critical.
 - Operational.
 - Analytical.
 - Executive Narrative.

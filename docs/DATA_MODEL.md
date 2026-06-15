@@ -486,6 +486,34 @@ Toda entidade canônica relevante deve possuir, quando aplicável:
 | Exception | exceptionId | exceptionType, scope, expiry, riskAccepted. | Governance Owner. | Requested, Granted, Expired, Closed. | EDIP Governance. | ExceptionGranted, ExceptionExpired. | Standard Exception Aging. | Alta. |
 | AuditTrailEntry | auditTrailEntryId | actor, action, entity, timestamp, evidence. | Audit / Platform. | Recorded, Archived. | EDIP. | AuditTrailRecorded. | Auditability indicators. | Restrita; retenção longa. |
 
+### Case Management
+
+| Entidade | Identidade Canônica | Atributos Principais | Owner | Lifecycle | Fonte / SoR / Truth | Eventos | Métricas / Evidências | Sensibilidade / Temporalidade |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Case | caseId | caseType, title, description, severity, priority, status, owner, accountable, affectedEntities, affectedCapabilities, affectedProducts, affectedPortfolios, affectedValueCases, businessImpact, valueAtRisk, riskAccepted, dueDate, SLA, aging. | Case Owner. | Created, Triaged, Assigned, Investigating, ActionPlanning, Remediating, Validating, Resolved, Closed, Reopened. | EDIP Case Management. | CaseCreated, CaseTriaged, CaseAssigned, CaseResolved, CaseClosed, CaseReopened. | Open Case Count, Case Aging, Case Value at Risk, Case Resolution Health. | Alta quando crítico; histórico obrigatório. |
+| CaseStatus | caseStatusId | name, order, allowedTransitions, terminalFlag. | Case Management Owner. | Active, Superseded, Retired. | Reference Data Store. | CaseStatusChanged. | Case Aging. | Baixa; versionado. |
+| CaseType | caseTypeId | typeName, purpose, defaultOwnerRole, defaultSLA, requiredEvidencePolicy. | Governance / PMO. | Active, Retired. | Reference Data Store. | CaseTypeDefined. | Open Case Count por tipo. | Média; governado. |
+| CaseSeverity | caseSeverityId | severityName, escalationPolicy, closurePolicy, evidencePolicy. | Governance / Risk. | Active, Retired. | Reference Data Store. | CaseSeverityChanged. | Critical Case Count. | Média; governado. |
+| CaseRelationship | caseRelationshipId | caseId, relatedEntityType, relatedEntityId, relationshipType, reason, confidence. | Case Owner. | Active, Superseded, Removed. | Knowledge Store / Operational Store. | CaseLinkedToAlert, CaseLinkedToInvestigation, CaseLinkedToDecision, CaseLinkedToActionPlan. | Case Recurrence Rate, Case Resolution Health. | Alta; histórico. |
+| CaseTimeline | caseTimelineId | caseId, eventIds, metricSnapshots, decisionIds, evidenceIds, validationIds, learningIds. | Case Owner / Knowledge Steward. | Assembled, Updated, Archived. | Knowledge Store. | CaseCreated, CaseEvidenceAttached, CaseResolved, CaseReopened. | Case Aging, Case Resolution Time. | Alta; auditável. |
+| CaseClosure | caseClosureId | caseId, closureCriteria, closureEvidence, closureDecision, closedAt, closedBy, validationIds. | Case Owner / Accountable. | Proposed, Validated, Closed, Invalidated. | EDIP Case Management / Governance. | CaseResolved, CaseClosed. | Case Evidence Coverage, Case Validation Success Rate. | Alta; auditável. |
+| CaseReopening | caseReopeningId | caseId, previousClosureId, reason, triggeringEventId, reopenedAt, reopenedBy. | Case Owner / Governance. | Registered, Investigating, Superseded. | EDIP Case Management. | CaseReopened. | Case Reopen Rate, Case Recurrence Rate. | Alta; auditável. |
+
+Relações obrigatórias:
+
+- Case -> Alert.
+- Case -> Investigation.
+- Case -> Decision.
+- Case -> ActionPlan.
+- Case -> Evidence.
+- Case -> Validation.
+- Case -> Learning.
+- Case -> Capability.
+- Case -> Product.
+- Case -> Portfolio.
+- Case -> ValueCase.
+- Case -> Initiative.
+
 ### Metrics and Intelligence
 
 | Entidade | Identidade Canônica | Atributos Principais | Owner | Lifecycle | Fonte / SoR / Truth | Eventos | Métricas / Evidências | Sensibilidade / Temporalidade |
@@ -757,6 +785,7 @@ Proposed -> Designed -> Approved -> Active -> Deprecated -> Retired.
 - Metric;
 - Evidence;
 - Decision;
+- Case;
 - Alert;
 - RootCause;
 - Recommendation;
@@ -773,9 +802,16 @@ Proposed -> Designed -> Approved -> Active -> Deprecated -> Retired.
 | impacts | ArchitectureDebt impacts Capability; Delay impacts ValueCase. |
 | blocks | Blocker blocks Feature; Decision blocks Initiative. |
 | causedBy | Alert causedBy Event; RootCause causedBy CausalChain. |
+| contains | Case contains Alert, Investigation, Decision, ActionPlan, Evidence, Validation or Learning. |
+| relatesTo | Case relatesTo Capability, Product, Portfolio, ValueCase or Initiative. |
+| escalates | Case escalates Decision or GovernanceGate. |
+| resolves | CaseClosure resolves Case. |
+| reopenedBy | Case reopenedBy CaseReopening, invalid evidence or failed validation. |
 | evidencedBy | Decision evidencedBy Evidence; Benefit evidencedBy Evidence. |
 | approvedBy | Decision approvedBy Approver; Gate approvedBy Authority. |
 | validates | Validation validates Outcome; AlertValidation validates AlertCondition. |
+| validatedBy | CaseClosure validatedBy Validation. |
+| learnedFrom | Learning learnedFrom Case or DecisionOutcome. |
 | realizes | Benefit realizes ValueCase; Release realizes Feature. |
 | explains | Explanation explains KPI drop or Flow degradation. |
 | recommends | Recommendation recommends ActionPlan. |
@@ -844,6 +880,30 @@ AlertResolution só é válido se:
 - AlertAction existe;
 - AlertEvidence existe;
 - AlertValidation confirma que condição original desapareceu, foi mitigada ou foi aceita formalmente por autoridade definida.
+
+## 13.1 Case Closure Data Model
+
+Modelo obrigatório:
+
+Case -> CaseRelationship -> CaseTimeline -> CaseClosure -> CaseReopening.
+
+| Entidade | Dados Conceituais Obrigatórios |
+| --- | --- |
+| Case | caseId, caseType, title, severity, priority, status, owner, accountable, affectedEntities, SLA, aging, businessImpact, valueAtRisk. |
+| CaseRelationship | caseId, relatedEntityType, relatedEntityId, relationshipType, reason, confidence. |
+| CaseTimeline | caseId, eventIds, metricSnapshots, alertIds, investigationIds, decisionIds, actionPlanIds, evidenceIds, validationIds, learningIds. |
+| CaseClosure | caseClosureId, caseId, closureCriteria, closureEvidence, closureDecision, validationIds, closedAt, closedBy. |
+| CaseReopening | caseReopeningId, caseId, previousClosureId, reason, triggeringEventId, reopenedAt, reopenedBy. |
+
+CaseClosure só é válido se:
+
+- Case possui owner.
+- Case possui closureCriteria.
+- Case crítico possui closureEvidence.
+- Case crítico possui closureDecision.
+- Validações obrigatórias foram concluídas ou risco foi aceito formalmente por autoridade definida.
+
+CaseReopening deve ocorrer quando condição retorna, evidência é invalidada ou validação falha.
 
 Campos adicionais:
 
@@ -1387,6 +1447,7 @@ flowchart LR
 - Knowledge Graph.
 - Decision Graph.
 - Evidence Graph.
+- Case Timeline.
 - Capability Graph.
 - Value Graph.
 - Learning Graph.
@@ -1423,6 +1484,18 @@ flowchart LR
 - Reopen reason.
 - Closure decision.
 
+### Modelos de Case Management
+
+- Case.
+- CaseStatus.
+- CaseType.
+- CaseSeverity.
+- CaseRelationship.
+- CaseTimeline.
+- CaseClosure.
+- CaseReopening.
+- Relações com Alert, Investigation, Decision, ActionPlan, Evidence, Validation, Learning, Capability, Product, Portfolio, ValueCase e Initiative.
+
 ### Modelos de Lineage
 
 - External Source -> Adapter -> Canonical Mapping -> Command -> Command Store -> Domain Service -> Domain State -> Domain Event -> Projection -> Metric -> Insight -> Recommendation -> Decision -> Action -> Evidence -> Validation -> Learning.
@@ -1446,6 +1519,7 @@ flowchart LR
 
 - Regulatory critical.
 - Governance critical.
+- Case critical.
 - Operational.
 - Analytical.
 - Knowledge.
@@ -1467,3 +1541,5 @@ flowchart LR
 - Data product sem contrato.
 - Projection desatualizada.
 - Command replay sem idempotência.
+- Case closure sem evidência ou decisão quando crítico.
+- Case relationship inconsistente no Knowledge Graph.

@@ -41,6 +41,7 @@ O catálogo não define banco de dados, APIs, pipelines, queries ou implementaç
 | Value Realization Score | Saúde de realização de valor. | benefício validado, evidência, confiança, value forecast accuracy, value leakage, time to value, desvio de forecast, rejeições. | Value Realization Dashboard, Executive Overview |
 | Data Confidence Score | Confiança de dado, métrica ou cálculo. | completude, frescor, lineage, sucesso de integração, divergência, erro. | Observability and Data Quality Dashboard, Governance and Evidence Dashboard |
 | Governance Health Score | Saúde de governança, decisões, evidências, controles, exceções e alertas críticos. | decision latency, approval aging, evidence coverage, control adherence, exception aging, alert resolution health, auditability. | Governance and Evidence Dashboard, Portfolio Command Center, Executive Overview |
+| Case Governance Health | Saúde de governança de cases por ownership, SLA, evidência, decisão de closure, escalonamento e auditabilidade. | case owner, accountable, SLA compliance, evidence coverage, closure decision, reopen rate, escalation, audit trail. | Case Cockpit, Governance and Evidence Dashboard, Executive Overview |
 | Business Discovery Health | Saúde da descoberta de negócio antes de produto ou solução. | necessidade com owner, evidência, dor clara, jornada/processo, problema definido, aging. | Business Discovery Dashboard, Executive Overview |
 | Requirements Health | Saúde de requisitos funcionais e não funcionais. | origem rastreável, completude, critérios de aceite, revisão, aprovação, rejeições, retrabalho. | Requirements Dashboard, Initiative Workspace |
 | Solution Health | Saúde do desenho de solução. | requisitos cobertos, revisões concluídas, pendências, evidências, aprovações, rejeições, riscos. | Solution Review Dashboard, Architecture Cockpit |
@@ -50,6 +51,7 @@ O catálogo não define banco de dados, APIs, pipelines, queries ou implementaç
 | Validation Health | Saúde de validação pós-entrega. | critérios validados, evidência, rejeições, validation time, outcome validation. | Validation Dashboard, Value Realization Dashboard |
 | Alert Resolution Health | Saúde de tratamento efetivo de alertas. | alert aging, ação, evidência, validação da condição original, resolução, reabertura. | Alert Heat Map, Governance and Evidence Dashboard |
 | Blocker Resolution Health | Saúde de resolução de bloqueadores. | blocked time, aging, owner, severidade, evidência de resolução, reabertura. | Blocker Heat Map, Flow Intelligence Dashboard |
+| Case Resolution Health | Saúde da resolução de cases por aging, ações, evidências, validações, decisões, reaberturas e aprendizado. | case aging, action completion, evidence coverage, validation success, resolution time, reopen rate, recurrence, learning captured. | Case Cockpit, Case Heat Map, Governance and Evidence Dashboard |
 
 ## Strategy Metrics
 
@@ -182,6 +184,27 @@ Estas métricas conectam atrasos, filas e gargalos ao impacto econômico, permit
 | Metric Ownership Coverage | Mede percentual de métricas com owner definido. | Metrics and Intelligence | Especialista | KPI, MetricDefinition | métricas com owner / total de métricas ativas | Metrics | Diário | Owner de métricas | Governance and Evidence Dashboard | KPI sem owner | Alta | Métrica, owner, domínio, dashboard | Governança de dados, enterprise |
 | Lineage Completeness | Mede completude de lineage de métricas e cálculos. | Metrics and Intelligence | Especialista | KPI, MetricDefinition | métricas com fonte, fórmula, transformação e owner / métricas ativas | Metrics, Observability | Semanal | Dados / Analytics | Governance and Evidence Dashboard | Lineage incompleto | Média | Métrica, fonte, cálculo, evidência | Governança de dados, auditoria |
 
+## Case Management Metrics
+
+Estas métricas medem a capacidade da EDIP de coordenar problemas corporativos complexos como objetos governados, rastreáveis e auditáveis, sem substituir alertas, investigações, decisões, action plans, evidências, validações ou learnings.
+
+| Nome | Descrição | Domínio | Persona Principal | Entidade Medida | Fórmula Conceitual | Fonte Esperada | Periodicidade | Owner | Uso em Dashboard | Alertas Associados | Nível de Confiança | Possibilidade de Drill-down | Possibilidade de Drill-up |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Open Case Count | Mede volume de cases abertos por tipo, severidade, owner, portfolio, capability ou business unit. | Case Management | PMO / Governance | Case | contagem de cases com status diferente de Closed | Case Management, Governance | Diário | Case Owner / PMO | Case Cockpit, Governance and Evidence Dashboard, Executive Overview | Case backlog elevado | Alta | Case, owner, tipo, severidade, entidade afetada | Portfolio, capability, objetivo, enterprise |
+| Critical Case Count | Mede volume de cases críticos ou regulatórios abertos. | Case Management | Diretor / Governance | Case | contagem de cases com severidade Critical ou Regulatory Critical | Case Management, Alerts, Governance | Diário | Governance / PMO | Executive Overview, Case Cockpit, Case Heat Map | Critical Case Open | Alta | Case, causa, owner, affected entity | Enterprise, portfolio, objective |
+| Case Aging | Mede tempo em que um case permanece aberto ou em estado atual. | Case Management | PMO | Case | data atual - openedAt ou data atual - entrada no estado atual | Case Management | Diário | Case Owner | Case Cockpit, Case Heat Map | Case Aging Breached | Alta | Case, estado, owner, SLA, eventos | Portfolio, capability, business unit |
+| Case SLA Compliance | Mede cumprimento de SLA dos cases. | Case Management / Governance | PMO / Auditoria | Case | cases dentro do SLA / cases com SLA definido | Case Management, Governance | Diário | Case Owner / Governance | Case Cockpit, Governance and Evidence Dashboard | CaseSLAExceeded | Alta | Case, SLA, owner, escalonamento | Governance, enterprise |
+| Case Resolution Time | Mede tempo entre abertura e resolução do case. | Case Management | PMO | CaseClosure | resolvedAt - openedAt | Case Management | Semanal | Case Owner | Case Cockpit, Governance and Evidence Dashboard | Case resolution delayed | Alta | Case, etapas, ações, validações | Portfolio, objective |
+| Case Reopen Rate | Mede percentual de cases reabertos após closure. | Case Management | Auditoria / Governance | CaseReopening | cases reabertos / cases fechados no período | Case Management, Governance | Mensal | Governance | Case Cockpit, Case Heat Map | CaseReopened | Alta | Case, closure anterior, motivo, evidência invalidada | Governance, learning |
+| Case Evidence Coverage | Mede cobertura de evidências obrigatórias em cases. | Case Management / Governance | Auditoria | Case, Evidence | evidências válidas anexadas / evidências requeridas por closure criteria | Case Management, Evidence Store | Diário | Case Owner / Evidence Owner | Case Closure View, Governance and Evidence Dashboard | Case evidence missing | Alta | Case, evidence, validity, classification | Audit, governance |
+| Case Action Completion Rate | Mede conclusão de ações associadas a cases. | Case Management | Gerente / PMO | Case, ActionPlan | ações concluídas no prazo / ações planejadas | Case Management, Intelligence | Diário / Semanal | Action Owner | Case Cockpit, Investigation Workspace | Case action overdue | Média | ActionPlan, owner, dueDate, evidence | Case, portfolio |
+| Case Validation Success Rate | Mede sucesso das validações de resolução de cases. | Case Management / Validation | Validation Owner | CaseValidation | validações favoráveis / validações iniciadas | Case Management, Validation | Semanal | Validation Owner | Case Closure View, Case Cockpit | Case validation failed | Alta | Validation, criteria, evidence, result | Case, governance |
+| Case Recurrence Rate | Mede recorrência de cases por causa, tipo, entidade ou owner. | Case Management / Intelligence | PMO / Knowledge Steward | Case, RootCause | cases recorrentes com causa similar / total de cases no período | Case Management, Knowledge Store | Mensal | Knowledge Steward / PMO | Case Cockpit, Intelligence Workspace | Case recurrence detected | Média | Root cause, related cases, learning | Enterprise, knowledge |
+| Case Business Impact | Mede impacto de negócio agregado dos cases. | Case Management / Portfolio | Executivo | Case | impacto ponderado por severidade, entidades afetadas, criticidade e duração | Case Management, Portfolio, Metrics | Semanal | Case Owner / PMO | Executive Overview, Case Cockpit | Case business impact high | Média | Case, affected entity, impact driver | Portfolio, business unit |
+| Case Value at Risk | Mede valor em risco associado a cases. | Case Management / Value Realization | Diretor | Case, ValueCase | soma de valueAtRisk dos value cases e initiatives afetados por cases abertos | Case Management, Value Realization | Semanal | Sponsor de valor / Case Owner | Executive Overview, Case Cockpit, Value Realization Dashboard | Case value at risk high | Média | Case, value case, initiative, benefit | Objective, portfolio |
+| Case Governance Health | Mede saúde de governança de cases. | Case Management / Governance | Governance | Case | owner + accountable + SLA compliance + evidence coverage + closure decision - reopen rate - aging - escalation overdue | Case Management, Governance, Evidence | Semanal | Governance / PMO | Case Cockpit, Governance and Evidence Dashboard | Case governance degraded | Média | Case, owner, SLA, evidence, decision | Enterprise, audit |
+| Case Resolution Health | Mede efetividade de resolução de cases. | Case Management / Intelligence | PMO | Case | action completion + validation success + evidence coverage + learning captured - aging - reopen rate - recurrence | Case Management, Intelligence, Knowledge | Semanal | Case Owner / Intelligence Owner | Case Cockpit, Case Heat Map, Intelligence Workspace | Case resolution degraded | Média | Case, actions, validations, root cause, learning | Governance, knowledge |
+
 ## Decision Intelligence Metrics
 
 Estas métricas medem velocidade, volume e qualidade de decisões, separando latência decisória de aging de aprovação e de SLAs formais.
@@ -307,6 +330,7 @@ Estas métricas avaliam precisão histórica de previsões. Elas não substituem
 | Validation Heat Map | Validation Health, Validation Time, Time to Value, Evidence Coverage | validation, criterion, outcome, value case | acelerar aceite, completar evidência e conectar outcome a valor. |
 | Blocker Heat Map | Blocker Resolution Health, Blocked Time, Blocker Resolution Time, Bottleneck Severity | blocker, owner, cause, entity, squad | tratar bloqueadores antigos, escalonar owners e reduzir blocked time. |
 | Alert Heat Map | Alert Resolution Health, Alert Aging, Alert Resolution Time, Evidence Coverage, Decision Latency | alert, owner, action, evidence, validation | manter alertas abertos até ação, evidência e validação efetiva. |
+| Case Heat Map | Open Case Count, Critical Case Count, Case Aging, Case SLA Compliance, Case Business Impact, Case Value at Risk, Case Resolution Health | case, case type, owner, affected entity, capability, product, portfolio, value case | priorizar cases críticos, escalar owners, exigir evidência, coordenar ação e validar closure. |
 | Capability Heat Map | Capability Health Score, Capability Coverage, Capability Modernization Score, Architecture Debt Score, Capability Traceability Health | domain, subdomain, business layer, capability | priorizar capability crítica, modernização e correção de rastreabilidade. |
 | Service Heat Map | Service Health Score, Service Modernization Score, Technology Rationalization Score, Architecture Debt Score | business service, technology service, application service | priorizar modernização, racionalização e remediação de serviço. |
 | Offer Heat Map | Offer Health Score, Offer Adoption Score, Offer Traceability Health, Product Health Score | offer, product, service, application service | revisar composição de produto e offers com baixa adoção ou risco. |
@@ -320,6 +344,7 @@ Estas métricas avaliam precisão histórica de previsões. Elas não substituem
 | Value | Planned Value, Forecast Value, Realized Benefit, Validated Benefit, ROI, Time to Value, Cost of Delay, Value Leakage. | Mostrar onde valor esperado está sendo realizado, atrasado, perdido ou degradado. |
 | Risk | Investment At Risk, Initiative Risk Exposure, Dependency Aging, Delay Impact Score, Integration Risk Score, Technical Debt Exposure. | Priorizar riscos com impacto financeiro, estratégico ou operacional. |
 | Governance | Committee Readiness, Approval Aging, Decision SLA, Decision Latency, Decision Throughput, Decision Rework Rate, Evidence Coverage, Control Adherence Rate. | Tornar decisões lentas, gates envelhecidos e lacunas de evidência acionáveis. |
+| Case Management | Open Case Count, Critical Case Count, Case Aging, Case SLA Compliance, Case Evidence Coverage, Case Resolution Health, Case Value at Risk. | Tornar problemas corporativos agregados visíveis por tipo, owner, entidade afetada, severidade, valor em risco e recorrência. |
 | Data Quality | Data Freshness, Integration Success Rate, Processing Lag, Calculation Error Rate, Source Divergence, Data Confidence Score, Lineage Completeness. | Expor confiabilidade das leituras executivas e impedir decisões com dados frágeis. |
 | Strategic Alignment | Strategic Alignment Coverage, Traceability Health Score, Traceability Gap Count, Objective Funding Coverage, KPI Target Deviation, OKR Achievement Forecast. | Verificar se execução, funding, métricas e valor continuam conectados à estratégia. |
 | Operating Flow | Business Discovery Health, Requirements Health, Solution Health, Readiness Health, Validation Health, Alert Resolution Health, Blocker Resolution Health. | Verificar onde o fluxo Need-to-Value está parado, quem deveria agir e qual evidência falta. |
@@ -346,6 +371,10 @@ Estas métricas avaliam precisão histórica de previsões. Elas não substituem
 | Solution Review Alert | Solution design está pendente, rejeitado ou com reviews críticos vencidos. | Solution Health, Solution Time, Review Time, Architecture Review Health, Engineering Review Health | Solution Owner deve resolver pendências, registrar exceções ou revisar escopo. |
 | Readiness Alert | Item tenta avançar sem DOR, capacidade, dependência tratada ou evidência obrigatória. | Readiness Health, Readiness Time, Blocker Resolution Health | Scrum Master ou Delivery Owner deve bloquear entrada, completar readiness ou formalizar exceção. |
 | Alert Resolution Failed | Alerta foi encerrado sem condição removida, reaberto ou sem evidência suficiente. | Alert Resolution Health, Alert Aging, Alert Resolution Time | PMO deve reabrir tratamento, exigir ação, evidência e validação da condição original. |
+| Case SLA Breached | Case ultrapassou SLA definido por tipo, severidade ou valor em risco. | Case SLA Compliance, Case Aging, Case Value at Risk | Case Owner deve escalar, atualizar plano de ação, registrar decisão ou justificar aceite formal. |
+| Case Evidence Missing | Case crítico não possui evidência suficiente para resolução ou closure. | Case Evidence Coverage, Case Governance Health | Case Owner e Evidence Owner devem anexar evidência válida antes de closure. |
+| Case Reopened | Case foi reaberto por retorno da condição, evidência invalidada ou validação falha. | Case Reopen Rate, Case Resolution Health, Case Recurrence Rate | Case Owner deve reavaliar causa raiz, ação, validação e learning. |
+| Case Recurrence Detected | Cases recorrentes indicam causa sistêmica por tipo, owner, entidade ou capability. | Case Recurrence Rate, Case Resolution Health | PMO e Knowledge Steward devem abrir investigação sistêmica e consolidar learning. |
 | Architecture Debt Critical | Dívida arquitetural crítica afeta capability, service, offer, application service ou produto. | Architecture Debt Score, Capability Health Score, Service Health Score | Arquiteto Corporativo deve criar plano, associar iniciativa ou registrar aceite formal de risco. |
 | Capability Traceability Critical | Capability crítica possui lacuna de rastreabilidade com objetivo, produto, iniciativa, KPI ou value case. | Capability Traceability Health, Objective to Capability Coverage, Capability to Initiative Coverage | Capability Owner deve corrigir vínculos ou registrar justificativa formal. |
 
@@ -372,6 +401,7 @@ Estas métricas avaliam precisão histórica de previsões. Elas não substituem
 | Offer Landscape | Offer Health Score, Offer Adoption Score, Offer Traceability Health, Product Health Score |
 | Modernization Cockpit | Capability Modernization Score, Service Modernization Score, Architecture Debt Score, Technology Rationalization Score |
 | Governance and Evidence Dashboard | Evidence Coverage, Control Adherence Rate, Approval Cycle Time, Approval Aging, Compliance Issue Count, Decision SLA, Decision Latency, Decision Rework Rate, Metric Ownership Coverage, Lineage Completeness, Traceability Health Score, Alert Resolution Health |
+| Case Cockpit | Open Case Count, Critical Case Count, Case Aging, Case SLA Compliance, Case Resolution Time, Case Reopen Rate, Case Evidence Coverage, Case Action Completion Rate, Case Validation Success Rate, Case Business Impact, Case Value at Risk, Case Governance Health, Case Resolution Health |
 | Value Realization Dashboard | Planned Value, Forecast Value, Realized Benefit, Validated Benefit, Benefit Variance, ROI, Time to Value, Value Realization Score, Value Forecast Accuracy, Cost of Delay, Value Leakage |
 | Observability and Data Quality Dashboard | Data Freshness, Integration Success Rate, Processing Lag, Calculation Error Rate, Source Divergence, Data Confidence Score |
 
@@ -389,6 +419,8 @@ Estas métricas avaliam precisão histórica de previsões. Elas não substituem
 - Flow Health Score deve permanecer distinto de Delivery Health Score: delivery mede execução e compromissos; flow mede fluidez, espera, filas, gargalos e desperdício.
 - Métrica de operating model deve indicar etapa Need-to-Value, owner, SLA, aging e evento de entrada/saída esperado.
 - Métrica de resolução de alerta deve considerar resolução válida apenas quando existir ação, evidência e validação da condição original.
+- Métrica de Case Management deve preservar distinção entre Case, Alert, Investigation, Decision, ActionPlan, Evidence, Validation e Learning.
+- Case crítico não deve ser considerado resolvido ou fechado em métricas executivas sem closure criteria, closure evidence e closure decision quando aplicável.
 - Métrica de arquitetura deve preservar distinção entre Product, Capability, Service e Offer.
 
 ## Change Log
@@ -459,6 +491,20 @@ Estas métricas avaliam precisão histórica de previsões. Elas não substituem
 - Capability to Initiative Coverage.
 - Capability Traceability Health.
 - Offer Traceability Health.
+- Open Case Count.
+- Critical Case Count.
+- Case Aging.
+- Case SLA Compliance.
+- Case Resolution Time.
+- Case Reopen Rate.
+- Case Evidence Coverage.
+- Case Action Completion Rate.
+- Case Validation Success Rate.
+- Case Recurrence Rate.
+- Case Business Impact.
+- Case Value at Risk.
+- Case Governance Health.
+- Case Resolution Health.
 
 ### Métricas Revisadas
 
@@ -479,6 +525,8 @@ Estas métricas avaliam precisão histórica de previsões. Elas não substituem
 - Product Health Score foi revisado para considerar composição de offers e sinais arquiteturais sem confundir Product com Capability, Service ou Offer.
 - Governance and Evidence Dashboard foi revisado para incluir Alert Resolution Health.
 - Governance Health Score foi formalizado como score próprio para consolidar decisão, evidência, controle, exceção e resolução de alertas.
+- Health Scores Governados recebeu Case Governance Health e Case Resolution Health.
+- Case Management Metrics foi adicionado para medir volume, criticidade, aging, SLA, resolution time, reopen, evidência, ações, validação, recorrência, impacto de negócio e valor em risco.
 
 ### Dashboards Impactados
 
@@ -491,6 +539,7 @@ Estas métricas avaliam precisão histórica de previsões. Elas não substituem
 - Strategic Alignment Dashboard recebeu Traceability Health Score.
 - Business Discovery Dashboard, Requirements Dashboard, Solution Review Dashboard, Readiness Dashboard, Validation Dashboard, Architecture Cockpit, Capability Landscape, Service Landscape, Offer Landscape e Modernization Cockpit foram adicionados ao catálogo de métricas críticas.
 - Heat maps operacionais e arquiteturais foram incorporados como consumidores formais de métricas.
+- Case Cockpit e Case Heat Map foram adicionados como consumidores formais de métricas de Case Management.
 
 ### Alertas Adicionados
 
@@ -504,6 +553,10 @@ Estas métricas avaliam precisão histórica de previsões. Elas não substituem
 - Solution Review Alert.
 - Readiness Alert.
 - Alert Resolution Failed.
+- Case SLA Breached.
+- Case Evidence Missing.
+- Case Reopened.
+- Case Recurrence Detected.
 - Architecture Debt Critical.
 - Capability Traceability Critical.
 

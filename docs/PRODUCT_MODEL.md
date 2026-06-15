@@ -56,6 +56,14 @@ Lacunas de rastreabilidade, dependências vencidas, KPIs sem owner, dados atrasa
 
 A EDIP deve reduzir o esforço de descoberta de problemas, não apenas reportar problemas conhecidos.
 
+### Case Management Como Coordenação Governada
+
+Problemas corporativos complexos devem poder ser coordenados como Cases quando atravessarem múltiplos alertas, investigações, decisões, planos de ação, evidências, validações ou aprendizados.
+
+Case não substitui Alert, Investigation, Decision, ActionPlan, Evidence, Validation ou Learning. Case é o agrupador governado que preserva ownership, SLA, aging, impacto, valor em risco, critérios de fechamento, evidência de fechamento, decisão de closure e histórico completo.
+
+Cases críticos, recorrentes ou sistêmicos devem aparecer como exceções acionáveis na experiência, não apenas como itens de relatório.
+
 ## 2. Personas
 
 ### Diretor
@@ -93,6 +101,8 @@ A EDIP deve reduzir o esforço de descoberta de problemas, não apenas reportar 
 | Investment At Risk | Investimento exposto por iniciativas críticas. |
 | KPI Target Deviation | Desvio entre target e valor atual. |
 | Critical Decision Aging | Tempo de decisões executivas pendentes. |
+| Critical Case Count | Volume de cases críticos abertos. |
+| Case Value at Risk | Valor ameaçado por cases abertos. |
 
 ### Superintendente
 
@@ -129,6 +139,8 @@ A EDIP deve reduzir o esforço de descoberta de problemas, não apenas reportar 
 | Initiative Risk Exposure | Exposição por iniciativas em risco. |
 | Forecast Confidence | Confiança nas projeções de entrega e valor. |
 | Opportunity Conversion Rate | Efetividade do funil de oportunidades. |
+| Case Aging | Tempo de cases abertos ou parados no estado atual. |
+| Case SLA Compliance | Cumprimento de SLA dos cases sob sua carteira. |
 
 ### Gerente
 
@@ -536,6 +548,7 @@ A EDIP deve reduzir o esforço de descoberta de problemas, não apenas reportar 
 | Governance Health Score | Saúde de governança e auditoria. |
 | Alert Resolution Health | Qualidade de encerramento de alertas. |
 | Traceability Health Score | Integridade da rastreabilidade. |
+| Case Governance Health | Saúde de governança dos cases, incluindo owner, evidência, decisão e auditoria. |
 
 ### Líder Técnico
 
@@ -733,15 +746,33 @@ A EDIP deve permitir zoom contínuo entre níveis de decisão. Cada nível deve 
 
 **Usuários:** Diretores, Conselho, Superintendentes, PMO.
 
-**KPIs:** Strategic Health Score, OKR Achievement Forecast, Portfolio Value Realization, Investment At Risk, KPI Target Deviation, Critical Decision Aging.
+**KPIs:** Strategic Health Score, OKR Achievement Forecast, Portfolio Value Realization, Investment At Risk, KPI Target Deviation, Critical Decision Aging, Critical Case Count, Case Value at Risk.
 
-**Visualizações:** heatmap de objetivos, ranking de portfólios críticos, linha de valor planejado versus realizado, lista de decisões pendentes, alertas críticos.
+**Visualizações:** heatmap de objetivos, ranking de portfólios críticos, linha de valor planejado versus realizado, lista de decisões pendentes, alertas críticos, cases críticos, cases com valor em risco e cases aguardando decisão executiva.
 
 **Filtros:** período, diretoria, tema estratégico, objetivo, portfólio, severidade, owner.
 
 **Drill-down:** Objetivo -> OKR -> KPI -> Portfólio -> Iniciativa -> Épico.
 
 **Drill-up:** KPI ou iniciativa -> objetivo estratégico -> tema -> estratégia.
+
+### Case Cockpit
+
+**Objetivo:** coordenar a carteira de cases corporativos por severidade, valor em risco, aging, SLA, owner, evidência, validação, decisão e recorrência.
+
+**Usuários:** Diretores, Superintendentes, Gerentes, PMO, Auditoria, Governance Teams, Arquitetos, Security Specialists, Data Specialists, Compliance Specialists.
+
+**KPIs:** Open Case Count, Critical Case Count, Case Aging, Case SLA Compliance, Case Resolution Time, Case Reopen Rate, Case Evidence Coverage, Case Action Completion Rate, Case Validation Success Rate, Case Business Impact, Case Value at Risk, Case Governance Health, Case Resolution Health.
+
+**Visualizações:** carteira de cases por severidade, heat map de cases por capability/produto/portfólio, ranking de valor em risco, cases reabertos, cases sem evidência suficiente, actions overdue, validações pendentes e decisões de closure pendentes.
+
+**Filtros:** case type, severidade, prioridade, owner, accountable, status, SLA, aging, capability, produto, portfólio, value case, unidade, evidência, validação, decisão e recorrência.
+
+**Drill-down:** Case -> Alerts -> Investigations -> Evidence -> Decisions -> ActionPlans -> Validations -> Learnings.
+
+**Drill-up:** Case -> entidade afetada -> Capability / Product / Portfolio / Value Case -> Objetivo Estratégico.
+
+**Ações suportadas:** triar case, atribuir owner, escalar, associar alerta, abrir investigation, anexar evidência, registrar action plan, iniciar validação, propor closure, aprovar closure, reabrir e registrar learning.
 
 ### Strategic Alignment Dashboard
 
@@ -999,6 +1030,24 @@ A EDIP deve permitir zoom contínuo entre níveis de decisão. Cada nível deve 
 
 **Drill-up:** Blocker ou alert -> feature/iniciativa -> portfólio -> objetivo.
 
+### Case Workspace
+
+**Objetivo:** oferecer visão 360 graus de um case específico, preservando histórico, contexto, relações, evidências, decisões, ações, validações e aprendizados.
+
+**Usuários:** Case Owner, accountable, PMO, Governance Teams, Auditoria, Gerentes, Coordenadores, Arquitetos, Especialistas e owners das entidades afetadas.
+
+**KPIs:** Case Aging, Case SLA Compliance, Case Evidence Coverage, Case Action Completion Rate, Case Validation Success Rate, Case Resolution Health, Case Governance Health, Case Value at Risk.
+
+**Visualizações:** overview do case, timeline, entidades afetadas, alertas relacionados, investigations, root causes, action plans, evidence board, closure criteria, closure evidence, closure decision, validações e learnings.
+
+**Filtros:** período, tipo de artefato relacionado, evidência, decisão, action owner, validação, severidade, status e recorrência.
+
+**Drill-down:** Case -> artefato relacionado -> evidência -> evento -> owner.
+
+**Drill-up:** Case -> capability/produto/portfólio/value case/iniciativa afetada -> objetivo estratégico.
+
+**Regras de experiência:** case crítico não deve permitir closure sem owner, critério de fechamento, evidência, validação e decisão de closure quando aplicável.
+
 ## 5. Navigation Model
 
 ### Menus
@@ -1024,6 +1073,7 @@ Governança
 Observabilidade
 Flow Intelligence
 Alertas
+Cases
 Busca
 ```
 
@@ -1045,6 +1095,8 @@ Busca
 
 **Fluxo de valor:** Value Realization -> Benefício abaixo do forecast -> KPI -> Iniciativa -> Evidência.
 
+**Fluxo de case management:** Cases -> Case Cockpit -> Case crítico -> Alertas relacionados -> Investigation -> Evidence -> Decision -> ActionPlan -> Validation -> Learning.
+
 ### Navegação Contextual
 
 Toda página de entidade deve exibir:
@@ -1054,7 +1106,9 @@ Toda página de entidade deve exibir:
 - Status.
 - Health score.
 - Alertas ativos.
+- Cases ativos ou relacionados.
 - Ações, evidências e validações necessárias para encerramento efetivo de alertas.
+- Critérios de closure, evidências e decisões necessárias para encerramento efetivo de cases.
 - Próximas decisões.
 - Evidências associadas.
 - Última atualização e origem dos dados.
@@ -1062,7 +1116,7 @@ Toda página de entidade deve exibir:
 
 ### Busca Global
 
-A busca global deve localizar objetivos, OKRs, KPIs, portfólios, iniciativas, oportunidades, business needs, pain points, discoveries, requisitos, solution designs, reviews, readiness assessments, validações, épicos, features, stories, tasks, owners, decisões, evidências, benefícios, riscos, alertas, blockers e controles.
+A busca global deve localizar objetivos, OKRs, KPIs, portfólios, iniciativas, oportunidades, business needs, pain points, discoveries, requisitos, solution designs, reviews, readiness assessments, validações, épicos, features, stories, tasks, owners, decisões, evidências, benefícios, riscos, alertas, cases, investigations, action plans, blockers e controles.
 
 Resultados devem ser agrupados por domínio, relevância, criticidade e permissão.
 
@@ -1092,6 +1146,8 @@ Health scores são sinais explicáveis de saúde. Eles priorizam atenção, mas 
 | Validation Health | Validação de aceite, técnica, negócio, outcome e valor. |
 | Alert Resolution Health | Alert, action, evidence, validation e resolution. |
 | Blocker Resolution Health | Blocker, owner, causa, evidência e resolução. |
+| Case Governance Health | Case, owner, accountable, SLA, evidence, closure decision, escalation e audit trail. |
+| Case Resolution Health | Case, aging, actions, evidence, validations, decisions, reopen rate, recurrence e learning. |
 
 ### Componentes
 
@@ -1133,6 +1189,9 @@ Value Realization Score =
 
 Data Confidence =
   completude + frescor + lineage + sucesso de integração - divergências - erros de cálculo
+
+Case Resolution Health =
+  action completion + validation success + evidence coverage + learning captured - aging - reopen rate - recurrence
 ```
 
 Cada fórmula concreta deve declarar pesos, faixas, thresholds, limitações e dados ausentes.
@@ -1292,6 +1351,17 @@ Alertas devem ser acionáveis, explicáveis e priorizados. Todo alerta deve poss
 | Release Sem Readiness | Release próxima sem critérios técnicos ou evidências suficientes. |
 | Fonte Atrasada | Dados operacionais ou analíticos fora da janela de atualização. |
 
+### Alertas de Case Management
+
+| Alerta | Critério |
+| --- | --- |
+| Case SLA Excedido | Case ultrapassou SLA definido por tipo, severidade ou valor em risco. |
+| Case Crítico Sem Evidência | Case crítico não possui evidência suficiente para resolução ou closure. |
+| Case Reaberto | Case foi reaberto por retorno da condição, evidência invalidada ou validação falha. |
+| Case Recorrente | Cases similares indicam causa sistêmica por tipo, owner, entidade, capability ou produto. |
+| Case Sem Owner | Case aberto ou triado sem owner ou accountable definidos. |
+| Case Aguardando Decisão | Case depende de decisão de closure, aceite de risco, priorização ou escalonamento executivo. |
+
 ## 9. Search and Intelligence
 
 ### Busca Corporativa
@@ -1324,6 +1394,13 @@ A EDIP deve permitir perguntas como:
 - Qual requisito está aguardando revisão?
 - Qual solution design está pendente de aprovação?
 - Qual alerta continua aberto e qual evidência falta?
+- Quais cases estão críticos?
+- Quais cases estão envelhecendo?
+- Quais cases foram reabertos?
+- Quais cases ameaçam maior valor?
+- Quais cases precisam de decisão?
+- Quais cases carecem de evidência?
+- Quais cases indicam problema sistêmico?
 - Qual blocker está mais antigo e quem deveria agir?
 
 Respostas devem incluir dados, filtros aplicados, período, confiança e links para investigação.
@@ -1379,6 +1456,7 @@ O usuário deve sempre saber:
 - Qual entidade foi afetada.
 - Qual decisão ou ação é esperada.
 - Qual evidência sustenta o alerta.
+- Qual case agrega alertas, investigações, decisões, ações, validações e aprendizados relacionados.
 - Como investigar a causa.
 
 ### Como Sustentar Confiança
@@ -1400,3 +1478,15 @@ Toda tela deve responder pelo menos uma destas perguntas:
 - Qual métrica mudou?
 - Qual evidência falta?
 - Qual é a próxima melhor ação?
+
+## 11. Registro de Mudanças
+
+| Área | Mudança |
+| --- | --- |
+| Case Management | Incorporado Case como capacidade de produto para coordenação governada de problemas corporativos complexos. |
+| Personas | Adicionados indicadores de Case para diretores, superintendentes e auditoria/governança. |
+| Dashboards | Adicionados Case Cockpit e Case Workspace. |
+| Navegação | Adicionado fluxo de Case Management e entrada `Cases` no menu principal. |
+| Health Scores | Adicionados Case Governance Health e Case Resolution Health. |
+| Alertas | Adicionados alertas de Case Management. |
+| Search and Intelligence | Adicionadas perguntas corporativas sobre cases críticos, envelhecidos, reabertos, sem evidência, com valor em risco e sistêmicos. |

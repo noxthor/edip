@@ -454,6 +454,19 @@ Os bounded contexts do `DOMAIN_MODEL.md` tornam-se domínios arquiteturais lógi
 | Eventos Principais | DecisionCreated, DecisionApproved, DecisionRejected, DecisionSLAExceeded, GateApproved, GateRejected, EvidenceAttached, ExceptionGranted, ExceptionExpired. |
 | APIs Expostas | Comandos e consultas lógicas para decisions, gates, approvals, controls, exceptions, evidence e audits. |
 | APIs Consumidas | Todos os domínios que exigem decisão, aprovação, evidência ou controle. |
+
+### Case Management
+
+| Aspecto | Definição |
+| --- | --- |
+| Responsabilidade | Criar e coordenar cases como agrupadores governados de problemas, alertas, investigations, decisions, action plans, evidence, validations e learnings. |
+| Owners | Case owners, PMO, governance, risk, compliance, architecture governance, operating model owners. |
+| Entidades Principais | Case, CaseType, CaseStatus, CaseSeverity, CaseAssignment, CaseTimeline, CaseClosure, CaseReopening, CaseRelationship. |
+| Eventos Principais | CaseCreated, CaseTriaged, CaseAssigned, CaseEscalated, CaseLinkedToAlert, CaseLinkedToInvestigation, CaseLinkedToDecision, CaseLinkedToActionPlan, CaseEvidenceAttached, CaseValidationStarted, CaseResolved, CaseClosed, CaseReopened, CaseSLAExceeded. |
+| APIs Expostas | Consultas e comandos lógicos futuros para lifecycle, associação de artefatos, SLA, closure, reabertura, timeline e impact analysis de cases. |
+| APIs Consumidas | Alert, Intelligence, Governance, Evidence, Validation, Delivery, Architecture Capability, Value Realization, Knowledge. |
+| Dependências Permitidas | Consome artefatos de outros domínios por vínculos explícitos; publica eventos de case. |
+| Dependências Proibidas | Substituir Alert, Investigation, Decision, ActionPlan, Evidence, Validation ou Learning. |
 | Dependências Permitidas | Relacionamento transversal com todos os contextos críticos. |
 | Dependências Proibidas | Encerrar decisão crítica sem owner, justificativa e evidência. |
 
@@ -588,6 +601,7 @@ Um Service pode invocar ou consumir resultado de uma Engine, mas a Engine não d
 | Forecast Service | Gerir forecasts de prazo, capacidade, KPI, KR, valor e modernização. | Gerar forecast, atualizar forecast, medir accuracy. | Consultar forecasts, drivers, confidence e accuracy. | ForecastGenerated, ForecastUpdated, ForecastAccuracyMeasured. | Events, metrics, health scores, capacity changes. |
 | Heat Map Service | Gerar heat maps por flow, value, risk, governance, data quality, architecture e operating model. | Gerar heat map, atualizar dimensão. | Consultar heat maps por escopo, dimensão e período. | HeatMapGenerated. | HealthScoreCalculated, BottleneckDetected, DataConfidenceDegraded. |
 | Alert Service | Gerir alertas, condições, ações, evidências, validações, resoluções e reaberturas. | Detectar alerta, registrar ação, anexar evidência, validar condição, resolver ou reabrir. | Consultar alertas abertos, aging, owner e evidências faltantes. | AlertDetected, AlertActionRegistered, AlertEvidenceAttached, AlertConditionValidated, AlertResolved, AlertReopened. | HealthScoreDegraded, BottleneckDetected, ForecastAccuracyDegraded. |
+| Case Management Service | Criar cases, associar alerts, investigations, decisions, action plans e evidence, controlar lifecycle, SLA, closure, reabertura e publicar eventos de case. | Criar case, triar case, atribuir owner, associar alerta, associar investigation, associar decision, associar action plan, anexar evidência, iniciar validação, resolver, fechar ou reabrir case. | Consultar cases por tipo, severidade, owner, aging, SLA, entidade afetada, timeline, evidência, closure e valor em risco. | CaseCreated, CaseTriaged, CaseAssigned, CaseLinkedToAlert, CaseLinkedToInvestigation, CaseLinkedToDecision, CaseLinkedToActionPlan, CaseEvidenceAttached, CaseValidationStarted, CaseResolved, CaseClosed, CaseReopened, CaseSLAExceeded. | AlertDetected, AlertReopened, RootCauseIdentified, RecommendationGenerated, DecisionSLAExceeded, ValueLeakageDetected, CapabilityHealthDegraded, DataConfidenceDegraded. |
 | Blocker Service | Gerir bloqueadores, severidade, owner, evidência e resolução. | Criar blocker, escalar blocker, resolver blocker. | Consultar blockers por aging, owner, fila e impacto. | BlockerCreated, BlockerEscalated, BlockerResolved. | FeatureBlocked, DependencyRaised. |
 | Governance Service | Gerir gates, approvals, controls, exceptions, evidence e audit records. | Criar decisão, aprovar, rejeitar, anexar evidência, conceder exceção. | Consultar decisões, controles, exceções, evidências e trilha auditável. | DecisionCreated, DecisionApproved, GateApproved, EvidenceAttached, ExceptionGranted. | Todos os eventos críticos. |
 | Decision Service | Orquestrar decisões, decisão pendente, decision latency e consequências da inação. | Registrar decisão, escalar decisão, aceitar risco. | Consultar decisões abertas, bloqueantes, atrasadas e impacto econômico. | DecisionCreated, DecisionSLAExceeded, RiskAccepted. | AlertDetected, ValueAtRiskIncreased, BottleneckDetected. |
@@ -828,9 +842,10 @@ A Knowledge Architecture organiza relações navegáveis entre entidades, decis�
 
 | Grafo | Nós Principais | Relacionamentos | Usos |
 | --- | --- | --- | --- |
-| Knowledge Graph | Strategy, Portfolio, Product, Capability, Offer, Initiative, Feature, KPI, Event, Metric, Insight, Decision, Learning. | supports, impacts, measures, explains, causedBy, evidencedBy. | Busca corporativa, Copilot, explainability, investigação. |
+| Knowledge Graph | Strategy, Portfolio, Product, Capability, Offer, Initiative, Feature, KPI, Event, Metric, Insight, Decision, Case, Learning. | supports, impacts, measures, explains, causedBy, evidencedBy, contains, relatesTo. | Busca corporativa, Copilot, explainability, investigação e case management. |
 | Decision Graph | Decision, Gate, Approval, Exception, RiskAccepted, ActionPlan, Outcome. | approvedBy, rejectedBy, escalatedTo, caused, resolved. | Auditoria, decisão bloqueante, decision latency, governança. |
 | Evidence Graph | Evidence, Metric, Event, Decision, Validation, Control, Benefit. | supports, validates, contradicts, expires, attachedTo. | Auditoria, validação, alert closure, value realization. |
+| Case Timeline | Case, CaseTimeline, Alert, Investigation, Decision, ActionPlan, Evidence, Validation, Learning, Event. | contains, relatesTo, escalates, resolves, reopenedBy, evidencedBy, validatedBy, learnedFrom. | Coordenação de problemas complexos, auditoria de closure, recorrência e aprendizado organizacional. |
 | Capability Graph | Domain, SubDomain, BusinessLayer, Capability, Service, Offer, ApplicationService, Product. | contains, exposes, offers, implements, composes, supports. | Architecture elevator, impact analysis, modernization. |
 | Value Graph | Objective, Outcome, KPI, ValueCase, Benefit, Product, Initiative, Release. | expects, forecasts, realizes, validates, leaks. | Value realization, ROI, value at risk. |
 | Learning Graph | Lesson, Pattern, AntiPattern, DecisionPattern, DeliveryPattern, ArchitecturePattern. | derivedFrom, reusedBy, prevents, recommends. | Organizational learning, recommendations, maturity evolution. |
@@ -847,6 +862,7 @@ Governance Architecture garante que decisões críticas sejam rastreáveis, evid
 | Evidence | Artefatos verificáveis que sustentam status, decisão, métrica, controle ou valor. |
 | Controls | Obrigações verificáveis derivadas de política, risco, arquitetura, segurança, compliance ou auditoria. |
 | Exceptions | Desvios formalmente aceitos com owner, prazo, motivo, controles e plano de encerramento. |
+| Case Management | Coordenação governada de problemas corporativos complexos, com owner, accountable, SLA, timeline, closure criteria, closure evidence, closure decision e reabertura auditável. |
 | Audits | Trilhas de eventos, decisões, evidências, versões e cálculos. |
 | Policies | Regras corporativas que governam decisão, acesso, retenção, evidência e segregação. |
 | Segregation of Duties | Separação entre quem propõe, aprova, executa, valida, audita e aceita risco. |
@@ -1186,6 +1202,7 @@ Um vertical slice deve conter experiência, contratos, domínio, eventos, métri
 - Forecast Service.
 - Heat Map Service.
 - Alert Service.
+- Case Management Service.
 - Blocker Service.
 - Governance Service.
 - Decision Service.
@@ -1209,6 +1226,7 @@ Um vertical slice deve conter experiência, contratos, domínio, eventos, métri
 - Metrics and Intelligence.
 - Value Realization.
 - Governance and Audit.
+- Case Management.
 
 ### Engines
 
@@ -1243,6 +1261,7 @@ Um vertical slice deve conter experiência, contratos, domínio, eventos, métri
 - Evidence.
 - Controls.
 - Exceptions.
+- Case Management.
 - Audits.
 - Policies.
 - Segregation of Duties.
@@ -1269,6 +1288,7 @@ Um vertical slice deve conter experiência, contratos, domínio, eventos, métri
 - Knowledge Graph.
 - Decision Graph.
 - Evidence Graph.
+- Case Timeline.
 - Capability Graph.
 - Value Graph.
 - Learning Graph.
@@ -1344,6 +1364,7 @@ Um vertical slice deve conter experiência, contratos, domínio, eventos, métri
 - Domain Events.
 - Analytical Events.
 - Governance Events.
+- Case Management Events.
 
 ### Segurança e Autorização Expandidas
 

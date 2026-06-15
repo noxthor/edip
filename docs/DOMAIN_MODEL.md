@@ -440,6 +440,43 @@ Não é responsável por:
 - Definir conteúdo estratégico.
 - Calcular métricas de negócio.
 
+### Case Management Context
+
+Responsável por agrupar, coordenar e governar problemas corporativos relevantes que envolvem múltiplos alertas, investigações, decisões, ações, evidências, validações e aprendizados.
+
+Decisão de bounded context:
+
+Case Management deve existir como bounded context próprio, em parceria com Governance and Audit. A razão é que Case possui lifecycle, ownership, SLA, timeline, agregação de artefatos, reabertura e coordenação de resolução próprios. Governance and Audit continua responsável por decisões, aprovações, evidências, controles, exceções e auditoria, mas Case Management coordena o caso como objeto corporativo governado.
+
+Linguagem principal:
+
+- Case
+- Case Type
+- Case Status
+- Case Severity
+- Case Assignment
+- Case Timeline
+- Case Closure
+- Case Reopening
+- Case Relationship
+
+Responsabilidade de domínio:
+
+- Agrupar problemas, alertas, investigações, decisões, action plans, evidências, validações e learnings relacionados ao mesmo assunto corporativo.
+- Coordenar resolução, escalonamento, SLA, aging, owner, accountable, closure criteria e reabertura.
+- Preservar timeline completa de eventos, decisões, evidências, ações e validações do case.
+- Conectar case a affectedEntities, affectedCapabilities, affectedProducts, affectedPortfolios e affectedValueCases.
+- Sustentar rastreabilidade, auditoria e aprendizado organizacional sem substituir Alert, Investigation, Decision, ActionPlan, Evidence ou Learning.
+
+Não é responsável por:
+
+- Substituir Alert como sinal acionável de exceção.
+- Substituir Investigation como processo de apuração.
+- Substituir Decision como ato de autoridade humana ou comitê.
+- Substituir ActionPlan como plano de ação.
+- Substituir Incident, embora possa conter incidentes ou ser iniciado por incidente.
+- Executar controles de auditoria que pertencem a Governance and Audit.
+
 ### Organization and Ownership Context
 
 Responsável por owners, papéis, unidades organizacionais, times, responsabilidades e escopos de atuação.
@@ -516,6 +553,9 @@ Não é responsável por:
 | Delivery | Validation | Customer/Supplier | Validation consome entregas e critérios para aceitar, rejeitar ou solicitar correção. |
 | Validation | Value Realization | Customer/Supplier | Value Realization consome validações e evidências de outcome e benefício. |
 | Metrics and Intelligence | Todos | Conformist/Published Language | Contextos usam definições governadas de KPI, score e forecast. |
+| Case Management | Metrics and Intelligence | Customer/Supplier | Cases consomem alertas, scores, forecasts e intelligence signals para criação, priorização, aging e reabertura. |
+| Case Management | Governance and Audit | Partnership | Cases dependem de decisões, evidências, closure decisions, controles e audit trail para encerramento governado. |
+| Case Management | Delivery / Architecture Capability / Value Realization / Observability and Data Quality | Partnership | Cases coordenam problemas transversais como blockage, capability degradation, value leakage, compliance e data quality. |
 | Governance and Audit | Todos | Shared Kernel conceitual | Decisão, evidência, controle e auditoria atravessam contextos. |
 | Organization and Ownership | Todos | Shared Kernel conceitual | Owner, papel e responsabilidade são conceitos transversais. |
 | Observability and Data Quality | Todos | Supporting Context | Explica confiança dos dados consumidos pelos demais contextos. |
@@ -782,6 +822,68 @@ flowchart LR
 | Control | Obrigação verificável derivada de política ou risco. | controlId |
 | Exception | Desvio aceito temporariamente. | exceptionId |
 | AuditTrailEntry | Registro auditável de ação ou decisão. | auditEntryId |
+
+### Case Management Context
+
+| Entidade | Descrição | Identidade |
+| --- | --- | --- |
+| Case | Agrupador governado de problemas, alertas, investigações, decisões, action plans, evidências, validações e aprendizados relacionados a um mesmo assunto corporativo relevante. | caseId |
+| CaseType | Classificação do case por natureza corporativa. | caseTypeId |
+| CaseStatus | Estado do ciclo de vida do case. | caseStatusId |
+| CaseSeverity | Severidade baseada em risco, impacto, valor, criticidade regulatória ou recorrência. | caseSeverityId |
+| CaseAssignment | Atribuição de owner, accountable, participantes, reviewers e escalation target. | caseAssignmentId |
+| CaseTimeline | Histórico completo de eventos, vínculos, decisões, ações, evidências, validações e reaberturas do case. | caseTimelineId |
+| CaseClosure | Registro de resolução e encerramento com critérios, evidências e decisão. | caseClosureId |
+| CaseReopening | Registro de reabertura por retorno de condição, evidência invalidada ou validação falha. | caseReopeningId |
+| CaseRelationship | Relação entre case e alertas, investigations, decisions, action plans, evidence, validations, learnings e entidades afetadas. | caseRelationshipId |
+
+#### Atributos Conceituais de Case
+
+caseId, caseType, title, description, severity, priority, status, owner, accountable, affectedEntities, affectedCapabilities, affectedProducts, affectedPortfolios, affectedValueCases, relatedAlerts, relatedInvestigations, relatedDecisions, relatedActionPlans, relatedEvidence, relatedValidations, relatedLearnings, createdAt, updatedAt, openedAt, closedAt, dueDate, SLA, aging, businessImpact, valueAtRisk, riskAccepted, closureCriteria, closureEvidence e closureDecision.
+
+#### Tipos de Case
+
+| Tipo | Propósito | Gatilhos Típicos | Owners | Artefatos Relacionados |
+| --- | --- | --- | --- | --- |
+| Operational Case | Coordenar problemas operacionais transversais. | SLA breach, filas críticas, blocker recorrente, falha de validação. | Coordenador / PMO operacional. | Blockers, queues, alerts, action plans, validations. |
+| Governance Case | Coordenar problema de decisão, evidência, controle, gate ou auditoria. | Decision SLA excedido, evidência ausente, gate rejeitado, controle não atendido. | Governance Team / PMO. | Decisions, gates, approvals, evidence, controls. |
+| Architecture Case | Coordenar risco arquitetural, dívida, exceção ou impacto em Architecture Elevator. | Architecture debt critical, exception expired, review pendente. | Arquiteto Corporativo / Capability Owner. | Capability, service, offer, architecture debt, modernization plan. |
+| Value Leakage Case | Coordenar perda de valor planejado, forecast ou validado. | ValueLeakageDetected, BenefitRejected, ROI abaixo do esperado. | Sponsor de valor / Product Owner / Financeiro. | ValueCase, benefit, KPI, evidence, decisions. |
+| Capability Degradation Case | Coordenar degradação de capability crítica. | CapabilityHealthDegraded, capability traceability critical, service degraded. | Capability Owner / Arquiteto Corporativo. | Capability, service, offer, product, initiative, value case. |
+| Delivery Blockage Case | Coordenar bloqueios de delivery recorrentes ou sistêmicos. | Blocker recorrente, QueueThresholdBreached, feature crítica bloqueada. | Gerente / Coordenador / PMO. | Initiative, feature, story, blocker, dependency, action plan. |
+| Compliance Case | Coordenar risco regulatório, política ou controle. | Compliance review rejected, control evidence missing, regulatory critical alert. | Compliance Owner / Risk Owner. | Controls, evidence, exceptions, decisions, validations. |
+| Data Quality Case | Coordenar problema de frescor, lineage, divergência ou cálculo. | DataConfidenceDegraded, SourceDivergenceDetected, CalculationErrorDetected. | Data Owner / Data Steward. | KPI, source, lineage, metric observations, evidence. |
+| Strategic Risk Case | Coordenar risco estratégico transversal. | Objective at risk, KR forecast critical, investment at risk. | Diretor / Superintendente / PMO. | Objective, OKR, portfolio, investment, value case. |
+| Incident Case | Coordenar incidente relevante com impacto corporativo. | Incidente crítico, falha operacional, impacto em cliente ou controle. | Incident Owner / Operations Owner. | Incidents, alerts, evidence, decisions, action plans. |
+| Modernization Case | Coordenar modernização de capability, service, offer ou aplicação. | Modernization delayed, architecture debt, technology rationalization risk. | Capability Owner / Service Owner / PMO. | ModernizationPlan, architecture debt, initiatives, decisions. |
+
+#### Lifecycle de Case
+
+```text
+Created -> Triaged -> Assigned -> Investigating -> ActionPlanning -> Remediating -> Validating -> Resolved -> Closed -> Reopened
+```
+
+Regras de lifecycle:
+
+- Case não pode ser fechado sem owner.
+- Case não pode ser fechado sem critério de encerramento.
+- Case crítico não pode ser fechado sem evidência.
+- Case crítico não pode ser fechado sem decisão de encerramento.
+- Case pode ser reaberto se a condição retornar, evidência for invalidada ou validação falhar.
+- Case pode conter múltiplos alertas, múltiplas investigations e múltiplos action plans.
+- Case deve preservar timeline completa.
+
+#### Relações de Case
+
+| Relação | Cardinalidade | Regra |
+| --- | --- | --- |
+| Case -> Alert | 1:N | Alert pode existir sem Case inicialmente; alert crítico, recorrente ou sistêmico deve gerar ou associar-se a um Case. |
+| Case -> Investigation | 1:N | Investigation pode ser aberta dentro de Case; Case pode iniciar Investigation; Investigation pode recomendar criação de Case quando o problema for sistêmico. |
+| Case -> ActionPlan | 1:N | Case coordena múltiplos planos de ação sem substituir ActionPlan. |
+| Case -> Decision | 1:N | Case pode exigir decisões de priorização, aceite de risco, encerramento ou escalonamento. |
+| Case -> Evidence | 1:N | Case agrega evidências de abertura, investigação, ação, validação e fechamento. |
+| Case -> Learning | 1:N | Case resolvido pode gerar learnings e padrões reutilizáveis. |
+| Case -> Affected Entity | N:M | Case pode afetar capabilities, products, portfolios, value cases, initiatives, features, controls ou métricas. |
 
 ### Organization and Ownership Context
 
@@ -1985,6 +2087,28 @@ stateDiagram-v2
 | ExceptionAccepted | Exceção foi aceita. |
 | AuditTrailRecorded | Registro auditável foi produzido. |
 
+### Case Management Events
+
+| Evento | Fato |
+| --- | --- |
+| CaseCreated | Case foi criado para agrupar problema corporativo relevante. |
+| CaseTriaged | Case foi classificado por tipo, severidade, prioridade e escopo. |
+| CaseAssigned | Case recebeu owner, accountable e responsáveis. |
+| CaseEscalated | Case foi escalado por severidade, SLA, valor em risco ou decisão pendente. |
+| CaseLinkedToAlert | Alerta foi associado ao case. |
+| CaseLinkedToInvestigation | Investigation foi associada ao case. |
+| CaseLinkedToDecision | Decision foi associada ao case. |
+| CaseLinkedToActionPlan | ActionPlan foi associado ao case. |
+| CaseEvidenceAttached | Evidência foi associada ao case. |
+| CaseActionRegistered | Ação de tratamento do case foi registrada. |
+| CaseValidationStarted | Validação de resolução do case foi iniciada. |
+| CaseResolved | Case foi resolvido conforme critérios definidos. |
+| CaseClosed | Case foi encerrado com evidência e decisão quando aplicável. |
+| CaseReopened | Case foi reaberto por retorno de condição, evidência invalidada ou validação falha. |
+| CaseSLAExceeded | SLA do case foi excedido. |
+| CaseSeverityChanged | Severidade do case foi alterada. |
+| CaseOwnerChanged | Owner do case foi alterado. |
+
 ### Observability and Data Quality Events
 
 | Evento | Fato |
@@ -2046,6 +2170,9 @@ stateDiagram-v2
 | ArchitectureAssessment | Arquiteto Corporativo | Responsável por avaliação, recomendação, evidências e decisão. |
 | ArchitectureDebt | Arquiteto Corporativo ou owner da entidade afetada | Responsável por plano de remediação ou aceite formal. |
 | ArchitectureException | Arquiteto Corporativo, risco ou governança | Responsável por prazo, controles e encerramento da exceção. |
+| Case | Case Owner definido conforme tipo e severidade | Responsável por coordenação, SLA, timeline, evidências, escalonamento, resolução e encerramento governado. |
+| CaseClosure | Case Owner e accountable | Responsáveis por critérios de encerramento, evidência de fechamento e decisão de closure quando aplicável. |
+| CaseReopening | Case Owner ou autoridade de governança | Responsável por reabrir quando condição retorna, evidência é invalidada ou validação falha. |
 | ModernizationPlan | Capability Owner, Service Owner ou PMO | Responsável por objetivo, escopo, execução, evidência e conclusão. |
 | TechnicalDebt | Líder Técnico | Responsável por plano de tratamento. |
 | ValueCase | Sponsor de valor | Responsável por hipótese e comprovação. |
@@ -2138,6 +2265,11 @@ stateDiagram-v2
 | AlertEvidence | Sim |
 | AlertValidation | Sim |
 | AlertResolution | Sim |
+| Case | Sim |
+| CaseAssignment | Sim |
+| CaseTimeline | Sim |
+| CaseClosure | Sim |
+| CaseReopening | Sim |
 | Initiative | Sim |
 | RoadmapItem | Sim quando crítica ou vinculada a KPI |
 | Feature | Sim quando crítica ou vinculada a KPI |
@@ -2259,6 +2391,28 @@ flowchart LR
   Resolution --> Audit[Audit Trail]
 ```
 
+### Case Management Governance
+
+```mermaid
+flowchart LR
+  Case[Case] --> Alerts[Alerts]
+  Case --> Investigations[Investigations]
+  Case --> Decisions[Decisions]
+  Case --> Actions[Action Plans]
+  Case --> Evidence[Evidence]
+  Case --> Validations[Validations]
+  Case --> Learnings[Learnings]
+  Alerts --> Investigation[Investigation]
+  Investigation --> RootCause[Root Cause]
+  RootCause --> Recommendation[Recommendation]
+  Recommendation --> Decisions
+  Actions --> Validations
+  Validations --> Closure[Case Closure]
+  Closure --> Audit[Audit Trail]
+  Closure -->|condition returns or evidence invalid| Reopening[Case Reopening]
+  Reopening --> Case
+```
+
 ### Agregados Principais
 
 ```mermaid
@@ -2356,6 +2510,12 @@ classDiagram
   ValueCase "1" --> "*" RealizedBenefit
   DecisionGate "1" --> "*" Decision
   Decision "1" --> "*" Evidence
+  Case "1" --> "*" Alert
+  Case "1" --> "*" Investigation
+  Case "1" --> "*" ActionPlan
+  Case "1" --> "*" Decision
+  Case "1" --> "*" Evidence
+  Case "1" --> "*" Learning
 ```
 
 ### Architecture Elevator
@@ -2508,6 +2668,7 @@ flowchart TD
 | Exceção | Desvio aceito temporariamente com owner, prazo e justificativa. |
 | Health Score | Sinal composto e explicável de saúde de entidade. |
 | Forecast | Projeção explicável de prazo, valor, KPI, KR ou capacidade. |
+| Case | Agrupador governado de problemas, alertas, investigações, decisões, ações, evidências, validações e aprendizados relacionados a um mesmo assunto corporativo relevante. |
 | Alert | Sinal acionável de exceção, risco ou desvio. |
 | Alert Condition | Condição objetiva que disparou alerta e que deve ser removida, mitigada ou formalmente aceita para encerramento. |
 | Traceability Path | Sequência explícita e auditável de vínculos entre entidades. |
@@ -2566,3 +2727,12 @@ flowchart TD
 - Adicionadas regras de ownership e RACI para owners, accountables, reviewers e approvers.
 - Adicionados eventos operacionais de necessidade, discovery, requisito, solução, review, readiness, blocker, validação e resolução de alertas.
 - Atualizados ownership, auditabilidade, glossário e diagramas para eliminar entidades operacionais órfãs.
+
+### Case Management
+
+- Adicionado Case Management Context como bounded context próprio em parceria com Governance and Audit.
+- Definido Case como agregador governado, sem substituir Alert, Investigation, Decision, ActionPlan, Evidence, Validation ou Learning.
+- Adicionados Case, CaseType, CaseStatus, CaseSeverity, CaseAssignment, CaseTimeline, CaseClosure, CaseReopening e CaseRelationship.
+- Definidos tipos de Case: Operational, Governance, Architecture, Value Leakage, Capability Degradation, Delivery Blockage, Compliance, Data Quality, Strategic Risk, Incident e Modernization.
+- Definido lifecycle Created -> Triaged -> Assigned -> Investigating -> ActionPlanning -> Remediating -> Validating -> Resolved -> Closed -> Reopened.
+- Adicionadas regras de encerramento, reabertura, cardinalidades, ownership, auditabilidade, glossário, eventos conceituais e diagrama de governança de Case Management.

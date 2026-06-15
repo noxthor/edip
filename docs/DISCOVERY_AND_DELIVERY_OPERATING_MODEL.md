@@ -393,7 +393,58 @@ stateDiagram-v2
   Closed --> [*]
 ```
 
-## 16. Escalation Model
+## 16. Case Management Model
+
+Case é o mecanismo operacional para coordenar problemas corporativos que não podem ser tratados apenas como blocker isolado, alerta isolado, investigação isolada ou decisão pontual.
+
+Case representa um agrupador governado de problemas, alertas, investigações, decisões, ações, evidências, validações e aprendizados relacionados a um mesmo assunto corporativo relevante.
+
+Case não substitui Alert, Investigation, Decision, ActionPlan, Evidence, Validation ou Learning. Ele coordena esses artefatos quando o problema exige rastreabilidade, resolução integrada, auditoria e aprendizado.
+
+### Gatilhos Operacionais para Criação de Case
+
+| Gatilho | Regra de Criação de Case | Tipo de Case Sugerido |
+| --- | --- | --- |
+| Blockers recorrentes | Mesmo blocker type, causa, owner ou entidade afetada aparece de forma recorrente ou sistêmica. | Delivery Blockage Case / Operational Case |
+| Alertas críticos | Alerta Critical ou Regulatory Critical exige coordenação multi-owner ou evidência de fechamento auditável. | Governance Case / Compliance Case / Operational Case |
+| Atrasos sistêmicos | Queue aging, wait time ou SLA breach afeta múltiplas iniciativas, times ou portfólios. | Operational Case / Strategic Risk Case |
+| Filas congestionadas | Queue Threshold Breached persiste após ação local ou afeta valor material. | Operational Case / Delivery Blockage Case |
+| Decisões vencidas | Decision SLA excedido bloqueia valor, release, solution approval ou funding. | Governance Case / Strategic Risk Case |
+| Readiness falho | Readiness rejeitado ou DoR violado de forma recorrente. | Delivery Blockage Case / Governance Case |
+| Validações rejeitadas | Validation rejeitada ou reaberta por evidência insuficiente, critério falho ou benefício não comprovado. | Operational Case / Value Leakage Case |
+| Value leakage | Valor planejado ou forecast deixa de ser capturado materialmente. | Value Leakage Case |
+| Capability degradation | Capability crítica degrada ou possui dívida/exceção com impacto em produto, portfolio ou value case. | Capability Degradation Case / Architecture Case |
+| Incidente relevante | Incidente crítico afeta cliente, operação, compliance, capability ou valor. | Incident Case |
+| Data quality crítica | Fonte divergente, freshness breached, lineage incompleto ou cálculo inválido afeta decisão. | Data Quality Case |
+
+### Lifecycle Operacional
+
+```text
+Created -> Triaged -> Assigned -> Investigating -> ActionPlanning -> Remediating -> Validating -> Resolved -> Closed -> Reopened
+```
+
+### Regras Operacionais
+
+- Case não pode ser fechado sem owner.
+- Case não pode ser fechado sem closure criteria.
+- Case crítico não pode ser fechado sem closure evidence.
+- Case crítico não pode ser fechado sem closure decision.
+- Case pode ser reaberto se a condição retornar, evidência for invalidada ou validação falhar.
+- Case pode conter múltiplos alertas, múltiplas investigations, múltiplos action plans, múltiplas decisões e múltiplas evidências.
+- Alert pode existir sem Case inicialmente.
+- Alert crítico, recorrente ou sistêmico deve gerar ou associar-se a um Case.
+- Investigation pode ser aberta dentro de um Case.
+- Case pode iniciar Investigation.
+- Investigation pode recomendar criação de Case quando o problema for sistêmico.
+- Case deve preservar timeline completa desde abertura até fechamento ou reabertura.
+
+### Cadeia Operacional de Case
+
+```text
+Case -> Alerts -> Investigations -> Evidence -> Findings -> Root Causes -> Recommendations -> Decisions -> ActionPlans -> Validations -> Learnings
+```
+
+## 17. Escalation Model
 
 | Escalation | Gatilhos | Destinatários | Resultado Esperado |
 | --- | --- | --- | --- |
@@ -404,7 +455,7 @@ stateDiagram-v2
 | Executive Escalation | Cost of Delay material, KR em risco, valor bloqueado. | Diretor, Superintendente, comitê executivo. | Priorização, funding, aceite de risco ou intervenção. |
 | Governance Escalation | Evidência ausente, approval vencido, compliance pendente. | PMO, Compliance, Risk, Auditoria. | Regularização ou bloqueio formal de avanço. |
 
-## 17. Flow Intelligence
+## 18. Flow Intelligence
 
 Métricas obrigatórias:
 
@@ -425,7 +476,7 @@ Métricas obrigatórias:
 
 Cada métrica deve permitir drill-down para entidade, fila, owner, blocker, evidência, estado e evento causador.
 
-## 18. Operating Health Scores
+## 19. Operating Health Scores
 
 | Health Score | Componentes |
 | --- | --- |
@@ -441,7 +492,7 @@ Cada métrica deve permitir drill-down para entidade, fila, owner, blocker, evid
 | Alert Resolution Health | alertas abertos, aging, ação, evidência, condição resolvida. |
 | Blocker Resolution Health | blockers ativos, severidade, owner, aging, resolução validada. |
 
-## 19. Heat Maps
+## 20. Heat Maps
 
 | Heat Map | Unidade de Análise | Uso |
 | --- | --- | --- |
@@ -457,7 +508,7 @@ Cada métrica deve permitir drill-down para entidade, fila, owner, blocker, evid
 | Blocker Heat Map | blockers por tipo, owner, severity, aging. | Priorizar remoção de impedimentos. |
 | Alert Heat Map | alerts por condição, owner, aging, severity. | Priorizar tratamento de alertas. |
 
-## 20. Personas e Responsabilidades
+## 21. Personas e Responsabilidades
 
 | Persona / Grupo | Responsabilidades | Decisões | Aprovações | Ownership |
 | --- | --- | --- | --- | --- |
@@ -473,7 +524,7 @@ Cada métrica deve permitir drill-down para entidade, fila, owner, blocker, evid
 | Directors | Governar objetivos, valor, funding e riscos materiais. | Priorizar, financiar, pausar, aceitar risco. | Decisões executivas. | Strategic objective, portfolio, value. |
 | Executives | Definir direção, resolver trade-offs críticos e governar riscos. | Intervenção corporativa, aceite de risco crítico. | Comitês executivos. | Estratégia, funding, governança executiva. |
 
-## 21. Cross-Artifact Impact Assessment
+## 22. Cross-Artifact Impact Assessment
 
 ### DOMAIN_MODEL.md
 
@@ -510,7 +561,7 @@ Cada métrica deve permitir drill-down para entidade, fila, owner, blocker, evid
 - Capacidades incorporadas: Copilot operacional para fila, blocker, evidência, ação, revisão, requisito e alerta aberto.
 - Ajustes remanescentes esperados: novas recomendações devem sempre declarar owner sugerido, horizonte, risco de inação e evidências necessárias.
 
-## 22. Copilot Support
+## 23. Copilot Support
 
 | Pergunta | Entidades Necessárias | Eventos Necessários | Métricas Necessárias | Inteligência Necessária |
 | --- | --- | --- | --- | --- |
@@ -525,7 +576,7 @@ Cada métrica deve permitir drill-down para entidade, fila, owner, blocker, evid
 | Qual evidência falta? | EvidenceChain, Approval, Validation. | EvidenceRequested, EvidenceAttached. | Evidence Coverage. | Governance Intelligence. |
 | Qual ação está atrasada? | ActionPlan, AlertAction, Owner. | ActionCreated, ActionOverdue. | Action Aging, SLA breach. | Recommendation Follow-up Intelligence. |
 
-## 23. Operating Maturity Model
+## 24. Operating Maturity Model
 
 | Nível | Nome | Característica |
 | --- | --- | --- |
@@ -543,7 +594,7 @@ Posicionamento da EDIP:
 - Intelligence Model, Copilot Support e heat maps operacionais habilitam o nível 5.
 - A visão-alvo da EDIP é o nível 6, sem remover responsabilidade humana em decisões críticas.
 
-## 24. Change Log
+## 25. Change Log
 
 ### Novos Domínios
 
@@ -591,6 +642,14 @@ Posicionamento da EDIP:
 
 - Alertas de queue aging, blocker aging, review pending, approval pending, evidence missing, DoR violation, DoD violation, validation pending e value realization pending.
 - Cadeia canônica Need-to-Value padronizada até Value Case e Value Realization.
+
+### Case Management Operacional
+
+- Adicionado Case como mecanismo operacional para blockers recorrentes, alertas críticos, atrasos sistêmicos, filas congestionadas, decisões vencidas, readiness falho, validações rejeitadas, value leakage e capability degradation.
+- Definidos gatilhos operacionais para criação de Case e tipos sugeridos por gatilho.
+- Definido lifecycle operacional Created -> Triaged -> Assigned -> Investigating -> ActionPlanning -> Remediating -> Validating -> Resolved -> Closed -> Reopened.
+- Definidas regras de fechamento, reabertura, associação com Alert e Investigation e preservação de timeline completa.
+- Adicionada cadeia operacional Case -> Alerts -> Investigations -> Evidence -> Findings -> Root Causes -> Recommendations -> Decisions -> ActionPlans -> Validations -> Learnings.
 
 ### Novos Health Scores
 

@@ -1,74 +1,90 @@
-# EDIP — Enterprise Delivery Intelligence Platform
+# EDIP - Enterprise Delivery Intelligence Platform
 
-EDIP is a personal and independent project by Francisco Azevedo Alves.
+EDIP e um projeto pessoal e independente de Francisco Azevedo Alves.
 
-The project is currently in **conceptual modeling and architecture preparation**. It does not contain a product implementation yet.
+O projeto esta atualmente em fase de **modelagem conceitual e preparacao arquitetural**. Ele ainda nao contem implementacao de produto.
 
-## 1. Overview
+## 1. Visao Geral
 
-The Enterprise Delivery Intelligence Platform, EDIP, is a conceptual platform for connecting corporate strategy, portfolio, product, architecture, discovery, requirements, solution design, delivery, validation, metrics, events, value realization and decision intelligence.
+A Enterprise Delivery Intelligence Platform, EDIP, e uma plataforma conceitual para conectar estrategia corporativa, portfolio, produto, arquitetura, discovery, requisitos, desenho de solucao, delivery, validacao, metricas, eventos, realizacao de valor, Case Management e inteligencia de decisao.
 
-EDIP is designed as an intelligence and governance layer over existing enterprise tools. It does not replace Jira, Azure DevOps, ServiceNow, GitHub, ERP systems, data lakes, OKR tools, portfolio tools or architecture repositories. Its purpose is to provide integration, traceability, governance, explainability and decision support across those domains.
+A EDIP atua como camada de inteligencia e governanca sobre ferramentas corporativas existentes. Ela nao substitui Jira, Azure DevOps, ServiceNow, GitHub, ERPs, data lakes, ferramentas de OKR, ferramentas de portfolio ou repositorios de arquitetura. Seu papel e integrar, normalizar, rastrear, governar, explicar e apoiar decisoes entre esses dominios.
 
-The current repository contains the conceptual and architectural foundation for the platform. Implementation should start only after the architecture, data and integration documents are reviewed and approved.
+O repositorio contem a fundacao conceitual e arquitetural da plataforma. A implementacao deve iniciar somente depois que arquitetura, dados, analytics, knowledge, seguranca, frontend e contratos forem revisados e aprovados.
 
-## 2. Problem Statement
+## 2. Problema
 
-Large organizations often execute strategy through fragmented portfolios, products, teams, systems, controls and tools. This creates gaps between executive intent and operational execution.
+Grandes organizacoes executam estrategia por meio de multiplos portfolios, produtos, times, sistemas, controles e ferramentas. Essa fragmentacao cria lacunas entre intencao executiva e execucao operacional.
 
-EDIP addresses problems such as:
+A EDIP endereca problemas como:
 
-- Disconnection between strategy and execution.
-- Lack of reliable executive visibility.
-- Difficulty identifying bottlenecks, queues, waiting time and waste.
-- Weak traceability between objectives, initiatives, products, architecture and delivery.
-- Excessive manual reporting.
-- Lack of explainable forecasts.
-- Difficulty proving value realization.
-- Difficulty auditing decisions, approvals, exceptions and evidence.
-- Difficulty connecting corporate architecture, products, offers, services and delivery.
+- desconexao entre estrategia e execucao;
+- baixa visibilidade executiva confiavel;
+- dificuldade para identificar gargalos, filas, esperas e desperdicios;
+- rastreabilidade fraca entre objetivos, iniciativas, produtos, arquitetura e delivery;
+- excesso de reporting manual;
+- forecasts sem explicabilidade;
+- dificuldade para comprovar realizacao de valor;
+- dificuldade para auditar decisoes, aprovacoes, excecoes e evidencias;
+- dificuldade para conectar arquitetura corporativa, produtos, offers, servicos e delivery;
+- dificuldade para coordenar problemas corporativos complexos que envolvem alertas, investigacoes, decisoes, planos de acao, evidencias, validacoes e aprendizados.
 
-## 3. Product Vision
+## 3. Visao de Produto
 
-EDIP aims to answer, with evidence:
+A EDIP deve responder, com evidencia:
 
-- What are we trying to achieve?
-- Why does it matter?
-- Which portfolios, products, capabilities and initiatives support the strategy?
-- Where are the main risks, bottlenecks and decision delays?
-- What value is expected, forecast, realized and validated?
-- Which decisions are required now?
-- Where is the Need-to-Value flow stopped, who should act and what evidence is missing?
-- What can the organization learn from execution outcomes?
+- O que estamos tentando alcancar?
+- Por que isso importa?
+- Quais portfolios, produtos, capabilities e iniciativas sustentam a estrategia?
+- Onde estao os principais riscos, gargalos e atrasos de decisao?
+- Qual valor e esperado, forecast, realizado e validado?
+- Quais decisoes sao necessarias agora?
+- Onde o fluxo Need-to-Value esta parado, quem deveria agir e qual evidencia falta?
+- Quais cases concentram risco, valor em risco, acoes pendentes, evidencia ausente ou recorrencia sistemica?
+- O que a organizacao pode aprender a partir dos resultados de execucao?
 
-## 4. Conceptual Model
+## 4. Modelo Conceitual
 
-The main EDIP conceptual chain is:
+A cadeia conceitual principal da EDIP e:
 
-Strategy -> Portfolio -> Product -> Architecture Capability Model -> Delivery -> Metrics -> Events -> Intelligence -> Value Realization -> Governance.
+```text
+Strategy -> Portfolio -> Product -> Architecture Capability Model -> Delivery -> Metrics -> Events -> Intelligence -> Value Realization -> Governance
+```
 
-The operating model chain is:
+A cadeia operacional Need-to-Value e:
 
-Business Need -> Pain Point -> Journey -> Process -> Discovery -> Hypothesis -> Opportunity -> Requirement -> Solution Design -> Readiness -> Feature -> Story -> Validation -> Outcome -> Value Case -> Value Realization.
+```text
+Business Need -> Pain Point -> Journey -> Process -> Discovery -> Hypothesis -> Opportunity -> Requirement -> Solution Design -> Readiness -> Feature -> Story -> Validation -> Outcome -> Value Case -> Value Realization
+```
 
-The intelligence chain is:
+A cadeia de inteligencia e:
 
-Data -> Events -> Metrics -> Health Scores -> Forecasts -> Heat Maps -> Insights -> Explanations -> Recommendations -> Decisions -> Action Plans -> Organizational Learning.
+```text
+Data -> Events -> Metrics -> Health Scores -> Forecasts -> Heat Maps -> Insights -> Explanations -> Recommendations -> Decisions -> Action Plans -> Organizational Learning
+```
 
-The Architecture Elevator connects:
+A cadeia de Case Management e:
 
-Domain -> SubDomain -> BusinessLayer -> Capability -> BusinessService / TechnologyService -> Offer -> ApplicationService.
+```text
+Case -> Alerts -> Investigations -> Evidence -> Decisions -> Action Plans -> Validations -> Learnings
+```
 
-Core semantic rule:
+O Architecture Elevator conecta:
 
-- Product is not a Capability.
-- Product is not a Service.
-- Product is not an Offer.
-- Product represents a flexible composition of N Offers.
+```text
+Domain -> SubDomain -> BusinessLayer -> Capability -> BusinessService / TechnologyService -> Offer -> ApplicationService
+```
 
-## 5. Repository Structure
+Regra semantica central:
 
-Current repository structure:
+- Product nao e Capability.
+- Product nao e Service.
+- Product nao e Offer.
+- Product representa uma composicao flexivel de N Offers.
+
+## 5. Estrutura do Repositorio
+
+Estrutura atual:
 
 ```text
 /
@@ -78,10 +94,6 @@ Current repository structure:
   CONTRIBUTING.md
   CHANGELOG.md
   AGENTS.md
-  architecture/
-  backend/
-  data-model/
-  frontend/
   docs/
     ARCHITECTURE.md
     VISION.md
@@ -92,80 +104,90 @@ Current repository structure:
     METRICS_CATALOG.md
     EVENT_CATALOG.md
     INTELLIGENCE_MODEL.md
-    UI_UX.md
+    UX_INFORMATION_ARCHITECTURE.md
+    CROSS_ARTIFACT_INTEGRITY_REPORT.md
     architecture/
       README.md
     future/
-      ARCHITECTURE.md
-      DATA_MODEL.md
       ANALYTICS_ARCHITECTURE.md
       KNOWLEDGE_ARCHITECTURE.md
       API_CONTRACTS.md
-      UX_INFORMATION_ARCHITECTURE.md
+      SECURITY_ARCHITECTURE.md
+      FRONTEND_ARCHITECTURE.md
+      IMPLEMENTATION_ROADMAP.md
 ```
 
-## 6. Documentation Map
+## 6. Mapa da Documentacao
 
-- `AGENTS.md`: permanent conceptual constitution for AI agents, architects, engineers and contributors.
-- `docs/VISION.md`: product vision, business problem, stakeholders and product principles.
-- `docs/PRODUCT_MODEL.md`: personas, journeys, dashboards, navigation, drill-down, alerts and forecasts.
-- `docs/DISCOVERY_AND_DELIVERY_OPERATING_MODEL.md`: operating model for the Need-to-Value flow, queues, blockers, alerts, escalation, operating health and cross-artifact impacts.
-- `docs/DOMAIN_MODEL.md`: bounded contexts, entities, aggregates, rules, relationships, cardinalities, events and glossary.
-- `docs/DATA_MODEL.md`: conceptual and logical data model covering data ownership, canonical entities, logical stores, lineage, evidence, events, analytics, knowledge graph, governance, security and data quality.
-- `docs/METRICS_CATALOG.md`: governed catalog of metrics, KPIs, health scores, forecasts, heat maps and alerts.
-- `docs/EVENT_CATALOG.md`: domain events, causality, alerts, decisions, narratives, auditability and explainability.
-- `docs/INTELLIGENCE_MODEL.md`: signals, insights, explanations, recommendations, narratives, knowledge graph, Copilot reasoning and organizational learning.
-- `docs/ARCHITECTURE.md`: conceptual and logical architecture baseline covering domains, services, events, analytics, knowledge, governance, security and architectural decisions.
-- `docs/UI_UX.md`: placeholder for user experience and interface notes.
-- `docs/architecture/README.md`: index for future architecture documentation.
-- `docs/future/*`: short stubs for documents that will be created in later phases.
+- `AGENTS.md`: constituicao conceitual permanente para agentes, arquitetos, engenheiros e contribuidores.
+- `docs/VISION.md`: visao de produto, problema de negocio, stakeholders e principios.
+- `docs/PRODUCT_MODEL.md`: personas, jornadas, dashboards, navegacao, drill-down, alertas, cases e forecasts.
+- `docs/DISCOVERY_AND_DELIVERY_OPERATING_MODEL.md`: operating model do fluxo Need-to-Value, filas, blockers, alertas, escalation, operating health e impactos cross-artifact.
+- `docs/DOMAIN_MODEL.md`: bounded contexts, entidades, agregados, regras, relacionamentos, cardinalidades, eventos e glossario.
+- `docs/DATA_MODEL.md`: modelo conceitual e logico de dados, ownership, entidades canonicas, stores logicos, lineage, evidence, eventos, analytics, knowledge graph, governanca, seguranca e qualidade.
+- `docs/METRICS_CATALOG.md`: catalogo governado de metricas, KPIs, health scores, forecasts, heat maps e alertas.
+- `docs/EVENT_CATALOG.md`: eventos de dominio, causalidade, alertas, decisoes, narrativas, auditabilidade e explicabilidade.
+- `docs/INTELLIGENCE_MODEL.md`: signals, insights, explanations, recommendations, narratives, knowledge graph, Copilot reasoning e aprendizado organizacional.
+- `docs/ARCHITECTURE.md`: baseline de arquitetura conceitual e logica, dominios, servicos, eventos, analytics, knowledge, governanca, seguranca e decisoes arquiteturais.
+- `docs/UX_INFORMATION_ARCHITECTURE.md`: blueprint oficial de arquitetura da informacao, navegacao, personas, perguntas, workspaces, cockpits, heat maps, drill paths, explicabilidade, Copilot e suporte a decisao.
+- `docs/CROSS_ARTIFACT_INTEGRITY_REPORT.md`: relatorio de integridade cross-artifact e correcoes recomendadas.
+- `docs/architecture/README.md`: indice para documentacao arquitetural futura.
+- `docs/future/ANALYTICS_ARCHITECTURE.md`: arquitetura analitica futura para metricas, scores, forecasts, heat maps e projecoes analiticas.
+- `docs/future/KNOWLEDGE_ARCHITECTURE.md`: arquitetura de conhecimento futura para grafo, cadeias de evidencia, causalidade, narrativas e aprendizado.
+- `docs/future/API_CONTRACTS.md`: contratos conceituais futuros de APIs e integracoes.
+- `docs/future/SECURITY_ARCHITECTURE.md`: arquitetura futura de seguranca, privacidade, autorizacao e auditoria.
+- `docs/future/FRONTEND_ARCHITECTURE.md`: arquitetura frontend futura para rotas, estado, permissoes, acesso a dados e contratos de experiencia.
+- `docs/future/IMPLEMENTATION_ROADMAP.md`: sequenciamento futuro de implementacao.
 
-## 7. Current Status
+## 7. Status Atual
 
-Current phase: **conceptual modeling and architecture preparation**.
+Fase atual: **modelagem conceitual e preparacao arquitetural**.
 
-Completed at conceptual level:
+Concluido em nivel conceitual:
 
-- Product vision.
-- Product model.
-- Discovery and delivery operating model.
-- Domain model.
-- Data model.
-- Metrics catalog.
-- Event catalog.
-- Intelligence model.
-- Architecture baseline.
-- Architecture Elevator incorporation.
-- Flow Intelligence modeling.
-- Value Realization modeling.
-- Decision Intelligence modeling.
-- Explainability modeling.
-- Repository governance and legal metadata.
+- visao de produto;
+- modelo de produto;
+- operating model de discovery e delivery;
+- modelo de dominio;
+- modelo de dados;
+- catalogo de metricas;
+- catalogo de eventos;
+- modelo de inteligencia;
+- baseline de arquitetura;
+- arquitetura da informacao UX;
+- modelagem de Case Management;
+- Architecture Elevator;
+- Flow Intelligence;
+- Value Realization;
+- Decision Intelligence;
+- Explainability;
+- governanca documental e metadados legais.
 
-Not started:
+Ainda nao iniciado:
 
-- Application implementation.
-- Runtime architecture.
-- Data model implementation.
-- APIs.
-- Frontend implementation.
-- Backend implementation.
-- Deployment architecture.
+- implementacao de aplicacao;
+- arquitetura runtime;
+- implementacao de modelo de dados;
+- APIs implementadas;
+- frontend implementado;
+- backend implementado;
+- arquitetura de deployment.
 
-## 8. Next Steps
+## 8. Proximos Passos
 
-Recommended sequence:
+Sequencia recomendada:
 
-1. Review and approve the conceptual domain model.
-2. Review and approve the architecture baseline in `docs/ARCHITECTURE.md`.
-3. Review and approve the data model in `docs/DATA_MODEL.md`.
-4. Create `docs/future/ANALYTICS_ARCHITECTURE.md` for metrics, forecasts, health scores and heat maps.
-5. Create `docs/future/KNOWLEDGE_ARCHITECTURE.md` for knowledge graph, explainability and organizational learning.
-6. Create `docs/future/API_CONTRACTS.md` for future integration and service contracts.
-7. Create `docs/future/UX_INFORMATION_ARCHITECTURE.md` for navigation, dashboards, filters and information architecture.
-8. Start implementation only after architecture and data documents are reviewed.
+1. Revisar e aprovar o modelo de dominio em `docs/DOMAIN_MODEL.md`.
+2. Revisar e aprovar o baseline de arquitetura em `docs/ARCHITECTURE.md`.
+3. Revisar e aprovar o modelo de dados em `docs/DATA_MODEL.md`.
+4. Revisar e aprovar a arquitetura da informacao em `docs/UX_INFORMATION_ARCHITECTURE.md`.
+5. Detalhar `docs/future/KNOWLEDGE_ARCHITECTURE.md`.
+6. Detalhar `docs/future/ANALYTICS_ARCHITECTURE.md`.
+7. Detalhar `docs/future/API_CONTRACTS.md`.
+8. Detalhar `docs/future/SECURITY_ARCHITECTURE.md` e `docs/future/FRONTEND_ARCHITECTURE.md`.
+9. Criar planos de implementacao somente apos revisao de arquitetura, dados, analytics, knowledge, seguranca, frontend e contratos.
 
-Suggested future tags:
+Tags futuras sugeridas:
 
 - `v0.1.0-conceptual-foundation`
 - `v0.2.0-architecture-definition`
@@ -173,37 +195,50 @@ Suggested future tags:
 - `v0.4.0-api-contracts`
 - `v0.5.0-mvp-foundation`
 
-## 9. Contribution Principles
+## 9. Principios de Contribuicao
 
-Contributions and feedback must preserve the conceptual integrity of EDIP:
+Contribuicoes e feedbacks devem preservar a integridade conceitual da EDIP:
 
-- Strategy drives execution.
-- Relevant information must be traceable.
-- Every metric must have an owner.
-- Every dashboard must support drill-down.
-- Every critical decision must have evidence.
-- Every alert must have an owner, action, evidence and validation before resolution.
-- The Need-to-Value flow must remain traceable from business need to realized value.
-- Product, Capability, Service and Offer must not be confused.
-- Events are completed facts.
-- Metrics are not events.
-- Forecasts must be explainable.
-- Intelligence must lead to decisions, not only visualization.
+- estrategia dirige execucao;
+- informacao relevante deve ser rastreavel;
+- toda metrica deve possuir owner;
+- todo dashboard deve suportar drill-down;
+- toda decisao critica deve possuir evidencia;
+- todo alerta deve possuir owner, acao, evidencia e validacao antes da resolucao;
+- todo case critico deve possuir owner, criterio de encerramento, evidencia de encerramento, validacao e decisao de closure quando aplicavel;
+- o fluxo Need-to-Value deve permanecer rastreavel de business need ate valor realizado;
+- Product, Capability, Service e Offer nao devem ser confundidos;
+- eventos sao fatos concluídos;
+- metricas nao sao eventos;
+- forecasts devem ser explicaveis;
+- inteligencia deve levar a decisoes, nao apenas visualizacao.
 
-See `CONTRIBUTING.md` for contribution rules, commit conventions and change governance.
+Consulte `CONTRIBUTING.md` para regras de contribuicao, convencoes de commit e governanca de mudancas.
 
-## 10. Legal Notice
+## 10. Politica Editorial
 
-This is a proprietary project. See `LICENSE`.
+O idioma padrao da documentacao conceitual da EDIP e portugues.
 
-EDIP is a personal and independent project maintained by Francisco Azevedo Alves. It is not affiliated with, sponsored by or endorsed by any employer, client, bank or financial institution. See `NOTICE.md`.
+Nomes canonicos de entidades, capabilities, workspaces, eventos, metricas e artefatos podem permanecer em ingles quando forem parte da linguagem de dominio da plataforma, por exemplo `Case`, `Capability`, `Offer`, `Health Score`, `Workspace`, `Cockpit`, `ActionPlan` e nomes de arquivos.
 
-This repository must not contain confidential, proprietary, internal or strategic third-party information.
+## 11. Aviso Legal
 
-## 11. Status
+Este e um projeto proprietario. Consulte `LICENSE`.
 
-This repository does not contain a product implementation.
+A EDIP e um projeto pessoal e independente mantido por Francisco Azevedo Alves. Nao e afiliado, patrocinado ou endossado por qualquer empregador, cliente, banco ou instituicao financeira. Consulte `NOTICE.md`.
 
-This repository contains the conceptual and architectural foundation of EDIP.
+Este repositorio nao deve conter informacao confidencial, proprietaria, interna ou estrategica de terceiros.
 
-Implementation should begin only after the architecture, data, analytics, knowledge and contract documents are reviewed and approved.
+## 12. Change Log
+
+| Área | Mudança |
+| --- | --- |
+| Governança documental | README atualizado para refletir a estrutura real do repositório, idioma padrão em português, UX Information Architecture como artefato oficial, Case Management e artefatos futuros válidos. |
+
+## 13. Status de Implementacao
+
+Este repositorio nao contem implementacao de produto.
+
+Este repositorio contem a fundacao conceitual e arquitetural da EDIP.
+
+A implementacao deve comecar somente depois que arquitetura, dados, analytics, knowledge, seguranca, frontend e contratos forem revisados e aprovados.

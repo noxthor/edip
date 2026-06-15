@@ -341,3 +341,9 @@ Essa navegação responde: "por que este trabalho existe e qual impacto esperado
 - Implementar idempotência, versionamento e compatibilidade nos contratos.
 - Permitir evolução incremental: começar por rastreabilidade e avançar para inteligência preditiva.
 - Oferecer visões diferentes para cada persona sem criar verdades diferentes sobre os dados.
+
+## 11. Change Log
+
+| Área | Mudança |
+| --- | --- |
+| Governança documental | Adicionado change log para padronizar rastreabilidade documental com os demais artefatos centrais. |
