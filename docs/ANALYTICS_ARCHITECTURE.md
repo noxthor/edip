@@ -64,8 +64,51 @@ A Analytics Layer é composta por engines lógicas. Engines processam dados, cal
 | Value Intelligence Engine | Medir valor planejado, forecast, realizado, validado, rejeitado, leakage, ROI e value at risk. | Value cases, benefits, validations, portfolio, delivery, KPI, forecast, evidence. | Value insights, leakage signals, attribution confidence, value narrative inputs. | Executive Overview, Value Realization, Portfolio, Copilot. | ValueCaseCreated, BenefitObserved, BenefitValidated, BenefitRejected, ReleasePublished, KPIUpdated. | ValueLeakageDetected, ValueAtRiskIncreased, BenefitValidationRiskDetected. | ValueIntelligenceDataProduct. |
 | Capability Intelligence Engine | Analisar Architecture Elevator, capability health, service risk, offer risk, debt e modernization. | Architecture events, assessments, debt, exceptions, product-offer composition, delivery, value. | Capability insights, service/offer risk, modernization signals, strategic impact. | Architecture Cockpit, Modernization Cockpit, Portfolio, Copilot. | CapabilityCreated, CapabilityUpdated, CapabilityRetired, ArchitectureDebtRegistered, ArchitectureExceptionExpired, ProductOfferAssociated. | CapabilityHealthDegraded, ArchitectureDebtCritical, ModernizationRiskIncreased. | CapabilityIntelligenceDataProduct. |
 | Data Quality Engine | Calcular qualidade, confidence, freshness, consistency, lineage completeness e source divergence. | Source signals, event metadata, projections, metric calculation logs, lineage metadata. | Data confidence, quality scores, divergence signals, freshness status. | Todas as engines, Governance, UX, Copilot. | DataFreshnessBreached, SourceDivergenceDetected, CalculationErrorDetected, LineageUpdated. | DataConfidenceDegraded, DataQualityIssueDetected. | DataQualityDataProduct. |
+| Semantic Layer Engine | Garantir consistência semântica de métricas, scores, forecasts, heat maps, narrativas e comparações. | Semantic definitions, MetricDefinition, ScoreDefinition, dimensions, units, approved formulas, lifecycle metadata. | SemanticMetricDefinition, approved dimensions, approved aggregations, semantic validation results. | Metrics, Health Score, Forecast, Heat Map, UX, Copilot, Narrative, Benchmark. | MetricDefinitionCreated, FormulaApproved, ThresholdChanged, OwnerChanged. | SemanticDefinitionApproved, SemanticDefinitionChanged, SemanticConsistencyIssueDetected. | SemanticMetricDefinitionDataProduct. |
+| Benchmark Intelligence Engine | Comparar desempenho contra baselines internos, históricos, portfolios, produtos, capabilities, teams, services e offers. | Metric time series, health scores, semantic dimensions, comparison groups, baselines, confidence. | BenchmarkDataProduct, benchmark variance, benchmark trend, relative performance score. | Executive Cockpit, Portfolio Cockpit, Product Cockpit, Capability Cockpit, Copilot. | MetricObservationRecorded, HealthScoreCalculated, ForecastUpdated, SemanticDefinitionChanged. | BenchmarkCalculated, BenchmarkVarianceDetected, BenchmarkConfidenceChanged. | BenchmarkDataProduct. |
 | Recommendation Signal Engine | Converter padrões analíticos em sinais de recomendação com ação, owner, evidência e risco da inação. | Insights, root causes, scores, forecasts, heat maps, policies, ownership, knowledge graph. | RecommendationSignal, action suggestion, urgency, evidence needs. | Intelligence Layer, Copilot, Decision Service, Case Management. | BottleneckDetected, CaseSLAExceeded, ValueLeakageDetected, CapabilityHealthDegraded, ForecastAccuracyDegraded. | RecommendationSignalGenerated. | RecommendationSignalDataProduct. |
 | Analytics Governance Engine | Governar definições, fórmulas, versões, owners, thresholds, cenários, confidence e lifecycle analítico. | Metric definitions, score definitions, forecast definitions, heat map definitions, approvals. | Approved definitions, governance alerts, deprecation status, audit trails. | Metrics, Health Score, Forecast, Heat Map, Governance. | MetricDefinitionCreated, FormulaApproved, ThresholdChanged, OwnerChanged. | MetricGovernanceIssueDetected, FormulaVersionApproved, MetricDeprecated. | AnalyticsGovernanceDataProduct. |
+
+## Analytics Semantic Layer
+
+A Analytics Semantic Layer garante que toda métrica, score, forecast, heat map, benchmark, narrativa e resposta do Copilot utilize definições canônicas. Ela é a fonte oficial para definições de métricas, definições de scores, unidades, agregações, períodos, dimensões, comparabilidade e terminologia corporativa.
+
+Sem camada semântica, a EDIP correria o risco de múltiplas versões da verdade: o mesmo indicador com fórmulas diferentes, períodos incompatíveis, dimensões divergentes ou narrativas que reinterpretam o significado original. A Semantic Layer evita esse risco ao centralizar significado, fórmula aprovada, unidades, dimensões e regras de agregação.
+
+### Semantic Metric Definition
+
+| Atributo | Definição |
+| --- | --- |
+| semanticMetricId | Identificador estável da definição semântica. |
+| businessName | Nome de negócio aprovado e reutilizável em dashboards, narrativas e Copilot. |
+| canonicalDefinition | Definição canônica, interpretação e limites de uso. |
+| approvedFormula | Fórmula aprovada e versionada. |
+| approvedDimensions | Dimensões permitidas para filtro, agrupamento e comparação. |
+| approvedAggregations | Agregações permitidas, como soma, média, mediana, percentil, taxa ou composição. |
+| approvedTimeGrains | Grãos temporais permitidos, como diário, semanal, mensal, ciclo, trimestre ou ano. |
+| owner | Responsável pelo significado e uso decisório. |
+| steward | Responsável por qualidade semântica, documentação e governança. |
+| version | Versão da definição semântica. |
+| lifecycle | Proposed, Approved, Active, Deprecated, Retired ou Superseded. |
+
+### Semantic Layer Engine
+
+| Responsabilidade | Explicação |
+| --- | --- |
+| Garantir consistência analítica | Valida se métricas, scores, forecasts, heat maps e benchmarks usam definições aprovadas. |
+| Evitar múltiplas versões da verdade | Bloqueia ou sinaliza fórmulas, unidades, dimensões e agregações divergentes. |
+| Alimentar dashboards | Fornece nomes, definições, unidades, dimensões e regras de comparação para UX. |
+| Alimentar Copilot | Garante que respostas em linguagem natural usem terminologia e interpretação canônicas. |
+| Alimentar narrativas | Impede que narrativas executivas reinterpretam métricas fora da definição aprovada. |
+| Alimentar comparações | Define quando portfolios, produtos, capabilities, teams, services ou offers são comparáveis. |
+
+Regras obrigatórias:
+
+- nenhuma métrica pode existir fora da camada semântica;
+- nenhuma fórmula pode divergir da definição semântica aprovada;
+- nenhuma narrativa pode reinterpretar métricas;
+- nenhuma comparação pode ignorar unidade, período, população, grain, baseline e dimensão aprovados;
+- mudança semântica deve gerar versão, justificativa, impacto em consumidores e evento de governança.
 
 ## 4. Analytics Data Flow
 
@@ -388,6 +431,16 @@ Case agrupa:
 | Case Escalation Signals | Identifica SLA excedido, valor em risco, owner sobrecarregado ou decisão bloqueante. | Escalar para PMO, governance ou executivo. |
 | Case Closure Quality | Avalia owner, closure criteria, evidence, decision, validation and learning. | Impedir closure frágil ou não auditável. |
 
+### Relação com Investigation e Closure
+
+Case Intelligence deve preservar a cadeia:
+
+```text
+Case -> Investigation -> Evidence -> Root Cause -> Recommendation -> Decision -> Validation -> Learning
+```
+
+Analytics auxilia closure de cases ao verificar se o case possui owner, accountable, closure criteria, evidência suficiente, decisão de closure quando aplicável, validação da condição original e learning capturado. Para cases críticos, Case Closure Quality deve considerar Investigation Health, Evidence Confidence, Root Cause classification, Recommendation actionability e Validation Success antes de permitir que o closure seja tratado como efetivo em métricas executivas.
+
 ## 11. Alert Intelligence Architecture
 
 Alert Intelligence mede e governa o ciclo:
@@ -639,14 +692,395 @@ Explicabilidade deve ser consumível por UX, Copilot, auditoria, governance, cas
 
 Analytics events são analytical events ou derived events. Eles não substituem eventos de domínio, mas podem iniciar investigação, alerta, case ou decisão por meio dos services responsáveis.
 
+## Analytics Domains
+
+A Analytics Architecture é organizada em domínios especializados para preservar clareza semântica, ownership e consumo por persona. Esses domínios não criam novos bounded contexts transacionais; eles agrupam produtos analíticos, métricas, scores, forecasts, heat maps e sinais.
+
+```mermaid
+flowchart TB
+  Analytics[Analytics Architecture]
+  Analytics --> Strategic[Strategic Analytics]
+  Analytics --> Portfolio[Portfolio Analytics]
+  Analytics --> Discovery[Discovery Analytics]
+  Analytics --> Requirements[Requirements Analytics]
+  Analytics --> Solution[Solution Analytics]
+  Analytics --> Readiness[Readiness Analytics]
+  Analytics --> Delivery[Delivery Analytics]
+  Analytics --> Validation[Validation Analytics]
+  Analytics --> Value[Value Analytics]
+  Analytics --> Architecture[Architecture Analytics]
+  Analytics --> Governance[Governance Analytics]
+  Analytics --> Case[Case Analytics]
+  Analytics --> Alert[Alert Analytics]
+  Analytics --> Flow[Flow Analytics]
+  Analytics --> DataQuality[Data Quality Analytics]
+  Analytics --> Intelligence[Intelligence Analytics]
+```
+
+### Strategic Analytics
+
+Analisa estratégia, objetivos, OKRs, KRs, outcomes e KPIs.
+
+### Portfolio Analytics
+
+Analisa portfolios, funding, investimentos, capacidade, prioridades e dependências.
+
+### Discovery Analytics
+
+Analisa business needs, pain points, discovery, hipóteses, oportunidades e evidências iniciais.
+
+### Requirements Analytics
+
+Analisa requisitos, critérios, regras, rastreabilidade, filas, reviews e aprovações.
+
+### Solution Analytics
+
+Analisa solution design, reviews, aprovações, riscos, pendências e evidências.
+
+### Readiness Analytics
+
+Analisa prontidão, DoR, capacidade, dependências, blockers e riscos antes de delivery.
+
+### Delivery Analytics
+
+Analisa iniciativas, épicos, features, stories, tasks, releases e previsibilidade.
+
+### Validation Analytics
+
+Analisa validações, critérios de aceite, evidências, outcomes e benefícios.
+
+### Value Analytics
+
+Analisa value cases, benefícios, ROI, value leakage, value at risk e realização de valor.
+
+### Architecture Analytics
+
+Analisa Architecture Elevator, capabilities, services, offers, debt, exceptions e modernization.
+
+### Governance Analytics
+
+Analisa decisões, gates, approvals, controles, evidências, exceções e auditabilidade.
+
+### Case Analytics
+
+Analisa cases, investigations, evidence, root causes, decisions, validations e learnings.
+
+### Alert Analytics
+
+Analisa alertas, condições, ações, evidências, validações, resoluções e recorrência.
+
+### Flow Analytics
+
+Analisa filas, WIP, wait time, blocked time, gargalos e economics of flow.
+
+### Data Quality Analytics
+
+Analisa completeness, freshness, consistency, lineage, source divergence e confidence.
+
+### Intelligence Analytics
+
+Analisa signals, insights, explanations, recommendations, narratives, Copilot e learning reuse.
+
+| Domínio | Propósito | Entidades Analisadas | Métricas Principais | Scores Principais | Forecasts Principais | Heat Maps Principais | Consumidores |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Strategic Analytics | Explicar saúde da estratégia, OKRs, outcomes e KPIs. | Strategy, Objective, OKR, KR, Outcome, KPI. | Strategic Alignment Coverage, Key Result Progress, KPI Target Deviation. | Strategic Health Score. | OKR Achievement Forecast, KPI Forecast. | Portfolio Heat Map, Governance Heat Map. | Executive, Director, Copilot. |
+| Portfolio Analytics | Otimizar funding, capacidade, prioridades e risco. | Portfolio, Investment, Funding, Initiative, Dependency. | Funding Variance, Investment At Risk, Capacity Allocation Fit. | Portfolio Health Score. | Portfolio Delivery Forecast, Capacity Forecast. | Portfolio Heat Map. | Executive, Superintendent, PMO. |
+| Discovery Analytics | Avaliar qualidade de needs, pains, hipóteses e oportunidades. | BusinessNeed, PainPoint, Discovery, Hypothesis, Opportunity. | Discovery Quality Score, Business Discovery Lead Time. | Discovery Health. | Future Value Leakage Risk. | Business Discovery Heat Map. | Product Manager, Product Owner, PMO. |
+| Requirements Analytics | Medir completude, rastreabilidade e fila de requisitos. | Requirement, AcceptanceCriterion, BusinessRule, NFR. | Requirements Queue Time, Review Time, Approval Time. | Requirements Health. | Future SLA Breach Risk. | Requirements Heat Map. | Product Manager, Manager, Architect. |
+| Solution Analytics | Avaliar solution design, reviews e aprovações. | SolutionDesign, Review, Approval, SolutionEvidence. | Solution Time, Review Time, Approval Time. | Solution Health. | Future Governance Risk. | Solution Heat Map. | Architect, Governance, Manager. |
+| Readiness Analytics | Verificar prontidão antes de execução. | ReadinessAssessment, Feature, Story, Dependency, Blocker. | Readiness Time, Queue Time, Blocker Resolution Health. | Readiness Health. | Future Capacity Saturation Risk. | Readiness Heat Map. | Coordinator, Scrum Master, Manager. |
+| Delivery Analytics | Medir execução, previsibilidade, release e compromisso. | Initiative, Epic, Feature, Story, Task, Release. | Lead Time, Cycle Time, Release Lead Time, Commitment Reliability. | Delivery Health. | Initiative Completion Forecast, Release Forecast. | Delivery Heat Map. | Manager, Coordinator, Engineer. |
+| Validation Analytics | Medir aceite, evidência, outcome e validação pós-entrega. | Validation, Criterion, Outcome, BenefitValidation. | Validation Time, Evidence Coverage, Benefit Validation Time. | Validation Health. | Value Realization Forecast. | Validation Heat Map. | Product Manager, Governance, Value Owner. |
+| Value Analytics | Explicar valor planejado, forecast, realizado, validado e vazamento. | ValueCase, Benefit, Investment, Outcome, KPI. | Planned Value, Forecast Value, Validated Benefit, ROI, Value Leakage. | Value Realization Health. | Value Realization Forecast, Benefit Forecast. | Value Realization Heat Map. | Executive, Director, Sponsor. |
+| Architecture Analytics | Avaliar Architecture Elevator, debt, exceptions e modernization. | Capability, Service, Offer, ApplicationService, Debt, Exception. | Capability Coverage, Architecture Debt Score, Offer Adoption Score. | Capability Health, Service Health, Offer Health. | Capability Modernization Forecast, Architecture Debt Remediation Forecast. | Architecture Heat Map, Capability Heat Map. | Architect, Executive, Product Manager. |
+| Governance Analytics | Medir decisões, controles, evidências, gates e exceções. | Decision, Gate, Approval, Control, Evidence, Exception. | Decision Latency, Evidence Coverage, Control Adherence Rate. | Governance Health Score. | Future Governance Risk. | Governance Heat Map. | Governance, Risk, Auditor, PMO. |
+| Case Analytics | Coordenar problemas corporativos complexos. | Case, Investigation, Evidence, RootCause, ActionPlan, Learning. | Case Aging, Case SLA Compliance, Case Value at Risk. | Case Governance Health, Case Resolution Health. | Case Resolution Forecast. | Case Heat Map. | Case Owner, Governance, Executive. |
+| Alert Analytics | Medir tratamento efetivo de alertas. | Alert, AlertCondition, AlertAction, AlertEvidence, AlertValidation. | Alert Aging, Alert Resolution Time, Alert False Closure Rate. | Alert Resolution Health. | Alert Resolution Forecast. | Alert Heat Map. | PMO, Governance, Alert Owner. |
+| Flow Analytics | Medir filas, esperas, WIP, gargalos e economics of flow. | Queue, FlowStage, WorkItem, Blocker, Dependency. | Queue Time, Wait Time, WIP by Flow Stage, Cost of Queue. | Flow Health Score, Blocker Resolution Health. | Future Bottleneck Risk, Future Dependency Risk. | Blocker Heat Map, Delivery Heat Map. | Coordinator, Scrum Master, Portfolio. |
+| Data Quality Analytics | Medir qualidade, freshness, confidence, lineage e divergência. | Source, Projection, Metric, DataProduct, Mapping. | Completeness, Freshness, Source Divergence, Lineage Completeness. | Data Confidence Score. | Future Governance Risk. | Data Quality Heat Map. | Data Steward, Auditor, Copilot. |
+| Intelligence Analytics | Medir explicabilidade, actionability, confiança e learning. | Signal, Insight, Explanation, Recommendation, Narrative, Learning. | Recommendation Actionability, Answer Confidence, Learning Reuse. | Intelligence Health Score, Investigation Health Score. | Future Case Escalation Risk. | Investigation Quality Heat Map. | Copilot, Knowledge Steward, Executive. |
+
+## Benchmark Intelligence Engine
+
+Benchmark Intelligence permite responder:
+
+- Estamos bem?
+- Estamos melhorando?
+- Estamos piorando?
+- Estamos acima ou abaixo do esperado?
+
+Benchmark não deve ser ranking simplista. Ele compara entidades apenas quando semântica, grain, período, população, baseline, contexto e confidence tornam a comparação defensável.
+
+### Benchmark Types
+
+| Tipo | Definição |
+| --- | --- |
+| Internal Benchmark | Compara entidade contra padrão interno governado. |
+| Historical Benchmark | Compara desempenho atual contra histórico da própria entidade. |
+| Portfolio Benchmark | Compara portfolios com recortes, estratégia e funding comparáveis. |
+| Product Benchmark | Compara produtos por outcome, value, adoption ou delivery quando a população é comparável. |
+| Capability Benchmark | Compara capabilities por health, coverage, debt, modernization e traceability. |
+| Team Benchmark | Compara times apenas quando WIP, escopo, tipo de trabalho e capacidade são comparáveis. |
+| Service Benchmark | Compara services por health, modernization, debt, adoption e risk. |
+| Offer Benchmark | Compara offers por adoção, rastreabilidade, valor e risco. |
+| Industry Benchmark (futuro) | Compara contra referências externas, sujeito a validação de fonte, contexto e permissões. |
+
+### Benchmark Data Product
+
+| Atributo | Definição |
+| --- | --- |
+| benchmarkId | Identificador único do benchmark. |
+| benchmarkType | Tipo de benchmark utilizado. |
+| baseline | Valor, período ou população de referência. |
+| comparisonGroup | Grupo comparado e critérios de inclusão. |
+| period | Período da comparação. |
+| confidence | Confiança da comparação. |
+| interpretation | Interpretação permitida, limitações e riscos de leitura indevida. |
+
+### Métricas de Benchmark
+
+| Métrica | Definição |
+| --- | --- |
+| Benchmark Variance | Diferença entre entidade analisada e baseline comparável. |
+| Benchmark Trend | Tendência de melhora, estabilidade ou piora contra baseline. |
+| Relative Performance Score | Score relativo ponderado por contexto, confiança e comparabilidade. |
+| Benchmark Confidence | Confiança de que a comparação é justa, completa e semanticamente válida. |
+
+Benchmark Intelligence alimenta Executive Cockpit, Portfolio Cockpit, Capability Cockpit e Product Cockpit. O uso em comitê deve sempre exibir confidence, comparison group, baseline e limitações.
+
+## Predictive Risk Analytics
+
+Predictive Risk Analytics detecta problemas antes que eles se materializem. Reactive Signals indicam fatos já ocorridos, como `BottleneckDetected`, `CaseSLAExceeded` ou `ValueLeakageDetected`. Predictive Signals indicam risco futuro com base em tendência, forecast, deterioração de score, aging, recorrência, capacidade e qualidade de dados.
+
+### Future Bottleneck Risk
+
+Risco de gargalo futuro por deterioração de fluxo, capacidade, WIP ou dependências.
+
+### Future SLA Breach Risk
+
+Risco de violação futura de SLA em case, alert, review, approval ou investigação.
+
+### Future Value Leakage Risk
+
+Risco de perda futura de valor por atraso, baixa adoção, validação frágil ou benefício abaixo do esperado.
+
+### Future Dependency Risk
+
+Risco de dependência futura bloquear delivery, release, value realization ou decisão.
+
+### Future Capacity Saturation Risk
+
+Risco de saturação de capacidade por demanda prevista, WIP, filas e disponibilidade.
+
+### Future Governance Risk
+
+Risco futuro de decisão, aprovação, evidência, controle ou exceção não atender governança.
+
+### Future Architecture Risk
+
+Risco futuro causado por debt, exception, baixa health de capability ou fragilidade de service/offer.
+
+### Future Modernization Risk
+
+Risco futuro de plano de modernização não reduzir dívida, risco ou exposição no horizonte esperado.
+
+### Future Case Escalation Risk
+
+Risco futuro de case exigir escalonamento por SLA, valor em risco, evidência ausente ou recorrência.
+
+### Future Alert Recurrence Risk
+
+Risco futuro de alerta recorrer por falso closure, validação frágil ou causa raiz não tratada.
+
+| Sinal Preditivo | Drivers | Métricas Utilizadas | Forecasts Utilizados | Confidence | Owner Sugerido | Ação Preventiva |
+| --- | --- | --- | --- | --- | --- | --- |
+| Future Bottleneck Risk | WIP crescente, queue time acelerando, throughput caindo, dependency aging. | Queue Time, WIP by Flow Stage, Throughput, Bottleneck Severity. | Capacity Forecast, Initiative Completion Forecast. | Depende de histórico de fluxo e freshness. | Flow Owner, Coordinator. | Reduzir WIP, redistribuir capacidade e resolver dependência antes de threshold. |
+| Future SLA Breach Risk | Aging próximo do SLA, owner load alto, action incompleta, review atrasado. | Case Aging, Alert Aging, Review Time, Approval Time. | Case Resolution Forecast, Alert Resolution Forecast. | Alta quando SLA e timeline são completos. | Case Owner, Alert Owner, PMO. | Escalar owner e completar ação/evidência antes do vencimento. |
+| Future Value Leakage Risk | Benefit variance crescente, adoção abaixo do esperado, validation atrasada. | Forecast Value, Benefit Variance, Adoption Trend, Time to Value. | Value Realization Forecast, Benefit Forecast. | Depende de attribution confidence. | Sponsor de valor, Product Manager. | Revisar hipótese, adoção, target e plano de captura. |
+| Future Dependency Risk | Dependências recorrentes, aging e criticidade alta. | Dependency Aging, Blocked Time, Cost of Delay. | Dependency Risk Forecast, Release Forecast. | Média/alta conforme owner e eventos. | Dependency Owner, PMO. | Escalar decisão, renegociar escopo ou remover dependência. |
+| Future Capacity Saturation Risk | Demanda prevista excede capacidade e WIP atual. | Capacity Allocation Fit, WIP, Flow Efficiency, Cost of Queue. | Capacity Forecast, Portfolio Delivery Forecast. | Depende de dados de capacidade e demanda. | Superintendent, PMO. | Rebalancear capacidade e limitar entrada. |
+| Future Governance Risk | Decision latency, approval aging, evidence gaps e controls fracos. | Decision Latency, Approval Time, Evidence Coverage, Control Adherence Rate. | Portfolio Delivery Forecast, Future SLA Breach Risk. | Alta quando gates e evidências têm lineage. | Governance Owner, PMO. | Antecipar comitê, completar evidência e definir autoridade. |
+| Future Architecture Risk | Debt aging, exception expiry, capability health degradando. | Architecture Debt Score, Exception Rate, Capability Health. | Architecture Debt Remediation Forecast. | Média/alta conforme assessment recente. | Arquiteto Corporativo, Capability Owner. | Priorizar assessment, exceção ou remediação. |
+| Future Modernization Risk | Modernization atrasada, debt não reduzido, service risk crescente. | Capability Modernization Score, Service Health Score, Technology Rationalization Score. | Capability Modernization Forecast. | Depende de plano e marcos. | Capability Owner, Service Owner. | Replanejar modernização e associar iniciativa. |
+| Future Case Escalation Risk | Aging, SLA proximity, value at risk, evidence gap, recurrence. | Case Aging, Case Value at Risk, Case Evidence Coverage, Case Recurrence Rate. | Case Resolution Forecast. | Alta quando case timeline é completa. | Case Owner, Governance. | Escalar antes de breach e reforçar investigação. |
+| Future Alert Recurrence Risk | Reaberturas, closure frágil, condição recorrente, owner load. | Alert Reopen Rate, Alert False Closure Rate, Alert Recurrence Rate. | Alert Resolution Forecast. | Média/alta conforme validações. | Alert Owner, PMO. | Revisar causa raiz, evidência e validação da condição original. |
+
+## Analytics Consumer Model
+
+Analytics Consumer Model explicita quem consome analytics, qual decisão suporta e qual granularidade é esperada. Nenhuma persona deve operar com verdade de dados alternativa; a diferença está no recorte, profundidade e linguagem.
+
+### Executive Consumer
+
+Consome analytics para prioridade estratégica, funding, risco aceito e intervenção executiva.
+
+### Director Consumer
+
+Consome analytics para trade-offs de portfolio, valor, capacidade e risco.
+
+### Superintendent Consumer
+
+Consome analytics para orquestração de portfolios, dependências, capacidade e escalonamentos.
+
+### Manager Consumer
+
+Consome analytics para escopo, iniciativa, delivery, risco e comunicação tática.
+
+### Coordinator Consumer
+
+Consome analytics para fluxo operacional, blockers, aging, owners e previsibilidade.
+
+### Product Manager Consumer
+
+Consome analytics para outcome, roadmap, discovery, adoção e valor.
+
+### Architect Consumer
+
+Consome analytics para capability, service, offer, debt, exception e modernization.
+
+### Engineer Consumer
+
+Consome analytics para risco técnico, readiness, release, dependencies e blockers.
+
+### Governance Consumer
+
+Consome analytics para decisões, evidências, controles, exceções e closure governado.
+
+### Risk Consumer
+
+Consome analytics para risco operacional, compliance, valor em risco e recorrência.
+
+### Auditor Consumer
+
+Consome analytics para reconstrução de decisão, evidência, lineage e compliance.
+
+### Copilot Consumer
+
+Consome analytics para responder perguntas com evidência, explicação, confidence e recomendação.
+
+| Consumer | Decisões Suportadas | Métricas Consumidas | Scores Consumidos | Forecasts Consumidos | Heat Maps Consumidos | Narrativas Consumidas | Detalhamento Esperado |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Executive Consumer | Prioridade estratégica, funding, risco aceito, continuidade e intervenção executiva. | Investment At Risk, Value Leakage, KPI Target Deviation, Decision Latency. | Strategic, Portfolio, Governance, Value. | OKR, KPI, Value, Portfolio. | Portfolio, Value, Governance, Data Quality. | Executive Narrative, Value Narrative. | Síntese com drill-down auditável. |
+| Director Consumer | Trade-offs de portfolio, valor, capacidade e risco. | Funding Variance, Capacity Fit, Benefit Variance, Cost of Delay. | Portfolio, Value, Capability. | Portfolio Delivery, Capacity, Benefit. | Portfolio, Capability, Value. | Portfolio Narrative. | Tático-executivo por portfolio/produto. |
+| Superintendent Consumer | Orquestração de portfolios, dependências e capacidade. | Dependency Aging, WIP, Cost of Queue, Case Value at Risk. | Portfolio, Flow, Case Governance. | Capacity, Dependency Risk, Case Resolution. | Portfolio, Flow, Case. | Risk and Flow Narrative. | Causas, owners e ações. |
+| Manager Consumer | Escopo, iniciativa, delivery, risco e comunicação tática. | Lead Time, Release Lead Time, Approval Time, Blocked Time. | Initiative, Delivery, Readiness. | Initiative Completion, Release. | Delivery, Readiness, Requirements. | Initiative Narrative. | Entidade, owner e próximo evento. |
+| Coordinator Consumer | Fluxo operacional, blockers, aging e previsibilidade. | Queue Time, Wait Time, Blocked Time, WIP. | Flow, Blocker Resolution, Alert Resolution. | Feature Completion, Alert Resolution. | Blocker, Alert, Delivery. | Flow Narrative. | Operacional detalhado. |
+| Product Manager Consumer | Outcome, roadmap, discovery, adoção e valor. | Product Outcome Progress, Adoption Trend, Discovery Quality, Time to Outcome. | Product, Discovery, Value. | KPI, Value, Benefit. | Product, Value, Discovery. | Product and Value Narrative. | Produto, outcome e hipótese. |
+| Architect Consumer | Capability, service, offer, debt, exception e modernization. | Capability Coverage, Architecture Debt Score, Exception Rate. | Capability, Service, Offer, Architecture Debt. | Modernization, Debt Remediation. | Architecture, Capability. | Architecture Narrative. | Architecture Elevator com impacto. |
+| Engineer Consumer | Risco técnico, readiness, release e blockers. | Technical Debt Exposure, Integration Risk, Review Time, Release Readiness. | Technical Delivery, Service, Delivery. | Release, Feature. | Engineering, Readiness, Delivery. | Technical Narrative. | Feature, service, dependency. |
+| Governance Consumer | Decisões, evidências, controles, exceções e closure. | Evidence Coverage, Control Adherence, Decision SLA, Approval Aging. | Governance, Alert Resolution, Case Governance. | Governance Risk, SLA Breach. | Governance, Alert, Case. | Governance Narrative. | Auditoria e segregação. |
+| Risk Consumer | Risco operacional, compliance, valor em risco e recorrência. | Case Business Impact, Value at Risk, Source Divergence, Reopen Rate. | Governance, Data Confidence, Case Resolution. | Case Escalation, Value Leakage. | Case, Data Quality, Governance. | Risk Narrative. | Causa, impacto e controle. |
+| Auditor Consumer | Reconstrução de decisão, evidência, lineage e compliance. | Lineage Completeness, Evidence Coverage, Control Adherence. | Governance, Data Confidence. | Não usa forecast como evidência isolada. | Governance, Data Quality. | Audit Narrative. | Máximo detalhe e trilha completa. |
+| Copilot Consumer | Responder perguntas com evidência, explicação e recomendação. | Todas autorizadas por escopo e permissão. | Scores decomponíveis. | Forecasts com premissas. | Heat maps investigáveis. | Narrativas com lineage. | Adaptativo, sempre com confidence. |
+
+## Investigation Analytics Architecture
+
+Investigation Analytics transforma analytics em suporte ativo à investigação:
+
+```text
+Signal -> Evidence -> Hypothesis -> Root Cause Candidate -> Confirmed Root Cause -> Recommendation
+```
+
+Investigation Analytics não decide sozinha. Ela organiza sinais, evidências, hipóteses, causas prováveis, causas confirmadas e recomendações para que Decision Service, Governance, Case Management ou owners responsáveis executem comandos formais.
+
+### Investigation Signals
+
+| Sinal | Definição |
+| --- | --- |
+| Similar Cases | Cases parecidos por tipo, causa, entidade, owner, evidência ou resultado. |
+| Similar Alerts | Alertas parecidos por condição, métrica, threshold, owner ou recorrência. |
+| Similar Decisions | Decisões similares por gate, contexto, impacto, evidência e outcome. |
+| Similar Learnings | Aprendizados aplicáveis ao contexto atual. |
+| Similar Root Causes | Causas raiz similares por categoria, relação causal e evidência. |
+| Related Evidence | Evidências relacionadas por entidade, decisão, case, alerta, capability ou value case. |
+| Missing Evidence | Evidência esperada ausente para explicar, decidir ou fechar. |
+| Weak Evidence | Evidência presente, mas fraca por validade, fonte, atualidade ou relevância. |
+| Contradictory Evidence | Evidências conflitantes entre fontes, períodos ou interpretações. |
+
+### Evidence Analytics
+
+| Métrica | Definição |
+| --- | --- |
+| Evidence Completeness | Evidências obrigatórias presentes / evidências esperadas. |
+| Evidence Freshness | Atualidade da evidência frente ao período decisório. |
+| Evidence Confidence | Confiança composta por fonte, validade, owner, lineage e aprovação. |
+| Evidence Coverage | Cobertura de evidência por entidade, decisão, case, alerta ou validação. |
+| Evidence Relevance | Aderência da evidência à pergunta, hipótese ou condição original. |
+| Evidence Validation Rate | Evidências validadas / evidências submetidas. |
+
+### Root Cause Analytics
+
+| Tipo | Critério de Classificação |
+| --- | --- |
+| Direct Cause | Evento ou condição suficiente e próxima que explica o desvio observado. |
+| Contributing Cause | Fator que agravou ou aumentou probabilidade do problema, mas não explica sozinho. |
+| Systemic Cause | Padrão estrutural recorrente em processo, governance, architecture, capacity ou data quality. |
+| Recurrent Cause | Causa repetida em múltiplos cases, alerts, blockers, portfolios ou períodos. |
+
+Root cause classification deve preservar confidence, evidências aceitas, evidências descartadas, limitações e distinção entre causalidade, correlação e inferência.
+
+### Investigation Health
+
+| Métrica | Definição |
+| --- | --- |
+| Investigation Aging | Tempo desde abertura da investigação ou último avanço relevante. |
+| Investigation SLA Compliance | Aderência ao SLA por tipo, severidade e impacto. |
+| Investigation Coverage | Cobertura de sinais, entidades, evidências e hipóteses relevantes. |
+| Investigation Confidence | Confiança na explicação atual da investigação. |
+| Investigation Closure Quality | Qualidade do fechamento por causa confirmada, recomendação, decisão, evidência e learning. |
+| Investigation Learning Reuse | Reuso de learnings anteriores aplicáveis. |
+
+### Investigation Health Score
+
+Investigation Health Score combina aging, SLA, coverage, evidence confidence, root cause confidence, recommendation actionability, decision linkage e learning reuse. O score deve ser usado para priorizar investigações frágeis, antigas ou sem evidência suficiente.
+
+### Investigation Heat Map
+
+| Heat Map | Uso |
+| --- | --- |
+| Investigation Aging Heat Map | Identificar investigações antigas por owner, domínio e severidade. |
+| Root Cause Concentration Heat Map | Identificar concentração de causas por capability, process, portfolio, service ou control. |
+| Evidence Gap Heat Map | Identificar lacunas de evidência por entidade, owner, fonte ou etapa. |
+| Investigation Quality Heat Map | Identificar investigações com baixa confidence, baixa cobertura ou closure frágil. |
+
+## Analytics-to-Intelligence Integration
+
+Analytics alimenta Intelligence, mas não substitui a camada de inteligência.
+
+```text
+Metrics -> Scores -> Forecasts -> Signals -> Insights -> Explanations -> Root Causes -> Recommendations -> Decisions -> Outcomes -> Learnings
+```
+
+| Camada | Responsabilidade |
+| --- | --- |
+| Analytics Layer | Calcula métricas, scores, forecasts, heat maps, benchmarks, confidence, sinais preditivos e sinais analíticos. |
+| Intelligence Layer | Interpreta sinais, organiza insights, explica causalidade, propõe root causes, recomenda ações, produz narrativas e registra aprendizado. |
+
+Analytics responde "o que está acontecendo, qual tendência existe, qual risco emerge e qual evidência analítica sustenta o sinal". Intelligence responde "por que isso importa, qual causa provável, qual decisão é necessária, qual ação faz sentido e o que a organização deve aprender".
+
+## Analytics Knowledge Readiness
+
+Analytics deve preparar ativos para a próxima etapa de `KNOWLEDGE_ARCHITECTURE.md`. Cada ativo analítico relevante deve poder alimentar Knowledge Graph, Decision Graph, Case Graph, Evidence Graph, Learning Graph e Recommendation Graph.
+
+| Grafo | Nós Necessários | Relações Necessárias | Lineage Necessário | Confidence Necessário |
+| --- | --- | --- | --- | --- |
+| Knowledge Graph | Metric, Score, Forecast, HeatMapCell, Signal, Insight, Entity, Owner. | measures, impacts, supports, causedBy, dependsOn, relatesTo. | Evento, projeção, métrica, score, insight e decisão. | Confidence por nó e relação. |
+| Decision Graph | Decision, Recommendation, Forecast, Score, Evidence, Owner, Outcome. | recommendedBy, decidedBy, evidencedBy, affectedBy, resultedIn. | Snapshot analítico usado na decisão. | Confidence do suporte decisório. |
+| Case Graph | Case, Investigation, Alert, Evidence, RootCause, ActionPlan, Validation, Learning. | contains, investigates, evidencedBy, causedBy, resolvedBy, validatedBy, learnedFrom. | Timeline completa do case. | Confidence de relação e closure. |
+| Evidence Graph | Evidence, Source, Entity, Metric, Decision, Validation. | evidences, validates, contradicts, supports, expiresAt. | Fonte, owner, validade e classificação. | Evidence Confidence e relevance. |
+| Learning Graph | Learning, Case, DecisionOutcome, RootCause, Recommendation. | learnedFrom, appliesTo, reusedBy, supersedes. | Origem do aprendizado e contexto de validade. | Learning Confidence. |
+| Recommendation Graph | RecommendationSignal, Recommendation, Action, Owner, Risk, Evidence. | triggeredBy, recommends, assignedTo, mitigates, requiresEvidence. | Sinal, métrica, score, forecast e insight originador. | Recommendation confidence e actionability. |
+
+Ativos analíticos devem preservar nós, relações, lineage e confidence suficientes para que knowledge architecture suporte explainability, Copilot, investigation, auditabilidade, reuso de learning e recomendação governada.
+
 ## 20. Analytics Readiness Assessment
 
 | Próxima Etapa | Readiness | Justificativa |
 | --- | --- | --- |
-| KNOWLEDGE_ARCHITECTURE.md | YES | A arquitetura analítica define lineage, explainability, evidence chains, signals, insights, recommendations e relações necessárias para knowledge graph, decision graph, value graph e capability graph. |
-| API_CONTRACTS.md | YES WITH ADJUSTMENTS | Data products, eventos analíticos e atributos conceituais estão definidos, mas contratos devem decidir escopos de consulta, versionamento, autorização, paginação conceitual, filtros e modelos de erro sem expor acoplamento interno. |
-| FRONTEND_ARCHITECTURE.md | YES | O mapeamento analytics-to-UX define cockpits, workspaces, heat maps, timelines, narratives, Copilot, drill-down, drill-up, confidence e actionability. |
-| implementation | YES WITH ADJUSTMENTS | A base conceitual está suficiente para orientar implementação futura, mas antes de codificar devem existir API_CONTRACTS.md, SECURITY_ARCHITECTURE.md, FRONTEND_ARCHITECTURE.md, decisões de autorização, contratos de data products e priorização MVP. |
+| KNOWLEDGE_ARCHITECTURE.md | YES | A arquitetura agora explicita Analytics Knowledge Readiness, nós, relações, lineage e confidence para Knowledge Graph, Decision Graph, Case Graph, Evidence Graph, Learning Graph e Recommendation Graph. |
+| API_CONTRACTS.md | YES WITH ADJUSTMENTS | Data products, semantic definitions, benchmark products, investigation products e eventos analíticos estão definidos, mas contratos devem decidir escopos de consulta, autorização, versionamento, filtros, snapshots e modelos de erro. |
+| FRONTEND_ARCHITECTURE.md | YES | O mapeamento analytics-to-UX, consumer model, semantic layer, benchmarks, predictive risks e investigation analytics dão base suficiente para cockpits, workspaces, heat maps, timelines, narratives e Copilot. |
+| SECURITY_ARCHITECTURE.md | YES WITH ADJUSTMENTS | O documento define sensitivity, personas, evidence, lineage e consumers, mas segurança deve detalhar autorização por persona, masking, segregação, acesso a evidências, uso de Copilot e retenção de snapshots analíticos. |
+| IMPLEMENTATION | YES WITH ADJUSTMENTS | A base conceitual está enterprise-grade para orientar implementação futura, mas antes de codificar devem existir API_CONTRACTS.md, SECURITY_ARCHITECTURE.md, FRONTEND_ARCHITECTURE.md, KNOWLEDGE_ARCHITECTURE.md e priorização MVP. |
 
 ## 21. Risks and Mitigations
 
@@ -666,6 +1100,10 @@ Analytics events são analytical events ou derived events. Eles não substituem 
 
 ## 22. Change Log
 
+### Resumo Executivo das Mudanças Incrementais
+
+Esta revisão adiciona capacidades enterprise-grade sem reescrever a arquitetura existente: camada semântica para verdade canônica, benchmark intelligence para comparação governada, sinais preditivos para antecipação de risco, domínios analíticos especializados, modelo explícito de consumidores, analytics de investigação, integração reforçada com Case Management, fronteira clara entre Analytics e Intelligence, e readiness explícito para Knowledge Architecture.
+
 ### Engines Analíticas
 
 - Metrics Engine.
@@ -679,16 +1117,20 @@ Analytics events são analytical events ou derived events. Eles não substituem 
 - Value Intelligence Engine.
 - Capability Intelligence Engine.
 - Data Quality Engine.
+- Semantic Layer Engine.
+- Benchmark Intelligence Engine.
 - Recommendation Signal Engine.
 - Analytics Governance Engine.
 
 ### Data Products Analíticos
 
+- SemanticMetricDefinitionDataProduct.
 - MetricDataProduct.
 - MetricTimeSeriesDataProduct.
 - HealthScoreDataProduct.
 - ForecastDataProduct.
 - HeatMapDataProduct.
+- BenchmarkDataProduct.
 - FlowIntelligenceDataProduct.
 - BottleneckDataProduct.
 - CaseIntelligenceDataProduct.
@@ -696,6 +1138,7 @@ Analytics events são analytical events ou derived events. Eles não substituem 
 - ValueIntelligenceDataProduct.
 - CapabilityIntelligenceDataProduct.
 - DataQualityDataProduct.
+- InvestigationAnalyticsDataProduct.
 - RecommendationSignalDataProduct.
 - AnalyticsGovernanceDataProduct.
 
@@ -722,6 +1165,7 @@ Analytics events são analytical events ou derived events. Eles não substituem 
 - Blocker Resolution Health.
 - Data Confidence Score.
 - Intelligence Health Score.
+- Investigation Health Score.
 
 ### Forecasts
 
@@ -739,6 +1183,16 @@ Analytics events são analytical events ou derived events. Eles não substituem 
 - Alert Resolution Forecast.
 - Capability Modernization Forecast.
 - Architecture Debt Remediation Forecast.
+- Future Bottleneck Risk.
+- Future SLA Breach Risk.
+- Future Value Leakage Risk.
+- Future Dependency Risk.
+- Future Capacity Saturation Risk.
+- Future Governance Risk.
+- Future Architecture Risk.
+- Future Modernization Risk.
+- Future Case Escalation Risk.
+- Future Alert Recurrence Risk.
 
 ### Heat Maps
 
@@ -756,9 +1210,19 @@ Analytics events são analytical events ou derived events. Eles não substituem 
 - Case Heat Map.
 - Data Quality Heat Map.
 - Governance Heat Map.
+- Investigation Aging Heat Map.
+- Root Cause Concentration Heat Map.
+- Evidence Gap Heat Map.
+- Investigation Quality Heat Map.
 
 ### Inteligências Especializadas
 
+- Semantic Layer para definições canônicas, fórmulas aprovadas, dimensões, unidades, períodos, agregações, comparabilidade e terminologia corporativa.
+- Benchmark Intelligence para internal, historical, portfolio, product, capability, team, service, offer e future industry benchmarks.
+- Predictive Risk Analytics para antecipar gargalos, breaches de SLA, value leakage, dependências, saturação de capacidade, governança, arquitetura, modernização, escalonamento de case e recorrência de alertas.
+- Analytics Domains para classificar Strategic, Portfolio, Discovery, Requirements, Solution, Readiness, Delivery, Validation, Value, Architecture, Governance, Case, Alert, Flow, Data Quality e Intelligence Analytics.
+- Analytics Consumer Model para explicitar Executive, Director, Superintendent, Manager, Coordinator, Product Manager, Architect, Engineer, Governance, Risk, Auditor e Copilot consumers.
+- Investigation Analytics para conectar Signal, Evidence, Hypothesis, Root Cause Candidate, Confirmed Root Cause e Recommendation.
 - Flow Intelligence para filas, WIP, wait time, blocked time, bottlenecks e economics of flow.
 - Case Intelligence para aging, SLA, evidence, recurrence, escalation e closure quality.
 - Alert Intelligence para action, evidence, validation, false closure, recurrence e owner load.
@@ -773,21 +1237,32 @@ Analytics events são analytical events ou derived events. Eles não substituem 
 - ValueLeakageDetected -> recomendação de revisão de hipótese, adoção, escopo ou continuidade.
 - ForecastAccuracyDegraded -> recomendação de revisão de premissas, drivers e qualidade de dados.
 - AlertFalseClosureDetected -> recomendação de reabertura ou revisão de evidência.
+- FutureRiskDetected -> recomendação preventiva conforme risco, owner, confidence e evidência.
+- BenchmarkVarianceDetected -> recomendação de investigação quando variação relativa é material e comparável.
+- MissingEvidence -> recomendação de completar evidência antes de decisão, closure ou narrativa.
 
 ### Governança Analítica
 
 - Definidos metric owner, score owner, forecast owner, heat map owner, analytics steward e data product owner.
 - Definidos formula approval, lifecycle, deprecation, formula versioning, threshold governance, scenario governance, confidence governance e auditability.
 - Definido processo conceitual de aprovação de métricas e scores.
+- Definida governança semântica para impedir métricas fora da Semantic Layer, fórmulas divergentes e narrativas reinterpretando métricas.
+- Definida governança de benchmark para baseline, comparison group, confidence e interpretação permitida.
 
 ### Eventos Analíticos
 
+- SemanticDefinitionApproved.
+- SemanticDefinitionChanged.
+- SemanticConsistencyIssueDetected.
 - MetricObservationRecorded.
 - HealthScoreCalculated.
 - ForecastGenerated.
 - ForecastUpdated.
 - ForecastAccuracyDegraded.
 - HeatMapGenerated.
+- BenchmarkCalculated.
+- BenchmarkVarianceDetected.
+- BenchmarkConfidenceChanged.
 - BottleneckDetected.
 - QueueThresholdBreached.
 - CaseSLAExceeded.
@@ -796,4 +1271,13 @@ Analytics events são analytical events ou derived events. Eles não substituem 
 - ValueLeakageDetected.
 - CapabilityHealthDegraded.
 - DataConfidenceDegraded.
+- FutureRiskDetected.
+- InvestigationHealthCalculated.
+- EvidenceGapDetected.
+- RootCauseCandidateIdentified.
 - RecommendationSignalGenerated.
+
+### Knowledge Readiness
+
+- Definidos ativos analíticos para Knowledge Graph, Decision Graph, Case Graph, Evidence Graph, Learning Graph e Recommendation Graph.
+- Definidos nós, relações, lineage e confidence necessários para explicar métricas, scores, forecasts, heat maps, signals, investigations, recommendations, decisions, outcomes e learnings.
