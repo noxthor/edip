@@ -66,6 +66,9 @@ A Analytics Layer é composta por engines lógicas. Engines processam dados, cal
 | Data Quality Engine | Calcular qualidade, confidence, freshness, consistency, lineage completeness e source divergence. | Source signals, event metadata, projections, metric calculation logs, lineage metadata. | Data confidence, quality scores, divergence signals, freshness status. | Todas as engines, Governance, UX, Copilot. | DataFreshnessBreached, SourceDivergenceDetected, CalculationErrorDetected, LineageUpdated. | DataConfidenceDegraded, DataQualityIssueDetected. | DataQualityDataProduct. |
 | Semantic Layer Engine | Garantir consistência semântica de métricas, scores, forecasts, heat maps, narrativas e comparações. | Semantic definitions, MetricDefinition, ScoreDefinition, dimensions, units, approved formulas, lifecycle metadata. | SemanticMetricDefinition, approved dimensions, approved aggregations, semantic validation results. | Metrics, Health Score, Forecast, Heat Map, UX, Copilot, Narrative, Benchmark. | MetricDefinitionCreated, FormulaApproved, ThresholdChanged, OwnerChanged. | SemanticDefinitionApproved, SemanticDefinitionChanged, SemanticConsistencyIssueDetected. | SemanticMetricDefinitionDataProduct. |
 | Benchmark Intelligence Engine | Comparar desempenho contra baselines internos, históricos, portfolios, produtos, capabilities, teams, services e offers. | Metric time series, health scores, semantic dimensions, comparison groups, baselines, confidence. | BenchmarkDataProduct, benchmark variance, benchmark trend, relative performance score. | Executive Cockpit, Portfolio Cockpit, Product Cockpit, Capability Cockpit, Copilot. | MetricObservationRecorded, HealthScoreCalculated, ForecastUpdated, SemanticDefinitionChanged. | BenchmarkCalculated, BenchmarkVarianceDetected, BenchmarkConfidenceChanged. | BenchmarkDataProduct. |
+| Narrative Intelligence Engine | Transformar analytics e intelligence em narrativas corporativas governadas, versionadas e aprováveis. | Metrics, scores, forecasts, scenarios, insights, recommendations, evidence, decisions, audience rules. | NarrativeDataProduct, narrative drafts, narrative confidence, narrative approval state. | Executive, Portfolio, Product, Architecture, Governance, Case, Investigation, Copilot. | MetricObservationRecorded, HealthScoreCalculated, ForecastUpdated, RecommendationSignalGenerated, DecisionCreated. | NarrativeGenerated, NarrativeApproved, NarrativeRejected, NarrativeExpired, NarrativeUpdated. | NarrativeDataProduct. |
+| Scenario Intelligence Engine | Governar cenários, versões, premissas, drivers, outcomes e comparações usadas por forecasts e decisões. | Forecasts, assumptions, drivers, capacity, dependency, value, debt, governance and portfolio inputs. | Scenario, ScenarioVersion, ScenarioComparison, scenario confidence, scenario stability. | Forecast, Portfolio, Value, Capacity, Capability, Governance, Executive Narratives. | ForecastGenerated, ForecastUpdated, CapacityChanged, DependencyRaised, ValueLeakageDetected. | ScenarioCreated, ScenarioCompared, ScenarioRetired. | ScenarioDataProduct. |
+| Cost Intelligence Engine | Quantificar impacto econômico de atrasos, filas, gargalos, governança, dívida, retrabalho, cases e alertas. | Flow metrics, value metrics, portfolio data, debt signals, case and alert recurrence, capacity, validation failures. | Cost metrics, cost heat maps, cost forecasts, economic risk signals. | Value Intelligence, Case, Alert, Capability, Recommendation, Executive Narrative. | BottleneckDetected, ValueLeakageDetected, ArchitectureDebtRegistered, CaseReopened, AlertReopened. | EconomicRiskIncreased, DebtCostCritical, CostThresholdBreached. | CostIntelligenceDataProduct. |
 | Recommendation Signal Engine | Converter padrões analíticos em sinais de recomendação com ação, owner, evidência e risco da inação. | Insights, root causes, scores, forecasts, heat maps, policies, ownership, knowledge graph. | RecommendationSignal, action suggestion, urgency, evidence needs. | Intelligence Layer, Copilot, Decision Service, Case Management. | BottleneckDetected, CaseSLAExceeded, ValueLeakageDetected, CapabilityHealthDegraded, ForecastAccuracyDegraded. | RecommendationSignalGenerated. | RecommendationSignalDataProduct. |
 | Analytics Governance Engine | Governar definições, fórmulas, versões, owners, thresholds, cenários, confidence e lifecycle analítico. | Metric definitions, score definitions, forecast definitions, heat map definitions, approvals. | Approved definitions, governance alerts, deprecation status, audit trails. | Metrics, Health Score, Forecast, Heat Map, Governance. | MetricDefinitionCreated, FormulaApproved, ThresholdChanged, OwnerChanged. | MetricGovernanceIssueDetected, FormulaVersionApproved, MetricDeprecated. | AnalyticsGovernanceDataProduct. |
 
@@ -682,12 +685,30 @@ Explicabilidade deve ser consumível por UX, Copilot, auditoria, governance, cas
 | HeatMapGenerated | Heat Map Engine | heatMapId, dimension, period, cells, severity, confidence. | UX, Copilot, Governance. | Heat map base metrics. | Investigation and prioritization. |
 | BottleneckDetected | Bottleneck Detection Engine | bottleneckId, scope, stage, severity, drivers, affectedEntities, valueAtRisk. | Flow, Alert, Case, Recommendation. | Bottleneck Severity, Queue Time, Cost of Bottleneck. | FlowInsight, recommendation. |
 | QueueThresholdBreached | Flow Intelligence Engine | queueId, stage, age, volume, threshold, owner, affectedEntities. | Alert, Case, UX. | Queue Time, WIP by Flow Stage. | QueueInsight. |
+| Investigation | Investigation Analytics / Intelligence | investigationId, lifecycleState, trigger, scope, owner, confidence, relatedCaseId. | Case, Governance, Knowledge, Copilot. | Investigation Health metrics. | Investigation lifecycle reasoning. |
+| InvestigationStarted | Investigation Analytics / Intelligence | investigationId, triggerSignal, scope, owner, openedAt, expectedEvidence. | Case, Governance, Copilot, Knowledge. | Investigation Aging, Investigation Coverage. | Investigation graph and evidence planning. |
+| InvestigationEscalated | Investigation Analytics / Governance | investigationId, reason, severity, aging, valueAtRisk, missingEvidence, owner. | Case, Governance, Executive Narrative. | Investigation SLA Compliance, Investigation Health Score. | Escalation insight. |
+| InvestigationClosed | Investigation Analytics / Governance | investigationId, confirmedRootCause, recommendationId, decisionId, validationId, learningId, confidence. | Case, Knowledge, Learning, Copilot. | Investigation Closure Quality, Learning Reuse. | Root cause and learning graph. |
 | CaseSLAExceeded | Case Intelligence Engine or Case Management Service | caseId, type, severity, SLA, aging, valueAtRisk, owner. | Case Cockpit, Governance, Recommendation. | Case SLA Compliance, Case Aging. | Case escalation insight. |
 | CaseReopened | Case Management Service | caseId, previousClosureId, reason, triggeringEventId, owner. | Case Intelligence, Governance, Copilot. | Case Reopen Rate, Case Resolution Health. | Recurrence and closure quality. |
 | AlertFalseClosureDetected | Alert Intelligence Engine | alertId, missingAction, missingEvidence, validationFailure, conditionStatus. | Alert Service, Governance, Case, Recommendation. | Alert False Closure Rate, Alert Resolution Health. | AlertResolutionInsight. |
 | ValueLeakageDetected | Value Intelligence Engine | valueCaseId, plannedValue, forecastValue, validatedValue, leakage, drivers. | Portfolio, Value, Recommendation, Copilot. | Value Leakage, Benefit Variance, ROI. | ValueInsight. |
 | CapabilityHealthDegraded | Capability Intelligence Engine | capabilityId, score, drivers, affectedProducts, affectedValueCases. | Architecture, Portfolio, Case, Recommendation. | Capability Health, Architecture Debt Score. | CapabilityInsight. |
 | DataConfidenceDegraded | Data Quality Engine | dataProductId, affectedMetrics, qualityDimensions, confidence, source. | All engines, UX, Copilot, Governance. | Data Confidence, Source Divergence, Freshness. | Limitation and decision warning. |
+| Narrative | Narrative Intelligence Engine | narrativeId, narrativeType, lifecycleState, owner, audience, confidence, version. | UX, Copilot, Governance, Knowledge. | Narrative metrics. | Narrative lifecycle reasoning. |
+| NarrativeGenerated | Narrative Intelligence Engine | narrativeId, narrativeType, audience, sourceMetrics, sourceScores, confidence, version. | Executive, Governance, Copilot, Knowledge. | Narrative Coverage, Narrative Freshness. | Narrative graph and executive explanation. |
+| NarrativeApproved | Narrative Intelligence / Governance | narrativeId, approver, approvedAt, version, audience, validity. | UX, Copilot, Audit, Knowledge. | Narrative Approval Rate. | Approved narrative reuse. |
+| NarrativeRejected | Narrative Intelligence / Governance | narrativeId, rejectionReason, missingEvidence, confidence, requiredChanges. | Narrative Owner, Governance, Copilot. | Narrative Approval Rate, Narrative Confidence. | Narrative quality insight. |
+| NarrativeExpired | Narrative Intelligence Engine | narrativeId, expiredAt, expirationReason, staleSources, replacementNarrative. | UX, Governance, Copilot. | Narrative Freshness, Narrative Confidence. | Narrative validity warning. |
+| NarrativeUpdated | Narrative Intelligence Engine | narrativeId, previousVersion, newVersion, changedSources, confidenceChange. | UX, Copilot, Knowledge. | Narrative Freshness, Narrative Reuse Rate. | Narrative version reasoning. |
+| Scenario | Scenario Intelligence Engine | scenarioId, scenarioType, lifecycleState, owner, version, confidence. | Forecast, Portfolio, Value, Governance. | Scenario metrics. | Scenario lifecycle reasoning. |
+| ScenarioCreated | Scenario Intelligence Engine | scenarioId, scenarioType, version, assumptions, drivers, owner, horizon. | Forecast, Portfolio, Value, Copilot. | Scenario Adoption Rate, Scenario Confidence. | Scenario graph. |
+| ScenarioCompared | Scenario Intelligence Engine | scenarioComparisonId, scenarios, baseline, deltas, confidence, decisionUsage. | Executive, Portfolio, Forecast, Narrative. | Scenario Stability, Scenario Accuracy. | Scenario comparison insight. |
+| ScenarioRetired | Scenario Intelligence / Governance | scenarioId, version, reason, retiredAt, replacementScenario. | Forecast, Governance, Knowledge. | Scenario Adoption Rate. | Scenario lifecycle. |
+| Cost | Cost Intelligence Engine | costSignalId, costType, affectedEntity, costMetric, value, confidence, owner. | Value, Portfolio, Governance, Narrative. | Cost Intelligence metrics. | Cost reasoning. |
+| EconomicRiskIncreased | Cost Intelligence Engine | costSignalId, costType, affectedEntity, exposure, driver, threshold, confidence. | Value, Portfolio, Case, Recommendation, Narrative. | Cost of Delay, Cost of Governance, Value at Risk. | Economic risk insight. |
+| DebtCostCritical | Cost Intelligence Engine | debtId, debtType, affectedCapability, costExposure, threshold, owner. | Capability, Architecture, Value, Recommendation. | Cost of Architecture Debt, Cost of Technical Debt. | Debt cost recommendation. |
+| CostThresholdBreached | Cost Intelligence Engine | costMetricId, affectedEntity, value, threshold, period, owner, confidence. | Executive, Portfolio, Governance, Recommendation. | Cost Intelligence metrics. | Cost escalation insight. |
 | RecommendationSignalGenerated | Recommendation Signal Engine | signalId, trigger, condition, suggestedOwner, action, riskOfInaction, evidenceNeeded, confidence. | Intelligence, Copilot, Decision, Case. | Recommendation Actionability. | Recommendation and narrative. |
 
 Analytics events são analytical events ou derived events. Eles não substituem eventos de domínio, mas podem iniciar investigação, alerta, case ou decisão por meio dos services responsáveis.
@@ -715,6 +736,10 @@ flowchart TB
   Analytics --> Flow[Flow Analytics]
   Analytics --> DataQuality[Data Quality Analytics]
   Analytics --> Intelligence[Intelligence Analytics]
+  Analytics --> Investigation[Investigation Analytics]
+  Analytics --> Narrative[Narrative Analytics]
+  Analytics --> Scenario[Scenario Analytics]
+  Analytics --> Cost[Cost Analytics]
 ```
 
 ### Strategic Analytics
@@ -781,6 +806,22 @@ Analisa completeness, freshness, consistency, lineage, source divergence e confi
 
 Analisa signals, insights, explanations, recommendations, narratives, Copilot e learning reuse.
 
+### Investigation Analytics
+
+Analisa investigations, hypotheses, evidence, root causes, recommendations, decisions, validations e learnings.
+
+### Narrative Analytics
+
+Analisa narrativas governadas, cobertura, freshness, confidence, aprovação, consumo e reuso.
+
+### Scenario Analytics
+
+Analisa cenários, versões, premissas, drivers, outcomes, comparações, estabilidade e adoção.
+
+### Cost Analytics
+
+Analisa exposição econômica, custos de atraso, fila, gargalo, governança, dívida, retrabalho e recorrência.
+
 | Domínio | Propósito | Entidades Analisadas | Métricas Principais | Scores Principais | Forecasts Principais | Heat Maps Principais | Consumidores |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Strategic Analytics | Explicar saúde da estratégia, OKRs, outcomes e KPIs. | Strategy, Objective, OKR, KR, Outcome, KPI. | Strategic Alignment Coverage, Key Result Progress, KPI Target Deviation. | Strategic Health Score. | OKR Achievement Forecast, KPI Forecast. | Portfolio Heat Map, Governance Heat Map. | Executive, Director, Copilot. |
@@ -799,6 +840,10 @@ Analisa signals, insights, explanations, recommendations, narratives, Copilot e 
 | Flow Analytics | Medir filas, esperas, WIP, gargalos e economics of flow. | Queue, FlowStage, WorkItem, Blocker, Dependency. | Queue Time, Wait Time, WIP by Flow Stage, Cost of Queue. | Flow Health Score, Blocker Resolution Health. | Future Bottleneck Risk, Future Dependency Risk. | Blocker Heat Map, Delivery Heat Map. | Coordinator, Scrum Master, Portfolio. |
 | Data Quality Analytics | Medir qualidade, freshness, confidence, lineage e divergência. | Source, Projection, Metric, DataProduct, Mapping. | Completeness, Freshness, Source Divergence, Lineage Completeness. | Data Confidence Score. | Future Governance Risk. | Data Quality Heat Map. | Data Steward, Auditor, Copilot. |
 | Intelligence Analytics | Medir explicabilidade, actionability, confiança e learning. | Signal, Insight, Explanation, Recommendation, Narrative, Learning. | Recommendation Actionability, Answer Confidence, Learning Reuse. | Intelligence Health Score, Investigation Health Score. | Future Case Escalation Risk. | Investigation Quality Heat Map. | Copilot, Knowledge Steward, Executive. |
+| Investigation Analytics | Governar investigações como ativos mensuráveis e reutilizáveis. | Investigation, Evidence, Hypothesis, RootCause, Recommendation, Decision, Validation, Learning. | Investigation Aging, Investigation Quality, Evidence Completeness, Root Cause Confidence. | Investigation Health Score. | Root Cause Identification Forecast, Investigation Completion Forecast. | Investigation Aging Heat Map, Evidence Gap Heat Map. | Case Owner, Governance, Auditor, Copilot. |
+| Narrative Analytics | Governar narrativas como ativos corporativos formais. | Narrative, Audience, MetricSnapshot, Insight, Recommendation, Decision. | Narrative Coverage, Narrative Freshness, Narrative Confidence, Narrative Reuse Rate. | Intelligence Health Score. | Scenario-linked narrative freshness risk. | Narrative Coverage Heat Map. | Executive, PMO, Governance, Copilot. |
+| Scenario Analytics | Governar cenários usados por forecasts, decisões e narrativas. | Scenario, ScenarioVersion, Assumption, Driver, Outcome, Comparison. | Scenario Confidence, Scenario Stability, Scenario Accuracy, Scenario Adoption Rate. | Data Confidence Score, Intelligence Health Score. | Forecasts por cenário e cenário risk-adjusted. | Scenario Comparison Heat Map. | Executive, Portfolio, Product, Architecture. |
+| Cost Analytics | Quantificar impacto econômico de problemas corporativos. | Delay, Queue, Bottleneck, Debt, Case, Alert, Dependency, Capacity. | Cost of Delay, Cost of Governance, Cost of Debt, Cost of Poor Quality. | Value Realization Health, Portfolio Health. | Future Cost of Delay, Future Cost of Debt. | Cost Exposure Heat Map, Debt Cost Heat Map. | Executive, Portfolio, Value Owner, PMO. |
 
 ## Benchmark Intelligence Engine
 
@@ -980,6 +1025,12 @@ Investigation Analytics transforma analytics em suporte ativo à investigação:
 Signal -> Evidence -> Hypothesis -> Root Cause Candidate -> Confirmed Root Cause -> Recommendation
 ```
 
+Como arquitetura governada completa, o ciclo investigativo da EDIP deve ser:
+
+```text
+Signal -> Investigation -> Evidence -> Hypothesis -> Root Cause Candidate -> Confirmed Root Cause -> Recommendation -> Decision -> Validation -> Learning
+```
+
 Investigation Analytics não decide sozinha. Ela organiza sinais, evidências, hipóteses, causas prováveis, causas confirmadas e recomendações para que Decision Service, Governance, Case Management ou owners responsáveis executem comandos formais.
 
 ### Investigation Signals
@@ -988,13 +1039,17 @@ Investigation Analytics não decide sozinha. Ela organiza sinais, evidências, h
 | --- | --- |
 | Similar Cases | Cases parecidos por tipo, causa, entidade, owner, evidência ou resultado. |
 | Similar Alerts | Alertas parecidos por condição, métrica, threshold, owner ou recorrência. |
+| Similar Investigation | Investigações semelhantes por sinal, hipótese, evidência, causa, decisão ou learning. |
 | Similar Decisions | Decisões similares por gate, contexto, impacto, evidência e outcome. |
 | Similar Learnings | Aprendizados aplicáveis ao contexto atual. |
 | Similar Root Causes | Causas raiz similares por categoria, relação causal e evidência. |
+| Similar Evidence Pattern | Padrões de evidência semelhantes em casos, alertas, decisões ou validações anteriores. |
 | Related Evidence | Evidências relacionadas por entidade, decisão, case, alerta, capability ou value case. |
 | Missing Evidence | Evidência esperada ausente para explicar, decidir ou fechar. |
 | Weak Evidence | Evidência presente, mas fraca por validade, fonte, atualidade ou relevância. |
 | Contradictory Evidence | Evidências conflitantes entre fontes, períodos ou interpretações. |
+| Investigation Stagnation | Investigação sem avanço, nova evidência, hipótese validada ou decisão dentro do período esperado. |
+| Investigation Escalation Risk | Probabilidade de investigação exigir escalonamento por aging, impacto, evidência ausente ou causa sistêmica. |
 
 ### Evidence Analytics
 
@@ -1026,6 +1081,8 @@ Root cause classification deve preservar confidence, evidências aceitas, evidê
 | Investigation SLA Compliance | Aderência ao SLA por tipo, severidade e impacto. |
 | Investigation Coverage | Cobertura de sinais, entidades, evidências e hipóteses relevantes. |
 | Investigation Confidence | Confiança na explicação atual da investigação. |
+| Investigation Quality | Qualidade composta por cobertura, evidência, hipótese, causa, recomendação, decisão e validação. |
+| Investigation Reopen Rate | Percentual de investigações reabertas por causa incorreta, evidência invalidada ou validação falha. |
 | Investigation Closure Quality | Qualidade do fechamento por causa confirmada, recomendação, decisão, evidência e learning. |
 | Investigation Learning Reuse | Reuso de learnings anteriores aplicáveis. |
 
@@ -1033,54 +1090,304 @@ Root cause classification deve preservar confidence, evidências aceitas, evidê
 
 Investigation Health Score combina aging, SLA, coverage, evidence confidence, root cause confidence, recommendation actionability, decision linkage e learning reuse. O score deve ser usado para priorizar investigações frágeis, antigas ou sem evidência suficiente.
 
+Componentes obrigatórios:
+
+- Evidence Completeness.
+- Evidence Confidence.
+- Evidence Freshness.
+- Hypothesis Quality.
+- Root Cause Confidence.
+- Recommendation Quality.
+- Validation Coverage.
+- Learning Capture.
+
+Thresholds devem classificar a investigação em healthy, attention, at risk e critical, considerando severidade, aging, evidência ausente, confidence e valor em risco. Ownership pertence ao Investigation Owner, com accountability do Case Owner ou Governance Owner quando a investigação estiver associada a case crítico, decisão regulatória ou alerta crítico. Explainability deve expor sinais, hipóteses, evidências aceitas, evidências descartadas, causa candidata, causa confirmada, recomendação, decisão e validação. Confidence deve ser reduzida quando evidência for fraca, contraditória, desatualizada ou incompleta.
+
+### Investigation Forecasts
+
+| Forecast | Definição |
+| --- | --- |
+| Root Cause Identification Forecast | Probabilidade de identificar causa raiz dentro do horizonte definido, considerando evidência, similaridade, cobertura e qualidade das hipóteses. |
+| Investigation Completion Forecast | Previsão de conclusão da investigação conforme aging, SLA, owner load, evidência pendente e decisões necessárias. |
+| Investigation Escalation Forecast | Probabilidade de escalonamento por severidade, valor em risco, evidência ausente, causa sistêmica ou SLA próximo de breach. |
+| Investigation Recurrence Forecast | Probabilidade de recorrência do problema após decisão, validação ou closure, baseada em causas similares e learnings anteriores. |
+
 ### Investigation Heat Map
 
 | Heat Map | Uso |
 | --- | --- |
 | Investigation Aging Heat Map | Identificar investigações antigas por owner, domínio e severidade. |
+| Investigation Quality Heat Map | Identificar investigações com baixa qualidade, baixa confiança, hipóteses frágeis ou recomendações não acionáveis. |
 | Root Cause Concentration Heat Map | Identificar concentração de causas por capability, process, portfolio, service ou control. |
 | Evidence Gap Heat Map | Identificar lacunas de evidência por entidade, owner, fonte ou etapa. |
-| Investigation Quality Heat Map | Identificar investigações com baixa confidence, baixa cobertura ou closure frágil. |
+| Investigation Risk Heat Map | Identificar investigações com alto risco de escalonamento, recorrência, valor em risco ou closure frágil. |
+
+## Narrative Intelligence Architecture
+
+Narrative Intelligence Engine transforma analytics e intelligence em narrativas corporativas governadas. Narrativas deixam de ser apenas consumidoras de dados e passam a ser ativos formais, com owner, audiência, fontes, confidence, aprovação, versão, validade e lineage.
+
+Narrativas não podem reinterpretar métricas, ocultar confidence ou omitir limitações materiais. Toda narrativa executiva deve preservar métricas, scores, forecasts, scenarios, insights, recommendations, decisions e evidências usadas.
+
+### Narrative Types
+
+| Tipo | Uso |
+| --- | --- |
+| Executive Narrative | Síntese executiva de estratégia, valor, risco, decisões e exceções. |
+| Portfolio Narrative | Explicação de portfolio, funding, capacidade, dependências, forecast e risco. |
+| Product Narrative | Explicação de produto, outcome, roadmap, adoção, discovery e valor. |
+| Capability Narrative | Explicação de capability, rastreabilidade, health, modernization e impacto estratégico. |
+| Architecture Narrative | Explicação de debt, exceptions, services, offers, architecture reviews e modernization. |
+| Governance Narrative | Explicação de decisões, gates, evidências, controles, exceções e auditabilidade. |
+| Investigation Narrative | Explicação de sinal, investigação, evidência, hipótese, causa raiz e recomendação. |
+| Case Narrative | Explicação de case, timeline, alerts, investigations, decisions, actions, evidence e closure. |
+| Value Narrative | Explicação de planned value, forecast value, realized benefit, validated benefit e leakage. |
+| Modernization Narrative | Explicação de modernization progress, debt reduction, risk, value and delayed impact. |
+
+### Narrative Data Product
+
+| Atributo | Definição |
+| --- | --- |
+| narrativeId | Identificador único da narrativa. |
+| narrativeType | Tipo de narrativa governada. |
+| owner | Responsável por interpretação, aprovação e uso. |
+| audience | Público-alvo autorizado. |
+| sourceMetrics | Métricas usadas com snapshot e versão semântica. |
+| sourceScores | Scores usados com componentes e confidence. |
+| sourceForecasts | Forecasts usados com cenário, versão e premissas. |
+| sourceInsights | Insights, explanations e root causes usados. |
+| sourceRecommendations | Recomendações e recommendation signals usados. |
+| confidence | Confiança da narrativa conforme fontes, evidências e completude. |
+| generatedAt | Momento de geração. |
+| approvedAt | Momento de aprovação, quando aplicável. |
+| version | Versão preservada para auditoria e comparação. |
+
+### Narrative Metrics
+
+| Métrica | Definição |
+| --- | --- |
+| Narrative Coverage | Cobertura de métricas, scores, forecasts, insights, evidências e decisões esperadas. |
+| Narrative Freshness | Atualidade da narrativa frente aos dados e eventos citados. |
+| Narrative Confidence | Confiança composta das fontes, lineage, evidência, semântica e aprovação. |
+| Narrative Approval Rate | Narrativas aprovadas / narrativas submetidas. |
+| Narrative Consumption Rate | Narrativas consumidas por audiência autorizada / narrativas publicadas. |
+| Narrative Reuse Rate | Narrativas reutilizadas em decisões, cases, learnings ou comitês. |
+
+### Narrative Events
+
+| Evento | Definição |
+| --- | --- |
+| NarrativeGenerated | Narrativa foi gerada com fontes, confidence e versão. |
+| NarrativeApproved | Narrativa foi aprovada por owner ou autoridade definida. |
+| NarrativeRejected | Narrativa foi rejeitada por evidência, confidence, escopo ou interpretação inadequada. |
+| NarrativeExpired | Narrativa expirou por freshness, mudança de fonte, forecast ou decisão. |
+| NarrativeUpdated | Narrativa foi atualizada com nova versão, fontes ou interpretação aprovada. |
+
+## Scenario Intelligence Architecture
+
+Scenario Intelligence Architecture transforma cenários em ativos corporativos governados. Forecasts passam a usar entidades formais de cenário, permitindo versionamento, comparação, premissas explícitas, drivers, outcomes e governança de uso decisório.
+
+### Scenario Model
+
+| Entidade | Definição |
+| --- | --- |
+| Scenario | Contexto hipotético governado usado para forecast, decisão, narrativa ou investigação. |
+| Scenario Version | Versão específica de cenário, preservando premissas, drivers e período. |
+| Scenario Assumption | Premissa explícita usada no cenário. |
+| Scenario Driver | Driver que altera projeção, impacto, risco ou valor. |
+| Scenario Outcome | Resultado projetado ou observado associado ao cenário. |
+| Scenario Comparison | Comparação entre cenários, baseline e outcomes. |
+
+### Scenario Types
+
+| Tipo | Uso |
+| --- | --- |
+| Strategic Scenario | Avaliar impacto em OKRs, KPIs, objetivos e outcomes. |
+| Portfolio Scenario | Avaliar funding, capacidade, prioridade e risco de portfolio. |
+| Product Scenario | Avaliar roadmap, adoção, outcome e valor de produto. |
+| Delivery Scenario | Avaliar prazo, escopo, release, dependência e risco de entrega. |
+| Value Scenario | Avaliar benefício, leakage, ROI e value at risk. |
+| Capacity Scenario | Avaliar queda, aumento ou realocação de capacidade. |
+| Capability Scenario | Avaliar impacto de capability health, debt, service risk ou offer risk. |
+| Modernization Scenario | Avaliar atraso, aceleração ou escopo de modernização. |
+| Governance Scenario | Avaliar atraso de decisão, evidência ausente, controle ou exceção. |
+
+### Scenario Metrics
+
+| Métrica | Definição |
+| --- | --- |
+| Scenario Confidence | Confiança das premissas, drivers, fontes, lineage e histórico. |
+| Scenario Stability | Grau de estabilidade do cenário frente a mudanças de premissas e drivers. |
+| Scenario Accuracy | Aderência histórica entre cenário projetado e outcome observado. |
+| Scenario Adoption Rate | Uso de cenários em decisões, forecasts, narrativas e comitês. |
+
+### Scenario Analytics
+
+Scenario Analytics deve permitir responder:
+
+- O que acontece se a capacidade cair?
+- O que acontece se a dependência atrasar?
+- O que acontece se o benefício não se confirmar?
+- O que acontece se o investimento aumentar?
+- O que acontece se a dívida arquitetural permanecer?
+
+Toda comparação de cenário deve preservar baseline, assumptions, drivers, scenario version, confidence, sensitivity e decisão suportada.
+
+## Analytics Maturity Architecture
+
+Analytics Maturity Architecture permite que a EDIP avalie a maturidade de sua própria camada analítica. A maturidade deve ser medida por domínio analítico e usada para priorizar governança, qualidade, explainability, adoção e actionability.
+
+### Analytics Maturity Dimensions
+
+| Dimensão | Definição |
+| --- | --- |
+| Ownership | Cobertura e clareza de owners e stewards. |
+| Data Quality | Qualidade, completude, consistência e validade dos dados analíticos. |
+| Confidence | Presença, cálculo e uso explícito de confidence. |
+| Explainability | Capacidade de decompor métrica, score, forecast, scenario, signal e recommendation. |
+| Lineage | Completude da cadeia de origem, cálculo, insight, decisão e learning. |
+| Freshness | Atualidade frente ao uso decisório esperado. |
+| Governance | Aprovação, versionamento, lifecycle, thresholds e auditabilidade. |
+| Adoption | Uso efetivo por personas, cockpits, workspaces e decisões. |
+| Actionability | Capacidade de gerar ação, owner, evidência e decisão. |
+| Reuse | Reuso em narrativas, learnings, cases, recommendations e Copilot. |
+
+### Analytics Maturity Score
+
+Analytics Maturity Score é um score composto por Ownership, Data Quality, Confidence, Explainability, Lineage, Freshness, Governance, Adoption, Actionability e Reuse. Deve ser calculado por domínio analítico e no nível enterprise, com componentes visíveis e confidence própria.
+
+Aplicações por domínio:
+
+- Strategic Analytics Maturity.
+- Portfolio Analytics Maturity.
+- Discovery Analytics Maturity.
+- Requirements Analytics Maturity.
+- Solution Analytics Maturity.
+- Delivery Analytics Maturity.
+- Validation Analytics Maturity.
+- Value Analytics Maturity.
+- Architecture Analytics Maturity.
+- Governance Analytics Maturity.
+- Case Analytics Maturity.
+- Alert Analytics Maturity.
+- Flow Analytics Maturity.
+- Intelligence Analytics Maturity.
+
+### Analytics Maturity Levels
+
+| Nível | Nome | Definição |
+| --- | --- | --- |
+| Level 1 | Visibility | Dados e eventos são visíveis, mas ainda pouco governados. |
+| Level 2 | Measurement | Métricas governadas existem com owner, fórmula e periodicidade. |
+| Level 3 | Explainability | Métricas, scores, forecasts e heat maps são explicáveis por lineage e evidência. |
+| Level 4 | Predictive Intelligence | Forecasts, scenarios e predictive risk signals antecipam problemas. |
+| Level 5 | Decision Intelligence | Recommendations, decisions, outcomes e narratives são governados e auditáveis. |
+| Level 6 | Organizational Intelligence | Learnings, knowledge graphs, reuse e Copilot fecham o ciclo de aprendizado organizacional. |
+
+A EDIP, após esta revisão analítica, está posicionada conceitualmente entre Level 4 e Level 5: a arquitetura define predictive intelligence, scenarios, recommendations, decisions e narratives, mas a maturidade plena de Level 5 depende de contratos, segurança, frontend, knowledge architecture e implementação governada.
+
+## Cost Intelligence Architecture
+
+Cost Intelligence Engine quantifica impacto econômico dos problemas corporativos. Ela conecta atrasos, filas, gargalos, governança, dívida, retrabalho, falhas de validação, recorrência de alertas/cases, dependências, saturação de capacidade e atraso de modernização a valor em risco, value leakage e decisões executivas.
+
+### Cost Intelligence Metrics
+
+| Métrica | Definição |
+| --- | --- |
+| Cost of Delay | Custo econômico, estratégico ou operacional de atraso. |
+| Cost of Queue | Custo de itens aguardando em fila. |
+| Cost of Bottleneck | Custo causado por restrição persistente ou recorrente. |
+| Cost of Governance | Custo de decisões, approvals, evidências, controles ou exceções atrasadas. |
+| Cost of Decision Latency | Custo da latência entre identificação do problema e decisão. |
+| Cost of Architecture Debt | Custo atual ou projetado de dívida arquitetural. |
+| Cost of Technical Debt | Custo atual ou projetado de dívida técnica. |
+| Cost of Rework | Custo de retrabalho em discovery, requirements, solution, delivery ou validation. |
+| Cost of Validation Failure | Custo de validação rejeitada, atrasada ou reaberta. |
+| Cost of Alert Recurrence | Custo de alertas recorrentes ou falsamente encerrados. |
+| Cost of Case Recurrence | Custo de cases recorrentes, reabertos ou sistêmicos. |
+| Cost of Poor Quality | Custo agregado de baixa qualidade de dados, requisitos, solução, entrega ou evidência. |
+| Cost of Dependency | Custo de dependências abertas, atrasadas ou críticas. |
+| Cost of Capacity Saturation | Custo de saturação de capacidade, WIP excessivo e fila crescente. |
+| Cost of Modernization Delay | Custo de atraso de modernização em capability, service, offer ou aplicação. |
+
+### Cost Intelligence Heat Maps
+
+| Heat Map | Uso |
+| --- | --- |
+| Cost Exposure Heat Map | Visualizar exposição econômica por portfolio, product, capability, case, alert ou flow stage. |
+| Value at Risk Heat Map | Visualizar valor em risco por investment, initiative, value case, benefit ou case. |
+| Economic Bottleneck Heat Map | Priorizar gargalos por custo econômico e impacto em valor. |
+| Debt Cost Heat Map | Visualizar custo de dívida arquitetural, técnica e modernization delay. |
+
+### Cost Intelligence Forecasts
+
+| Forecast | Definição |
+| --- | --- |
+| Future Cost of Delay | Projeção de custo futuro de atraso por iniciativa, feature, release, decision ou value case. |
+| Future Cost of Debt | Projeção de custo futuro de dívida arquitetural ou técnica. |
+| Future Cost of Governance Failure | Projeção de custo de falha de decisão, controle, evidência, approval ou exceção. |
+| Future Cost of Capacity Saturation | Projeção de custo de saturação de capacidade, WIP e fila. |
+
+### Cost Intelligence Signals
+
+| Signal | Definição |
+| --- | --- |
+| Economic Risk Increased | Risco econômico aumentou por atraso, dívida, recorrência, fila, gargalo ou governança. |
+| Economic Bottleneck Detected | Gargalo com impacto econômico material foi identificado. |
+| Debt Cost Critical | Custo de dívida ultrapassou threshold material. |
+| Delay Cost Critical | Custo de atraso ultrapassou threshold material. |
+| Governance Cost Critical | Custo de falha ou atraso de governança ultrapassou threshold material. |
+
+### Cost Intelligence Integration
+
+```text
+Cost Intelligence -> Value Intelligence -> Case Intelligence -> Alert Intelligence -> Capability Intelligence -> Recommendation Signals -> Executive Narratives
+```
+
+Cost Intelligence deve alimentar Value Intelligence com value at risk e leakage econômico, Case Intelligence com custo de recorrência e escalonamento, Alert Intelligence com custo de false closure e recurrence, Capability Intelligence com custo de debt e modernization delay, Recommendation Signals com risco da inação quantificado e Executive Narratives com impacto econômico explicável.
 
 ## Analytics-to-Intelligence Integration
 
 Analytics alimenta Intelligence, mas não substitui a camada de inteligência.
 
 ```text
-Metrics -> Scores -> Forecasts -> Signals -> Insights -> Explanations -> Root Causes -> Recommendations -> Decisions -> Outcomes -> Learnings
+Metrics -> Scores -> Forecasts -> Scenarios -> Signals -> Investigations -> Insights -> Explanations -> Root Causes -> Recommendations -> Decisions -> Outcomes -> Learnings -> Narratives
 ```
 
 | Camada | Responsabilidade |
 | --- | --- |
-| Analytics Layer | Calcula métricas, scores, forecasts, heat maps, benchmarks, confidence, sinais preditivos e sinais analíticos. |
-| Intelligence Layer | Interpreta sinais, organiza insights, explica causalidade, propõe root causes, recomenda ações, produz narrativas e registra aprendizado. |
+| Analytics Layer | Calcula métricas, scores, forecasts, scenarios, heat maps, benchmarks, costs, confidence, sinais preditivos e sinais analíticos. |
+| Intelligence Layer | Interpreta sinais, conduz investigações, organiza insights, explica causalidade, propõe root causes, recomenda ações, produz narrativas e registra aprendizado. |
 
-Analytics responde "o que está acontecendo, qual tendência existe, qual risco emerge e qual evidência analítica sustenta o sinal". Intelligence responde "por que isso importa, qual causa provável, qual decisão é necessária, qual ação faz sentido e o que a organização deve aprender".
+Analytics responde "o que está acontecendo, qual tendência existe, qual cenário é plausível, qual custo está exposto, qual risco emerge e qual evidência analítica sustenta o sinal". Intelligence responde "por que isso importa, qual investigação é necessária, qual causa provável, qual decisão é necessária, qual ação faz sentido, qual narrativa deve ser aprovada e o que a organização deve aprender".
 
 ## Analytics Knowledge Readiness
 
-Analytics deve preparar ativos para a próxima etapa de `KNOWLEDGE_ARCHITECTURE.md`. Cada ativo analítico relevante deve poder alimentar Knowledge Graph, Decision Graph, Case Graph, Evidence Graph, Learning Graph e Recommendation Graph.
+Analytics deve preparar ativos para a próxima etapa de `KNOWLEDGE_ARCHITECTURE.md`. Cada ativo analítico relevante deve poder alimentar Knowledge Graph, Decision Graph, Case Graph, Evidence Graph, Learning Graph, Recommendation Graph, Investigation Graph, Scenario Graph, Narrative Graph e Cost Graph.
 
-| Grafo | Nós Necessários | Relações Necessárias | Lineage Necessário | Confidence Necessário |
-| --- | --- | --- | --- | --- |
-| Knowledge Graph | Metric, Score, Forecast, HeatMapCell, Signal, Insight, Entity, Owner. | measures, impacts, supports, causedBy, dependsOn, relatesTo. | Evento, projeção, métrica, score, insight e decisão. | Confidence por nó e relação. |
-| Decision Graph | Decision, Recommendation, Forecast, Score, Evidence, Owner, Outcome. | recommendedBy, decidedBy, evidencedBy, affectedBy, resultedIn. | Snapshot analítico usado na decisão. | Confidence do suporte decisório. |
-| Case Graph | Case, Investigation, Alert, Evidence, RootCause, ActionPlan, Validation, Learning. | contains, investigates, evidencedBy, causedBy, resolvedBy, validatedBy, learnedFrom. | Timeline completa do case. | Confidence de relação e closure. |
-| Evidence Graph | Evidence, Source, Entity, Metric, Decision, Validation. | evidences, validates, contradicts, supports, expiresAt. | Fonte, owner, validade e classificação. | Evidence Confidence e relevance. |
-| Learning Graph | Learning, Case, DecisionOutcome, RootCause, Recommendation. | learnedFrom, appliesTo, reusedBy, supersedes. | Origem do aprendizado e contexto de validade. | Learning Confidence. |
-| Recommendation Graph | RecommendationSignal, Recommendation, Action, Owner, Risk, Evidence. | triggeredBy, recommends, assignedTo, mitigates, requiresEvidence. | Sinal, métrica, score, forecast e insight originador. | Recommendation confidence e actionability. |
+| Grafo | Nós Necessários | Relações Necessárias | Lineage Necessário | Confidence Necessário | Ownership Necessário |
+| --- | --- | --- | --- | --- | --- |
+| Knowledge Graph | Metric, Score, Forecast, Scenario, HeatMapCell, Signal, Insight, Entity, Owner. | measures, impacts, supports, causedBy, dependsOn, relatesTo. | Evento, projeção, métrica, score, insight e decisão. | Confidence por nó e relação. | Knowledge Steward e owners das entidades. |
+| Decision Graph | Decision, Recommendation, Forecast, Scenario, Score, Evidence, Owner, Outcome. | recommendedBy, decidedBy, evidencedBy, affectedBy, resultedIn. | Snapshot analítico usado na decisão. | Confidence do suporte decisório. | Decision Owner e autoridade de decisão. |
+| Case Graph | Case, Investigation, Alert, Evidence, RootCause, ActionPlan, Validation, Learning. | contains, investigates, evidencedBy, causedBy, resolvedBy, validatedBy, learnedFrom. | Timeline completa do case. | Confidence de relação e closure. | Case Owner e accountable. |
+| Evidence Graph | Evidence, Source, Entity, Metric, Decision, Validation. | evidences, validates, contradicts, supports, expiresAt. | Fonte, owner, validade e classificação. | Evidence Confidence e relevance. | Evidence Owner. |
+| Learning Graph | Learning, Case, DecisionOutcome, RootCause, Recommendation. | learnedFrom, appliesTo, reusedBy, supersedes. | Origem do aprendizado e contexto de validade. | Learning Confidence. | Knowledge Steward. |
+| Recommendation Graph | RecommendationSignal, Recommendation, Action, Owner, Risk, Evidence. | triggeredBy, recommends, assignedTo, mitigates, requiresEvidence. | Sinal, métrica, score, forecast e insight originador. | Recommendation confidence e actionability. | Recommendation Owner e suggested owner. |
+| Investigation Graph | Investigation, Signal, Evidence, Hypothesis, RootCauseCandidate, ConfirmedRootCause, Recommendation, Decision, Validation, Learning. | openedBy, investigates, tests, evidencedBy, confirms, recommends, decidedBy, validatedBy, learnedFrom. | Cadeia Signal -> Investigation -> Evidence -> Hypothesis -> Root Cause -> Decision -> Learning. | Investigation Confidence, Evidence Confidence e Root Cause Confidence. | Investigation Owner e Case/Governance Owner quando aplicável. |
+| Scenario Graph | Scenario, ScenarioVersion, Assumption, Driver, Forecast, Outcome, Comparison. | hasVersion, assumes, drivenBy, forecasts, comparedTo, resultedIn. | Versão, premissas, drivers, forecast, comparison e outcome. | Scenario Confidence, Stability e Accuracy. | Scenario Owner e Forecast Owner. |
+| Narrative Graph | Narrative, Audience, MetricSnapshot, Insight, Recommendation, Decision, Evidence. | generatedFrom, intendedFor, cites, recommends, approvedBy, supersedes. | Fontes citadas, versão, aprovação e consumo. | Narrative Confidence e source confidence. | Narrative Owner e approver. |
+| Cost Graph | CostMetric, CostSignal, ValueCase, Debt, Delay, Queue, Bottleneck, Case, Alert, Recommendation. | quantifies, causedBy, impacts, increases, mitigatedBy, contributesTo. | Métrica de custo, fonte econômica, evento causador, recomendação e decisão. | Cost Confidence e attribution confidence. | Cost Owner, Value Owner e Finance/Governance quando aplicável. |
 
-Ativos analíticos devem preservar nós, relações, lineage e confidence suficientes para que knowledge architecture suporte explainability, Copilot, investigation, auditabilidade, reuso de learning e recomendação governada.
+Ativos analíticos devem preservar nós, relações, lineage, confidence e ownership suficientes para que knowledge architecture suporte explainability, Copilot, investigation, auditabilidade, scenarios, narratives, cost reasoning, reuso de learning e recomendação governada.
 
 ## 20. Analytics Readiness Assessment
 
 | Próxima Etapa | Readiness | Justificativa |
 | --- | --- | --- |
-| KNOWLEDGE_ARCHITECTURE.md | YES | A arquitetura agora explicita Analytics Knowledge Readiness, nós, relações, lineage e confidence para Knowledge Graph, Decision Graph, Case Graph, Evidence Graph, Learning Graph e Recommendation Graph. |
-| API_CONTRACTS.md | YES WITH ADJUSTMENTS | Data products, semantic definitions, benchmark products, investigation products e eventos analíticos estão definidos, mas contratos devem decidir escopos de consulta, autorização, versionamento, filtros, snapshots e modelos de erro. |
-| FRONTEND_ARCHITECTURE.md | YES | O mapeamento analytics-to-UX, consumer model, semantic layer, benchmarks, predictive risks e investigation analytics dão base suficiente para cockpits, workspaces, heat maps, timelines, narratives e Copilot. |
-| SECURITY_ARCHITECTURE.md | YES WITH ADJUSTMENTS | O documento define sensitivity, personas, evidence, lineage e consumers, mas segurança deve detalhar autorização por persona, masking, segregação, acesso a evidências, uso de Copilot e retenção de snapshots analíticos. |
-| IMPLEMENTATION | YES WITH ADJUSTMENTS | A base conceitual está enterprise-grade para orientar implementação futura, mas antes de codificar devem existir API_CONTRACTS.md, SECURITY_ARCHITECTURE.md, FRONTEND_ARCHITECTURE.md, KNOWLEDGE_ARCHITECTURE.md e priorização MVP. |
+| KNOWLEDGE_ARCHITECTURE.md | YES | A arquitetura agora explicita Knowledge, Decision, Case, Evidence, Learning, Recommendation, Investigation, Scenario, Narrative e Cost Graphs com nós, relações, lineage, confidence e ownership. |
+| API_CONTRACTS.md | YES WITH ADJUSTMENTS | Data products, semantic definitions, benchmark products, investigation products, narrative products, scenario products, cost products e eventos analíticos estão definidos, mas contratos devem decidir escopos de consulta, autorização, versionamento, filtros, snapshots e modelos de erro. |
+| FRONTEND_ARCHITECTURE.md | YES | O mapeamento analytics-to-UX, consumer model, semantic layer, benchmarks, predictive risks, investigation analytics, narratives, scenarios e cost intelligence dão base suficiente para cockpits, workspaces, heat maps, timelines, narratives e Copilot. |
+| SECURITY_ARCHITECTURE.md | YES WITH ADJUSTMENTS | O documento define sensitivity, personas, evidence, lineage, narratives, scenarios, cost exposure e consumers, mas segurança deve detalhar autorização por persona, masking, segregação, acesso a evidências, uso de Copilot e retenção de snapshots analíticos. |
+| IMPLEMENTATION | YES WITH ADJUSTMENTS | A base conceitual está enterprise-grade para orientar implementação futura, mas antes de codificar devem existir API_CONTRACTS.md, SECURITY_ARCHITECTURE.md, FRONTEND_ARCHITECTURE.md, KNOWLEDGE_ARCHITECTURE.md, governança de cenários/narrativas/custos e priorização MVP. |
 
 ## 21. Risks and Mitigations
 
@@ -1100,9 +1407,9 @@ Ativos analíticos devem preservar nós, relações, lineage e confidence sufici
 
 ## 22. Change Log
 
-### Resumo Executivo das Mudanças Incrementais
+### Resumo Executivo Final
 
-Esta revisão adiciona capacidades enterprise-grade sem reescrever a arquitetura existente: camada semântica para verdade canônica, benchmark intelligence para comparação governada, sinais preditivos para antecipação de risco, domínios analíticos especializados, modelo explícito de consumidores, analytics de investigação, integração reforçada com Case Management, fronteira clara entre Analytics e Intelligence, e readiness explícito para Knowledge Architecture.
+Esta revisão final adiciona capacidades analíticas avançadas sem reescrever a arquitetura existente: Investigation Analytics completo, Narrative Intelligence, Scenario Intelligence, Analytics Maturity, Cost Intelligence, novos domínios analíticos, novos grafos de knowledge readiness e eventos analíticos adicionais. A arquitetura passa a cobrir não apenas medição, forecast e recomendação, mas também investigação governada, narrativa auditável, cenários versionados, maturidade da própria analytics layer e impacto econômico dos problemas corporativos.
 
 ### Engines Analíticas
 
@@ -1119,6 +1426,9 @@ Esta revisão adiciona capacidades enterprise-grade sem reescrever a arquitetura
 - Data Quality Engine.
 - Semantic Layer Engine.
 - Benchmark Intelligence Engine.
+- Narrative Intelligence Engine.
+- Scenario Intelligence Engine.
+- Cost Intelligence Engine.
 - Recommendation Signal Engine.
 - Analytics Governance Engine.
 
@@ -1139,6 +1449,9 @@ Esta revisão adiciona capacidades enterprise-grade sem reescrever a arquitetura
 - CapabilityIntelligenceDataProduct.
 - DataQualityDataProduct.
 - InvestigationAnalyticsDataProduct.
+- NarrativeDataProduct.
+- ScenarioDataProduct.
+- CostIntelligenceDataProduct.
 - RecommendationSignalDataProduct.
 - AnalyticsGovernanceDataProduct.
 
@@ -1166,6 +1479,7 @@ Esta revisão adiciona capacidades enterprise-grade sem reescrever a arquitetura
 - Data Confidence Score.
 - Intelligence Health Score.
 - Investigation Health Score.
+- Analytics Maturity Score.
 
 ### Forecasts
 
@@ -1193,6 +1507,14 @@ Esta revisão adiciona capacidades enterprise-grade sem reescrever a arquitetura
 - Future Modernization Risk.
 - Future Case Escalation Risk.
 - Future Alert Recurrence Risk.
+- Root Cause Identification Forecast.
+- Investigation Completion Forecast.
+- Investigation Escalation Forecast.
+- Investigation Recurrence Forecast.
+- Future Cost of Delay.
+- Future Cost of Debt.
+- Future Cost of Governance Failure.
+- Future Cost of Capacity Saturation.
 
 ### Heat Maps
 
@@ -1214,6 +1536,11 @@ Esta revisão adiciona capacidades enterprise-grade sem reescrever a arquitetura
 - Root Cause Concentration Heat Map.
 - Evidence Gap Heat Map.
 - Investigation Quality Heat Map.
+- Investigation Risk Heat Map.
+- Cost Exposure Heat Map.
+- Value at Risk Heat Map.
+- Economic Bottleneck Heat Map.
+- Debt Cost Heat Map.
 
 ### Inteligências Especializadas
 
@@ -1223,6 +1550,11 @@ Esta revisão adiciona capacidades enterprise-grade sem reescrever a arquitetura
 - Analytics Domains para classificar Strategic, Portfolio, Discovery, Requirements, Solution, Readiness, Delivery, Validation, Value, Architecture, Governance, Case, Alert, Flow, Data Quality e Intelligence Analytics.
 - Analytics Consumer Model para explicitar Executive, Director, Superintendent, Manager, Coordinator, Product Manager, Architect, Engineer, Governance, Risk, Auditor e Copilot consumers.
 - Investigation Analytics para conectar Signal, Evidence, Hypothesis, Root Cause Candidate, Confirmed Root Cause e Recommendation.
+- Investigation Analytics completo para governar Signal -> Investigation -> Evidence -> Hypothesis -> Root Cause Candidate -> Confirmed Root Cause -> Recommendation -> Decision -> Validation -> Learning.
+- Narrative Intelligence para transformar narrativas executivas, de portfolio, produto, capability, arquitetura, governança, investigação, case, valor e modernização em ativos governados.
+- Scenario Intelligence para governar Scenario, Scenario Version, Scenario Assumption, Scenario Driver, Scenario Outcome e Scenario Comparison.
+- Analytics Maturity para medir Ownership, Data Quality, Confidence, Explainability, Lineage, Freshness, Governance, Adoption, Actionability e Reuse por domínio analítico.
+- Cost Intelligence para quantificar Cost of Delay, Queue, Bottleneck, Governance, Decision Latency, Debt, Rework, Validation Failure, Recurrence, Poor Quality, Dependency, Capacity Saturation e Modernization Delay.
 - Flow Intelligence para filas, WIP, wait time, blocked time, bottlenecks e economics of flow.
 - Case Intelligence para aging, SLA, evidence, recurrence, escalation e closure quality.
 - Alert Intelligence para action, evidence, validation, false closure, recurrence e owner load.
@@ -1240,6 +1572,9 @@ Esta revisão adiciona capacidades enterprise-grade sem reescrever a arquitetura
 - FutureRiskDetected -> recomendação preventiva conforme risco, owner, confidence e evidência.
 - BenchmarkVarianceDetected -> recomendação de investigação quando variação relativa é material e comparável.
 - MissingEvidence -> recomendação de completar evidência antes de decisão, closure ou narrativa.
+- EconomicRiskIncreased -> recomendação de ação executiva quando exposição econômica aumenta materialmente.
+- DebtCostCritical -> recomendação de remediação, modernização ou aceite formal de risco.
+- InvestigationStagnation -> recomendação de escalonamento ou reforço de evidência.
 
 ### Governança Analítica
 
@@ -1248,6 +1583,9 @@ Esta revisão adiciona capacidades enterprise-grade sem reescrever a arquitetura
 - Definido processo conceitual de aprovação de métricas e scores.
 - Definida governança semântica para impedir métricas fora da Semantic Layer, fórmulas divergentes e narrativas reinterpretando métricas.
 - Definida governança de benchmark para baseline, comparison group, confidence e interpretação permitida.
+- Definida governança de narrativas para source metrics, source scores, source forecasts, source insights, confidence, aprovação e versão.
+- Definida governança de cenários para assumptions, drivers, outcomes, comparison, versioning e uso decisório.
+- Definida governança de cost intelligence para thresholds, attribution confidence, owner econômico e relação com value realization.
 
 ### Eventos Analíticos
 
@@ -1263,6 +1601,20 @@ Esta revisão adiciona capacidades enterprise-grade sem reescrever a arquitetura
 - BenchmarkCalculated.
 - BenchmarkVarianceDetected.
 - BenchmarkConfidenceChanged.
+- InvestigationStarted.
+- InvestigationEscalated.
+- InvestigationClosed.
+- NarrativeGenerated.
+- NarrativeApproved.
+- NarrativeRejected.
+- NarrativeExpired.
+- NarrativeUpdated.
+- ScenarioCreated.
+- ScenarioCompared.
+- ScenarioRetired.
+- EconomicRiskIncreased.
+- DebtCostCritical.
+- CostThresholdBreached.
 - BottleneckDetected.
 - QueueThresholdBreached.
 - CaseSLAExceeded.
@@ -1279,5 +1631,13 @@ Esta revisão adiciona capacidades enterprise-grade sem reescrever a arquitetura
 
 ### Knowledge Readiness
 
-- Definidos ativos analíticos para Knowledge Graph, Decision Graph, Case Graph, Evidence Graph, Learning Graph e Recommendation Graph.
-- Definidos nós, relações, lineage e confidence necessários para explicar métricas, scores, forecasts, heat maps, signals, investigations, recommendations, decisions, outcomes e learnings.
+- Definidos ativos analíticos para Knowledge Graph, Decision Graph, Case Graph, Evidence Graph, Learning Graph, Recommendation Graph, Investigation Graph, Scenario Graph, Narrative Graph e Cost Graph.
+- Definidos nós, relações, lineage, confidence e ownership necessários para explicar métricas, scores, forecasts, scenarios, heat maps, cost signals, narratives, investigations, recommendations, decisions, outcomes e learnings.
+
+### Capacidades Avançadas Adicionadas
+
+- Investigation Analytics.
+- Narrative Intelligence.
+- Scenario Intelligence.
+- Analytics Maturity.
+- Cost Intelligence.
